@@ -71,12 +71,13 @@
 			<version>${thorntail.version}</version> </dependency> <dependency> <groupId>io.thorntail</groupId> 
 			<artifactId>openapi</artifactId> <version>${thorntail.version}</version> 
 			</dependency> -->
-		<!-- https://mvnrepository.com/artifact/io.thorntail/health-api -->
+		<!-- https://mvnrepository.com/artifact/io.thorntail/microprofile-health -->
 		<dependency>
 			<groupId>io.thorntail</groupId>
-			<artifactId>health-api</artifactId>
+			<artifactId>microprofile-health</artifactId>
 			<version>${thorntail.version}</version>
 		</dependency>
+
 
 		<!-- https://mvnrepository.com/artifact/io.thorntail/camel-metrics -->
 		<dependency>
