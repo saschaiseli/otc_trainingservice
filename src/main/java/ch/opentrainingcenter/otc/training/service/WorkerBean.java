@@ -3,14 +3,16 @@ package ch.opentrainingcenter.otc.training.service;
 import javax.enterprise.context.RequestScoped;
 
 import org.eclipse.microprofile.metrics.annotation.Counted;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 @RequestScoped
 public class WorkerBean {
-	@Counted(monotonic=true, absolute=true)
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(WorkerBean.class);
+
+	@Counted(monotonic = true, absolute = true)
 	public void doCount() {
-		log.info("Work Done");
+		LOGGER.info("Work Done");
 	}
 }

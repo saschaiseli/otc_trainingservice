@@ -6,13 +6,14 @@ import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
-
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Health
-@Slf4j
 @ApplicationScoped
 public class HealthChecker implements HealthCheck {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HealthChecker.class);
 
 	@Override
 	public HealthCheckResponse call() {
@@ -20,10 +21,10 @@ public class HealthChecker implements HealthCheck {
 				"value");
 
 		if (Math.random() < 0.5) {
-			log.info("Down");
+			LOGGER.info("Down");
 			builder.down();
 		} else {
-			log.info("Up");
+			LOGGER.info("Up");
 			builder.up();
 		}
 		return builder.build();

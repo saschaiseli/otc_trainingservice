@@ -14,115 +14,69 @@
 
 
 	<properties>
+		<version.thorntail>2.0.0.Final</version.thorntail>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
 		<docker.image.prefix>iselisa</docker.image.prefix>
 		<mariadb.version>1</mariadb.version>
 		<h2.version></h2.version>
-		<lombok.version>1.18.2</lombok.version>
 		<version.wildfly-swarm>2.0.0.Final</version.wildfly-swarm>
 		<thorntail.version>2.0.0.Final</thorntail.version>
 	</properties>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.thorntail</groupId>
+				<artifactId>bom-all</artifactId>
+				<version>${version.thorntail}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<dependencies>
-		<!-- <dependency> <groupId>io.thorntail</groupId> <artifactId>thorntail-jaxrs</artifactId> 
-			<version>2.0.0.Final</version> </dependency> -->
-
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.eclipse.microprofile.openapi/microprofile-openapi-tck -->
-		<dependency>
-			<groupId>org.eclipse.microprofile.openapi</groupId>
-			<artifactId>microprofile-openapi-tck</artifactId>
-			<version>1.0.1</version>
-			<scope>test</scope>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.thorntail/management -->
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>management</artifactId>
-			<version>2.0.0.Final</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/io.thorntail/jaxrs -->
+		<!-- <dependency> <groupId>io.thorntail</groupId> <artifactId>microprofile-metrics</artifactId> 
+			</dependency> -->
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>jaxrs</artifactId>
-			<version>${thorntail.version}</version>
 		</dependency>
-		<!-- <dependency> <groupId>io.thorntail</groupId> <artifactId>thorntail-testing</artifactId> 
-			<version>2.0.0.Final</version> <scope>test</scope> </dependency> <dependency> 
-			<groupId>io.thorntail</groupId> <artifactId>thorntail-devtools</artifactId> 
-			<version>${thorntail.version}</version> </dependency> <dependency> <groupId>io.thorntail</groupId> 
-			<artifactId>openapi</artifactId> <version>${thorntail.version}</version> 
-			</dependency> -->
-		<!-- https://mvnrepository.com/artifact/io.thorntail/microprofile-health -->
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>microprofile</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>swagger</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>datasources</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.thorntail</groupId>
+			<artifactId>jpa</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.thorntail</groupId>
 			<artifactId>microprofile-health</artifactId>
-			<version>${thorntail.version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client 
+			<dependency> <groupId>org.mariadb.jdbc</groupId> <artifactId>mariadb-java-client</artifactId> 
+			<version>2.2.6</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.197</version>
+			<!-- <scope>test</scope> -->
 		</dependency>
 
-
-		<!-- https://mvnrepository.com/artifact/io.thorntail/camel-metrics -->
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>camel-metrics</artifactId>
-			<version>${thorntail.version}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/io.thorntail/microprofile-metrics -->
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>microprofile-metrics</artifactId>
-			<version>2.0.0.Final</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/io.thorntail/io -->
-		<dependency>
-			<groupId>io.thorntail</groupId>
-			<artifactId>io</artifactId>
-			<version>2.0.0.Final</version>
-		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/io.thorntail/jpa <dependency> <groupId>io.thorntail</groupId> 
-			<artifactId>jpa</artifactId> <version>2.0.0.Final</version> </dependency> -->
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.18.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api 
-			<dependency> <groupId>javax.persistence</groupId> <artifactId>persistence-api</artifactId> 
-			<version>1.0.2</version> </dependency> -->
-		<!-- https://mvnrepository.com/artifact/javax.json.bind/javax.json.bind-api -->
-		<dependency>
-			<groupId>javax.json.bind</groupId>
-			<artifactId>javax.json.bind-api</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.json</groupId>
-			<artifactId>javax.json-api</artifactId>
-			<version>1.0</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 <dependency> 
-			<groupId>com.h2database</groupId> <artifactId>h2</artifactId> <version>1.4.197</version> 
-			</dependency> -->
 		<!-- ############################# Test ################################# -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -158,23 +112,25 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
 
 			<plugin>
 				<groupId>io.thorntail</groupId>
 				<artifactId>thorntail-maven-plugin</artifactId>
-				<version>2.0.0.Final</version>
-				<configuration>
-				</configuration>
+				<version>${version.thorntail}</version>
 				<executions>
 					<execution>
 						<goals>
 							<goal>package</goal>
 						</goals>
-						<configuration>
-							<hollow>true</hollow>
-							<mode>fat</mode>
-							<format>jar</format><!-- zip, jar, dir -->
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
