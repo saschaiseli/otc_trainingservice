@@ -5,8 +5,11 @@
     xmlns="http://xmlns.jcp.org/xml/ns/persistence"
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     
-  <persistence-unit name="MyPU" transaction-type="JTA">
+  <persistence-unit name="h2PersistenceUnit" transaction-type="JTA">
     <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
+    <class>ch.opentrainingcenter.otc.training.domain.Sport</class>
+    <class>ch.opentrainingcenter.otc.training.domain.TrainingGoal</class>
+    <class>ch.opentrainingcenter.otc.training.domain.Unity</class>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="javax.persistence.schema-generation.create-source" value="metadata"/>

@@ -17,7 +17,7 @@ public class HealthChecker implements HealthCheck {
 
 	@Override
 	public HealthCheckResponse call() {
-		HealthCheckResponseBuilder builder = HealthCheckResponse.builder().name("TrainingService").withData("key",
+		final HealthCheckResponseBuilder builder = HealthCheckResponse.builder().name("TrainingService").withData("key",
 				"value");
 
 		if (Math.random() < 0.5) {
