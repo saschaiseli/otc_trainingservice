@@ -3,6 +3,8 @@ package ch.opentrainingcenter.otc.training.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,7 +21,7 @@ public class TrainingGoal {
 	private LocalDate end;
 	private long value;
 
-	@OneToOne
+	@Enumerated(EnumType.STRING)
 	private Unity unity;
 	@OneToOne
 	private Sport sport;
