@@ -7,6 +7,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.eclipse.microprofile.health.Health;
 import org.eclipse.microprofile.health.HealthCheck;
@@ -19,7 +20,7 @@ import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 
 @ApplicationScoped
 public class TrainingDao implements HealthCheck {
-	private static final Logger LOGGER = LoggerFactory.getLogger(HealthChecker.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TrainingDao.class);
 
 	@PersistenceContext
 	private EntityManager em;
@@ -41,14 +42,15 @@ public class TrainingDao implements HealthCheck {
 		return builder.build();
 	}
 
+	@Transactional
 	public List<TrainingGoal> findAll() {
-		em.find(TrainingGoal.class, 0L);
 		final ArrayList<TrainingGoal> goals = new ArrayList<>();
 		final TrainingGoal goal = new TrainingGoal();
 		goal.setAthleteId(1L);
 		goal.setBegin(LocalDate.now());
 		goal.setId(42L);
 		goal.setName("was auch immer");
+		em.merge(goal);
 //		goal.setSport(new Sport());
 		goals.add(goal);
 		return goals;
