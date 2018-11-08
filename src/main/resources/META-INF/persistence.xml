@@ -6,7 +6,7 @@
     xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     
   <persistence-unit name="mariadb" transaction-type="JTA">
-    <jta-data-source>java:/TrainingServiceDS</jta-data-source>
+    <jta-data-source>java:/ServiceDS</jta-data-source>
     <class>ch.opentrainingcenter.otc.training.domain.Sport</class>
     <class>ch.opentrainingcenter.otc.training.domain.TrainingGoal</class>
     <properties>
