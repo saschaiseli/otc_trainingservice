@@ -16,4 +16,4 @@ if [ -z "$DB_HOST_DEV" ]; then
 fi
 
 mvn clean package && docker build -t iselisa/trainingservice .
-docker rm -f trainingservice || true && docker run -it --rm -p 8080:8080 -p 9990:9990 -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=3307 -e DB_DATABASE=trainingservice iselisa/trainingservice 
+docker rm -f trainingservice || true && docker run -it --rm -p 8282:8080 -p 9999:9990 -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=3307 -e DB_DATABASE=trainingservice iselisa/trainingservice 
