@@ -7,10 +7,8 @@
     
   <persistence-unit name="mariadb" transaction-type="JTA">
     <jta-data-source>java:/ServiceDS</jta-data-source>
-    <class>ch.opentrainingcenter.otc.training.domain.Sport</class>
-    <class>ch.opentrainingcenter.otc.training.domain.TrainingGoal</class>
     <properties>
-      <property name="javax.persistence.schema-generation.database.action" value="validate"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create-drop"/>
       <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
       <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
     </properties>

@@ -8,7 +8,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+
+import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 
 @Entity
 public class TrainingGoal {
@@ -23,7 +24,7 @@ public class TrainingGoal {
 
 	@Enumerated(EnumType.STRING)
 	private Unity unity;
-	@OneToOne
+	@Enumerated(EnumType.STRING)
 	private Sport sport;
 	private String property;
 
