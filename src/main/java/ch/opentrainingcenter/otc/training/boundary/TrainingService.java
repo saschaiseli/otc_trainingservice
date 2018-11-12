@@ -2,6 +2,7 @@ package ch.opentrainingcenter.otc.training.boundary;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -17,9 +18,10 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ch.opentrainingcenter.otc.training.domain.Sport;
-import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
-import ch.opentrainingcenter.otc.training.service.TrainingDao;
+import ch.opentrainingcenter.otc.training.domain.raw.Sport;
+import ch.opentrainingcenter.otc.training.domain.raw.Training;
+import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
+import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 
 @Path("goals")
 @RequestScoped
@@ -30,17 +32,18 @@ public class TrainingService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(TrainingService.class);
 
 	@Inject
-	private TrainingDao dao;
+	private TrainingRepository dao;
 
 	@Context
 	private UriInfo uriInfo;
 
 	@GET
-	public List<TrainingGoal> retrieveTrainingGoals() {
-		final List<TrainingGoal> goals = dao.findAll();
+	public List<SimpleTraining> getTrainings() {
+		final List<Training> trainings = dao.findTrainingByAthlete(1);
+		final List<SimpleTraining> st = trainings.stream().map(SimpleTraining::new).collect(Collectors.toList());
 		final URI uri = uriInfo.getBaseUriBuilder().path(TrainingService.class).build();
 		LOGGER.info(uri.getPath());
-		return goals;
+		return st;
 	}
 
 	@POST

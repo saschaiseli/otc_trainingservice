@@ -8,9 +8,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 
-@Entity
+import ch.opentrainingcenter.otc.training.domain.raw.Sport;
+
+@Entity(name = "TRAINING_GOALS")
 public class TrainingGoal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class TrainingGoal {
 
 	@Enumerated(EnumType.STRING)
 	private Unity unity;
-	@OneToOne
+	@Enumerated(EnumType.STRING)
 	private Sport sport;
 	private String property;
 
