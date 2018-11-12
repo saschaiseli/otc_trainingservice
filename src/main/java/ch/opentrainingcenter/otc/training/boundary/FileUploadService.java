@@ -29,9 +29,6 @@ import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 
-//import org.jboss.resteasy.plugins.providers.multipart.InputPart;
-//import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-
 /**
  */
 @Path("/upload")

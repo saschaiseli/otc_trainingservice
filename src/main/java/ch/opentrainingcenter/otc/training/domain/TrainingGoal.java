@@ -11,7 +11,7 @@ import javax.persistence.Id;
 
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 
-@Entity
+@Entity(name = "TRAINING_GOALS")
 public class TrainingGoal {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
