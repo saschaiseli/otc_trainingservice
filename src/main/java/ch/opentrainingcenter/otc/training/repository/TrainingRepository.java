@@ -1,5 +1,6 @@
 package ch.opentrainingcenter.otc.training.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -10,6 +11,13 @@ import ch.opentrainingcenter.otc.training.domain.raw.Training;
 
 @Stateless
 public class TrainingRepository extends RepositoryServiceBean<Training> {
+
+	@Override
+	public Training doSave(final Training training) {
+		training.setDateOfImport(new Date());
+		em.persist(training);
+		return training;
+	}
 
 	public List<Training> findTrainingByAthlete(final long athleteId) {
 		final TypedQuery<Training> query = em.createNamedQuery("Training.getTrainingByAthlete", Training.class);

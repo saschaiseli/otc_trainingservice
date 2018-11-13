@@ -1,8 +1,7 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
@@ -65,30 +65,46 @@ public class FileUploadService {
 	public Response uploadFile(final MultipartFormDataInput input) {
 		final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		final List<InputPart> inputParts = uploadForm.get("file");
-		final List<Long> ids = new ArrayList<>();
 		final InputPart inputPart = inputParts.get(0);
 		try {
-			final MultivaluedMap<String, String> header = inputPart.getHeaders();
-			final String fileName = getFileName(header);
-			final InputStream inputStream = inputPart.getBody(InputStream.class, null);
-			final Training training = garminConverter.convert(inputStream);
-			training.setDateOfImport(new Date());
-			Athlete athlete = athleteRepo.findByEmail("sascha.iseli@gmx.ch");
-			if (athlete == null) {
-				athlete = new Athlete("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
-				athlete = athleteRepo.doSave(athlete);
-			}
-			training.setAthlete(athlete);
-			trainingRepo.doSave(training).getId();
-			final ObjectMapper mapper = new ObjectMapper();
-			training.setTrackPoints(null);
-			final String json = mapper.writeValueAsString(new SimpleTraining(training));
+			final InputStream inputStream = getInputStream(inputPart);
+			final Training training = convertAndStoreTraining(inputStream);
+			final String json = createResult(training);
 			return Response.status(200).entity(json).build();
 		} catch (final Exception e) {
 			return Response.status(500).entity(e.getMessage()).build();
 		}
 	}
-//					return Response.status(500).entity("Can not save file").build();
+
+	private Training convertAndStoreTraining(final InputStream inputStream) {
+		final Training training = garminConverter.convert(inputStream);
+		final Athlete athlete = getOrCreateAthlete();
+		training.setAthlete(athlete);
+		trainingRepo.doSave(training).getId();
+		return training;
+	}
+
+	private InputStream getInputStream(final InputPart inputPart) throws IOException {
+		final MultivaluedMap<String, String> header = inputPart.getHeaders();
+		final String fileName = getFileName(header);
+		final InputStream inputStream = inputPart.getBody(InputStream.class, null);
+		return inputStream;
+	}
+
+	private String createResult(final Training training) throws JsonProcessingException {
+		final ObjectMapper mapper = new ObjectMapper();
+		final String json = mapper.writeValueAsString(new SimpleTraining(training));
+		return json;
+	}
+
+	private Athlete getOrCreateAthlete() {
+		Athlete athlete = athleteRepo.findByEmail("sascha.iseli@gmx.ch");
+		if (athlete == null) {
+			athlete = new Athlete("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
+			athlete = athleteRepo.doSave(athlete);
+		}
+		return athlete;
+	}
 
 	private String getFileName(final MultivaluedMap<String, String> header) {
 

@@ -11,7 +11,9 @@ import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import ch.opentrainingcenter.otc.training.service.converter.util.Interval;
@@ -21,7 +23,7 @@ class TimeHelperTest {
 
 	private final Locale locale = Locale.GERMAN;
 
-	@Before
+	@BeforeEach
 	public void setUp() {
 		Locale.setDefault(Locale.GERMAN);
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT+1"));
@@ -31,6 +33,9 @@ class TimeHelperTest {
 	}
 
 	@Test
+	@DisplayName("testConvertSekundenInReadableFormat")
+	@Tag("wichtig")
+	@Tag("mathematisch")
 	public void testConvertSekundenInReadableFormat() {
 		final String t = TimeHelper.convertSecondsToHumanReadableZeit(6273.27);
 		assertEquals("01:44:33", t);
