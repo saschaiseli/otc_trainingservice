@@ -76,8 +76,7 @@
 			<version>${version.garmin}</version>
 			<!-- 
 			<scope>system</scope>
-			 
-			<systemPath>${basedir}/lib/fit_16.60.0.jar</systemPath>
+			<systemPath>${basedir}/src/main/resources/WEB-INF/lib/fit_16.60.0.jar</systemPath>
 			-->
 		</dependency>
 		<!-- ################### TEST #################### -->
@@ -127,6 +126,15 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M1</version>
+			</plugin>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.2.2</version>
+				<configuration>
+					<warSourceDirectory>src/main/resources</warSourceDirectory>
+					<packagingIncludes>WEB-INF/lib/*.jar</packagingIncludes>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
