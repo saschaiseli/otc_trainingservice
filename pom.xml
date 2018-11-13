@@ -74,8 +74,11 @@
 			<groupId>garmin.com</groupId>
 			<artifactId>fit-sdk</artifactId>
 			<version>${version.garmin}</version>
+			<!-- 
 			<scope>system</scope>
+			 
 			<systemPath>${basedir}/lib/fit_16.60.0.jar</systemPath>
+			-->
 		</dependency>
 		<!-- ################### TEST #################### -->
 		<dependency>

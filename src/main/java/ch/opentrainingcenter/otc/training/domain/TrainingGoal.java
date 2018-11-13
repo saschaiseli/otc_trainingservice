@@ -8,13 +8,15 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 
-@Entity(name = "TRAINING_GOALS")
+@Entity(name = "TRAINING_GOAL")
 public class TrainingGoal {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@SequenceGenerator(name = "TRAINING_GOAL_ID_SEQUENCE", sequenceName = "TRAINING_GOAL_ID_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRAINING_GOAL_ID_SEQUENCE")
 	private long id;
 	private long athleteId;
 	private String name;

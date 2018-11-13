@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -18,34 +19,32 @@ import javax.ws.rs.core.UriInfo;
 
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
-import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
-import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
+import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 
 /**
  */
 @Path("/upload")
 public class FileUploadService {
+	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
 	public FileUploadService() {
 	}
 
 	@Inject
-	private TrainingRepository trainingRepo;
-
-	@Inject
-	private AthleteRepository athleteRepo;
+	@Created
+	private Event<Training> newTrainingEvent;
 
 	@Context
 	private UriInfo context;
-
 	/**
 	 * Returns text response to caller containing uploaded file location
 	 *
@@ -68,20 +67,13 @@ public class FileUploadService {
 		final InputPart inputPart = inputParts.get(0);
 		try {
 			final InputStream inputStream = getInputStream(inputPart);
-			final Training training = convertAndStoreTraining(inputStream);
+			final Training training = garminConverter.convert(inputStream);
+			newTrainingEvent.fire(training);
 			final String json = createResult(training);
 			return Response.status(200).entity(json).build();
 		} catch (final Exception e) {
 			return Response.status(500).entity(e.getMessage()).build();
 		}
-	}
-
-	private Training convertAndStoreTraining(final InputStream inputStream) {
-		final Training training = garminConverter.convert(inputStream);
-		final Athlete athlete = getOrCreateAthlete();
-		training.setAthlete(athlete);
-		trainingRepo.doSave(training).getId();
-		return training;
 	}
 
 	private InputStream getInputStream(final InputPart inputPart) throws IOException {
@@ -95,15 +87,6 @@ public class FileUploadService {
 		final ObjectMapper mapper = new ObjectMapper();
 		final String json = mapper.writeValueAsString(new SimpleTraining(training));
 		return json;
-	}
-
-	private Athlete getOrCreateAthlete() {
-		Athlete athlete = athleteRepo.findByEmail("sascha.iseli@gmx.ch");
-		if (athlete == null) {
-			athlete = new Athlete("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
-			athlete = athleteRepo.doSave(athlete);
-		}
-		return athlete;
 	}
 
 	private String getFileName(final MultivaluedMap<String, String> header) {

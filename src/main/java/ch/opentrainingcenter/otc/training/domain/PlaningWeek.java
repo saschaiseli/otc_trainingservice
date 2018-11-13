@@ -9,10 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "PLANING_WEEK")
-public class Planungwoche {
+public class PlaningWeek {
 	@Id
-	@SequenceGenerator(name = "PLANUNGWOCHE_ID_SEQUENCE", sequenceName = "PLANUNGWOCHE_ID_SEQUENCE")
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PLANUNGWOCHE_ID_SEQUENCE")
+	@SequenceGenerator(name = "PLANING_WEEK_ID_SEQUENCE", sequenceName = "PLANING_WEEK_ID_SEQUENCE")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PLANING_WEEK_ID_SEQUENCE")
 	private long id;
 
 	@ManyToOne
@@ -21,19 +21,19 @@ public class Planungwoche {
 	private Integer kw;
 	private Integer jahr;
 	private Integer kmprowoche;
-	private Boolean interval;
+	private boolean hasInterval;
 	private Integer langerLauf;
 
-	public Planungwoche() {
+	public PlaningWeek() {
 	}
 
-	public Planungwoche(final Athlete athlete, final Integer jahr, final Integer kw, final int kmprowoche,
-			final Boolean interval, final Integer langerlauf) {
+	public PlaningWeek(final Athlete athlete, final Integer jahr, final Integer kw, final int kmprowoche,
+			final boolean hasInterval, final Integer langerlauf) {
 		this.athlete = athlete;
 		this.kw = kw;
 		this.jahr = jahr;
 		this.kmprowoche = kmprowoche;
-		this.interval = interval;
+		this.hasInterval = hasInterval;
 		langerLauf = langerlauf;
 	}
 
@@ -77,14 +77,6 @@ public class Planungwoche {
 		this.kmprowoche = kmprowoche;
 	}
 
-	public Boolean getInterval() {
-		return interval;
-	}
-
-	public void setInterval(final Boolean interval) {
-		this.interval = interval;
-	}
-
 	public Integer getLangerlauf() {
 		return langerLauf;
 	}
@@ -111,11 +103,11 @@ public class Planungwoche {
 	}
 
 	public boolean isInterval() {
-		return interval;
+		return hasInterval;
 	}
 
 	public void setInterval(final boolean interval) {
-		this.interval = interval;
+		this.hasInterval = interval;
 
 	}
 
