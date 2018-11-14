@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -30,8 +31,6 @@ import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 
-/**
- */
 @Path("/upload")
 public class FileUploadService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
@@ -61,6 +60,7 @@ public class FileUploadService {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadFile(final MultipartFormDataInput input) {
 		final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		final List<InputPart> inputParts = uploadForm.get("file");

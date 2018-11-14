@@ -1,6 +1,7 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,9 +19,11 @@ import javax.ws.rs.core.UriInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
+import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 
 @Path("goals")
@@ -34,12 +37,20 @@ public class TrainingService {
 	@Inject
 	private TrainingRepository dao;
 
+	@Inject
+	private AthleteRepository athleteRepo;
+
 	@Context
 	private UriInfo uriInfo;
 
 	@GET
 	public List<SimpleTraining> getTrainings() {
-		final List<Training> trainings = dao.findTrainingByAthlete(1);
+		final Athlete athlete = athleteRepo.findByEmail("sascha.iseli@gmx.ch");
+		final List<Training> trainings = new ArrayList<>();
+		if (athlete != null) {
+			trainings.addAll(dao.findTrainingByAthlete(athlete.getId()));
+		}
+
 		final List<SimpleTraining> st = trainings.stream().map(SimpleTraining::new).collect(Collectors.toList());
 		final URI uri = uriInfo.getBaseUriBuilder().path(TrainingService.class).build();
 		LOGGER.info(uri.getPath());

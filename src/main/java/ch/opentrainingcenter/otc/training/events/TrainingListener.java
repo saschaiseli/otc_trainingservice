@@ -18,10 +18,20 @@ public class TrainingListener {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(TrainingListener.class);
 
+	private final TrainingRepository trainingRepo;
+
+	private final AthleteRepository athleteRepo;
+
+	// EJB Container uses an empty Constructor
+	public TrainingListener() {
+		this(null, null);
+	}
+
 	@Inject
-	private TrainingRepository trainingRepo;
-	@Inject
-	private AthleteRepository athleteRepo;
+	public TrainingListener(final TrainingRepository trainingRepo, final AthleteRepository athleteRepo) {
+		this.trainingRepo = trainingRepo;
+		this.athleteRepo = athleteRepo;
+	}
 
 	public void onAddTraining(@Observes @Created final Training training) {
 		training.setAthlete(getOrCreateAthlete());
