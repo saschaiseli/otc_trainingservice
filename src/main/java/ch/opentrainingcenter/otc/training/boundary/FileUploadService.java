@@ -79,6 +79,7 @@ public class FileUploadService {
 	private InputStream getInputStream(final InputPart inputPart) throws IOException {
 		final MultivaluedMap<String, String> header = inputPart.getHeaders();
 		final String fileName = getFileName(header);
+		LOGGER.info("Upload file %s", fileName);
 		final InputStream inputStream = inputPart.getBody(InputStream.class, null);
 		return inputStream;
 	}
