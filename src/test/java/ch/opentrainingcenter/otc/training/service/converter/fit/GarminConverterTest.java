@@ -142,7 +142,9 @@ class GarminConverterTest {
 	}
 
 	private long convertToDate(final String datum) throws ParseException {
+
 		final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		formatter.setTimeZone(TimeZone.getTimeZone("Europe/Zurich"));
 		return formatter.parse(datum).getTime();
 	}
 
