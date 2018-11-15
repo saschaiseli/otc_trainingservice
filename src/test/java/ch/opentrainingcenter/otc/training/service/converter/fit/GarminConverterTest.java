@@ -87,8 +87,6 @@ class GarminConverterTest {
 		assertNotNull(training);
 		assertThat("Ist null, da dieser Timestamp erst vom importer gesetzt", training.getDateOfImport(),
 				is(nullValue()));
-		System.out.println("##########################################################");
-		System.out.println(convertToDate("2014-09-11 19:18:35"));
 		assertThat("Lauf startet um 2014-09-11 19:18:35", convertToDate("2014-09-11 19:18:35"),
 				equalTo(training.getDateOfStart().getTime()));
 		assertThat("<TotalTimeSeconds>2003.2</TotalTimeSeconds>", 2003L, equalTo(training.getDauer()));
@@ -142,7 +140,6 @@ class GarminConverterTest {
 	}
 
 	private long convertToDate(final String datum) throws ParseException {
-
 		final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		formatter.setTimeZone(TimeZone.getTimeZone("Europe/Zurich"));
 		return formatter.parse(datum).getTime();
@@ -152,7 +149,6 @@ class GarminConverterTest {
 	public void testGetFilePrefix() throws NamingException {
 		// final ConvertFitEJB service = (ConvertFitEJB)
 		// ctx.lookup("java:global/classes/ConvertFitEJB");
-		System.out.println("ysdfsdfsdfsdf");
 		assertEquals("fit", service.getFilePrefix());
 	}
 
