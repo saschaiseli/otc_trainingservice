@@ -15,7 +15,6 @@ public class AthleteRepository extends RepositoryServiceBean<Athlete> {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AthleteRepository.class);
 
 	public Athlete findByEmail(final String email) {
-
 		final TypedQuery<Athlete> query = em.createNamedQuery("Athlete.findByEmail", Athlete.class);
 		query.setParameter("email", email);
 		Athlete result = null;
