@@ -35,9 +35,7 @@ public class TrainingRepository extends RepositoryServiceBean<Training> {
 	}
 
 	public List<SimpleTraining> findSimpleTrainingByAthlete(final long athleteId) {
-		final TypedQuery<SimpleTraining> query = em.createQuery("select "
-				+ "new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.maxSpeed)"
-				+ " FROM ch.opentrainingcenter.otc.training.domain.raw.Training t where t.athlete.id=:athleteId",
+		final TypedQuery<SimpleTraining> query = em.createNamedQuery("Training.getSimpleTrainingByAthlete",
 				SimpleTraining.class);
 		query.setParameter("athleteId", athleteId);
 		return query.getResultList();

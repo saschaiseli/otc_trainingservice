@@ -32,7 +32,8 @@ import ch.opentrainingcenter.otc.training.domain.TrainingType;
 import ch.opentrainingcenter.otc.training.domain.Weather;
 
 @NamedQueries({ //
-		@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc") //
+		@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc"), //
+		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.maxSpeed) FROM TRAINING t where t.athlete.id=:athleteId") //
 })
 @Cacheable
 @Entity(name = "TRAINING")
