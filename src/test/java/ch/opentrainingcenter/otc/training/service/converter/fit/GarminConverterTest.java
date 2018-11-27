@@ -23,6 +23,7 @@ import javax.naming.NamingException;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
+import ch.opentrainingcenter.otc.training.TestConfig;
 import ch.opentrainingcenter.otc.training.domain.raw.LapInfo;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Tracktrainingproperty;
@@ -31,7 +32,6 @@ import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
 
 class GarminConverterTest {
 
-	private static final String FOLDER = "src/test/resources/fit";
 	private final GarminConverter service = new GarminConverter();
 
 	@Before
@@ -42,7 +42,7 @@ class GarminConverterTest {
 
 	@Test
 	public void testIntervallTraining() throws FileNotFoundException {
-		final File file = new File(FOLDER, "6ACB4237.FIT");
+		final File file = new File(TestConfig.FOLDER, TestConfig.FIT_FILE);
 
 		final Training training = service.convert(new FileInputStream(file));
 		final long dauer = training.getDauer();
@@ -51,7 +51,7 @@ class GarminConverterTest {
 
 	@Test
 	public void testActivityConvertMit2Runden() throws FileNotFoundException {
-		final File file = new File(FOLDER, "2_runden.fit");
+		final File file = new File(TestConfig.FOLDER, "2_runden.fit");
 
 		final Training training = service.convert(new FileInputStream(file));
 
@@ -82,7 +82,7 @@ class GarminConverterTest {
 
 	@Test
 	public void testRealActivityConvert() throws ParseException, FileNotFoundException {
-		final Training training = service.convert(new FileInputStream(new File(FOLDER, "2014_09_11.fit")));
+		final Training training = service.convert(new FileInputStream(new File(TestConfig.FOLDER, "2014_09_11.fit")));
 
 		assertNotNull(training);
 		assertThat("Ist null, da dieser Timestamp erst vom importer gesetzt", training.getDateOfImport(),

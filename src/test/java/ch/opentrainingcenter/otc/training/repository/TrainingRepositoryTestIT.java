@@ -1,0 +1,102 @@
+package ch.opentrainingcenter.otc.training.repository;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.shrinkwrap.resolver.api.maven.Maven;
+import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
+import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import ch.opentrainingcenter.otc.training.TestConfig;
+import ch.opentrainingcenter.otc.training.TrainingCreator;
+import ch.opentrainingcenter.otc.training.domain.Athlete;
+import ch.opentrainingcenter.otc.training.domain.raw.Sport;
+import ch.opentrainingcenter.otc.training.domain.raw.Training;
+import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
+
+@RunWith(Arquillian.class)
+public class TrainingRepositoryTestIT {
+
+	private static final String EMAIL = "test@opentrainingcenter.ch";
+
+	@Inject
+	private AthleteRepository repository;
+	@Inject
+	private TrainingRepository trainingRepo;
+	private Athlete athlete;
+	private Training training;
+
+	@Deployment
+	public static WebArchive createDeployment() {
+		final WebArchive archive = ShrinkWrap.create(WebArchive.class)
+				.addClasses(RepositoryServiceBean.class, AthleteRepository.class, TrainingRepository.class,
+						TrainingCreator.class)
+				.addPackage(Athlete.class.getPackage()).addPackage(Training.class.getPackage())
+				.addPackage(SimpleTraining.class.getPackage()).addPackage(Sport.class.getPackage())
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+		archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
+
+		final MavenResolverSystem resolver = Maven.resolver();
+		final File[] files = resolver.loadPomFromFile("pom.xml")
+				.importDependencies(ScopeType.COMPILE, ScopeType.RUNTIME).resolve().withTransitivity().asFile();
+		archive.addAsLibraries(files);
+		return archive;
+	}
+
+	@Before
+	public void setUp() throws JsonParseException, JsonMappingException, IOException {
+		final ObjectMapper objectMapper = new ObjectMapper();
+		final File jsonTraining = new File(TestConfig.FOLDER + "/training.json");
+
+		training = objectMapper.readValue(jsonTraining, Training.class);
+
+		athlete = repository.doSave(training.getAthlete());
+		training.setDateOfImport(new Date());
+		training.setAthlete(athlete);
+
+		trainingRepo.doSave(training);
+	}
+
+	@After
+	public void tearDown() {
+		final Athlete athlete = repository.findByEmail(EMAIL);
+		if (athlete != null) {
+			repository.remove(Athlete.class, athlete.getId());
+		}
+	}
+
+	@Test
+	public void testFindByAthleteId() {
+		final List<Training> trainings = trainingRepo.findTrainingByAthlete(athlete.getId());
+		assertThat(trainings, is(not(empty())));
+	}
+
+	@Test
+	public void testFindSimpleTrainingByAthleteId() {
+		final List<SimpleTraining> trainings = trainingRepo.findSimpleTrainingByAthlete(athlete.getId());
+		assertThat(trainings, is(not(empty())));
+	}
+
+}

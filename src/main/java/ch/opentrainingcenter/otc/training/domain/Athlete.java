@@ -50,19 +50,19 @@ public class Athlete {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Route> routes = new HashSet<>();
 
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Health> healths = new HashSet<>();
 
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Training> trainings = new HashSet<>();
 
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<PlaningWeek> planungwoches = new HashSet<>();
 
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Shoe> shoes = new HashSet<>();
 
 	public Athlete() {

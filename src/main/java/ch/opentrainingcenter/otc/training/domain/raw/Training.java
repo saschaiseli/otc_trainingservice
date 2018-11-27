@@ -22,6 +22,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.HeartRate;
 import ch.opentrainingcenter.otc.training.domain.Route;
@@ -144,6 +146,7 @@ public class Training {
 		this.athlete = athlete;
 	}
 
+	@JsonIgnore
 	public Date getDateOfStart() {
 		return new Date(id);
 	}

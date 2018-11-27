@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 
 import ch.opentrainingcenter.otc.training.service.WorkerBean;
 
-@Path("trainings")
+@Path("none")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class TrainingController  {
+public class TrainingController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(WorkerBean.class);
 

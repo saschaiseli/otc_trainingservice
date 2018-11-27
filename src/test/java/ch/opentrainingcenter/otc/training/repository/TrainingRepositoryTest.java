@@ -17,8 +17,6 @@ import ch.opentrainingcenter.otc.training.domain.raw.Training;
 
 class TrainingRepositoryTest {
 
-	private static final String EMAIL = "test@opentrainingcenter.ch";
-
 	private TrainingRepository repository;
 	@Mock
 	private EntityManager em;
