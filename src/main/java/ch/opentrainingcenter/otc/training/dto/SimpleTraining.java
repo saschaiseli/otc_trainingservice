@@ -6,27 +6,30 @@ import lombok.Getter;
 
 @Getter
 public class SimpleTraining {
+	private static final String UNDEF = "-";
 	private final long id;
-	private final long dauer;
-	private final long laengeInMeter;
-	private final int averageHeartBeat;
+	private final long timeInSeconds;
+	private final long distanceInMeter;
+	private final int avgHeartBeat;
 	private final int maxHeartBeat;
-	private final double maxSpeed;
+	private final String trainingEffect;
+	private final String anaerobTrainingEffect;
 	private final String pace;
 
 	public SimpleTraining(final Training t) {
 		this(t.getId(), t.getDauer(), t.getLaengeInMeter(), t.getAverageHeartBeat(), t.getMaxHeartBeat(),
-				t.getMaxSpeed());
+				t.getTrainingEffect(), t.getAnaerobicTrainingEffect());
 	}
 
 	public SimpleTraining(final long id, final long dauer, final long laengeInMeter, final int averageHeartBeat,
-			final int maxHeartBeat, final double maxSpeed) {
+			final int maxHeartBeat, final Integer trainingEffect, final Integer anaerobTrainingEffect) {
 		this.id = id;
-		this.dauer = dauer;
-		this.laengeInMeter = laengeInMeter;
-		this.averageHeartBeat = averageHeartBeat;
+		this.timeInSeconds = dauer;
+		this.distanceInMeter = laengeInMeter;
+		this.avgHeartBeat = averageHeartBeat;
 		this.maxHeartBeat = maxHeartBeat;
-		this.maxSpeed = maxSpeed;
+		this.trainingEffect = trainingEffect != null ? trainingEffect.toString() : UNDEF;
+		this.anaerobTrainingEffect = anaerobTrainingEffect != null ? anaerobTrainingEffect.toString() : UNDEF;
 		pace = DistanceHelper.calculateGeschwindigkeit(laengeInMeter, dauer);
 	}
 }

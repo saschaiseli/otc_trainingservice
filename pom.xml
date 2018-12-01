@@ -83,7 +83,7 @@
 			<artifactId>fit-sdk</artifactId>
 			<version>${version.garmin}</version>
 			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fit_16.60.0.jar</systemPath>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fit_20.78.00.jar</systemPath>
 		</dependency>
 		<!-- ################### TEST #################### -->
 		<dependency>

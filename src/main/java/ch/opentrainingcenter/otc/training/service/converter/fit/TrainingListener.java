@@ -106,6 +106,10 @@ public class TrainingListener implements MesgListener {
 		if (totalTrainingEffect != null) {
 			training.setTrainingEffect((int) (10 * totalTrainingEffect.floatValue()));
 		}
+		final Float totalAnaerobicTrainingEffect = session.getTotalAnaerobicTrainingEffect();
+		if (totalAnaerobicTrainingEffect != null) {
+			training.setAnaerobicTrainingEffect((int) (10 * totalAnaerobicTrainingEffect.floatValue()));
+		}
 		training.setLapInfos(lapInfos);
 		for (final LapInfo lapInfo : lapInfos) {
 			lapInfo.setTraining(training);

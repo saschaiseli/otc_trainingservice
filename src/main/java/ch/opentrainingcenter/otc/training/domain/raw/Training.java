@@ -33,7 +33,7 @@ import ch.opentrainingcenter.otc.training.domain.Weather;
 
 @NamedQueries({ //
 		@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc"), //
-		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.maxSpeed) FROM TRAINING t where t.athlete.id=:athleteId") //
+		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId") //
 })
 @Cacheable
 @Entity(name = "TRAINING")
@@ -90,6 +90,9 @@ public class Training {
 
 	@Column(name = "TRAINING_EFFECT")
 	private Integer trainingEffect;
+
+	@Column(name = "ANAEROB_TRAINING_EFFECT")
+	private Integer anaerobTrainingEffect;
 
 	public Training() {
 	}
@@ -271,6 +274,14 @@ public class Training {
 
 	public void setTrainingEffect(final Integer trainingEffect) {
 		this.trainingEffect = trainingEffect;
+	}
+
+	public void setAnaerobicTrainingEffect(final Integer anaerobTrainingEffect) {
+		this.anaerobTrainingEffect = anaerobTrainingEffect;
+	}
+
+	public Integer getAnaerobicTrainingEffect() {
+		return anaerobTrainingEffect;
 	}
 
 	@Override
