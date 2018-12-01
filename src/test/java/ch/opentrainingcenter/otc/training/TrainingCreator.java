@@ -14,12 +14,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
+import ch.opentrainingcenter.otc.training.domain.Settings;
+import ch.opentrainingcenter.otc.training.domain.Speed;
+import ch.opentrainingcenter.otc.training.domain.SystemOfUnit;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 
 public final class TrainingCreator {
 
 	private final GarminConverter service = new GarminConverter();
+
+	public static void main(final String[] args) throws JsonGenerationException, JsonMappingException, IOException {
+		new TrainingCreator().writeJSON();
+	}
 
 	public void writeJSON() throws JsonGenerationException, JsonMappingException, IOException {
 		Locale.setDefault(Locale.GERMAN);
@@ -30,6 +37,7 @@ public final class TrainingCreator {
 		final Training training = service.convert(new FileInputStream(file));
 		final Athlete athlete = CommonTransferFactory.createAthlete("first name", "last name",
 				"test@opentrainingcenter.ch", "abc");
+		athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
 		training.setAthlete(athlete);
 		training.setDateOfImport(new Date());
 		training.setLapInfos(Collections.emptyList());

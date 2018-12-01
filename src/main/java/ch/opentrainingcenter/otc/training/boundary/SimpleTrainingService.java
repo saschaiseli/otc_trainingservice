@@ -34,6 +34,6 @@ public class SimpleTrainingService {
 	public Response status(@PathParam("athleteId") final long athleteId) {
 		LOGGER.info("Find SimpleTraining by Athlete ID {}", athleteId);
 		final List<SimpleTraining> list = dao.findSimpleTrainingByAthlete(athleteId);
-		return Response.status(200).entity(list).build();
+		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(list).build();
 	}
 }

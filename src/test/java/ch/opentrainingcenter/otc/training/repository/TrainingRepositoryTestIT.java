@@ -35,6 +35,7 @@ import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
+import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
 
 @RunWith(Arquillian.class)
 public class TrainingRepositoryTestIT {
@@ -54,8 +55,8 @@ public class TrainingRepositoryTestIT {
 				.addClasses(RepositoryServiceBean.class, AthleteRepository.class, TrainingRepository.class,
 						TrainingCreator.class)
 				.addPackage(Athlete.class.getPackage()).addPackage(Training.class.getPackage())
-				.addPackage(SimpleTraining.class.getPackage()).addPackage(Sport.class.getPackage())
-				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+				.addClass(DistanceHelper.class).addPackage(SimpleTraining.class.getPackage())
+				.addPackage(Sport.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 		archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
 
 		final MavenResolverSystem resolver = Maven.resolver();

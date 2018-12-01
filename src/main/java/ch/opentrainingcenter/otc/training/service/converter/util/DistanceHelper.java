@@ -62,7 +62,7 @@ public final class DistanceHelper {
 	/**
 	 * Berechnet die Pace (km/h)
 	 */
-	static String calculateGeschwindigkeit(final double distanceInMeter, final double timeInSeconds) {
+	public static String calculateGeschwindigkeit(final double distanceInMeter, final double timeInSeconds) {
 		final double km = distanceInMeter / KILOMETER_IN_METER;
 		final double h = timeInSeconds / 3600;
 		final double d = km / h;
@@ -82,7 +82,7 @@ public final class DistanceHelper {
 	 * @param timeInSeconds
 	 * @return min/km im format MM:SS
 	 */
-	static String calculatePace(final double distanceInMeter, final double timeInSeconds) {
+	public static String calculatePace(final double distanceInMeter, final double timeInSeconds) {
 		final double timeInSecondsRounded = Math.round(timeInSeconds * 1000) / 1000;
 		final double km = distanceInMeter / KILOMETER_IN_METER;
 		final double min = timeInSecondsRounded / MINUTE_IN_SEKUNDEN;

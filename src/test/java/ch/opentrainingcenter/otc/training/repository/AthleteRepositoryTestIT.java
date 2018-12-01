@@ -25,7 +25,11 @@ import org.junit.runner.RunWith;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
+import ch.opentrainingcenter.otc.training.domain.Settings;
+import ch.opentrainingcenter.otc.training.domain.Speed;
+import ch.opentrainingcenter.otc.training.domain.SystemOfUnit;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
+import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
 @RunWith(Arquillian.class)
 public class AthleteRepositoryTestIT {
@@ -39,7 +43,8 @@ public class AthleteRepositoryTestIT {
 	public static WebArchive createDeployment() {
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class)
 				.addClasses(RepositoryServiceBean.class, AthleteRepository.class).addPackage(Athlete.class.getPackage())
-				.addPackage(Sport.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
+				.addPackage(Sport.class.getPackage()).addPackage(SimpleTraining.class.getPackage())
+				.addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 		archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
 
 		final MavenResolverSystem resolver = Maven.resolver();
@@ -52,6 +57,7 @@ public class AthleteRepositoryTestIT {
 	@Before
 	public void setUp() {
 		final Athlete athlete = CommonTransferFactory.createAthlete("first name", "last name", EMAIL, "abc");
+		athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
 		repository.doSave(athlete);
 	}
 
@@ -67,6 +73,7 @@ public class AthleteRepositoryTestIT {
 	public void testFindByEmailFound() {
 		final Athlete athlete = repository.findByEmail(EMAIL);
 		assertThat(athlete, is(not(nullValue())));
+		assertThat(athlete.getSettings(), is(Settings.of(SystemOfUnit.METRIC, Speed.PACE)));
 	}
 
 	@Test

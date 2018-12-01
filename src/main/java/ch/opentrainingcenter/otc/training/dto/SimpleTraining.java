@@ -1,7 +1,10 @@
 package ch.opentrainingcenter.otc.training.dto;
 
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
+import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
+import lombok.Getter;
 
+@Getter
 public class SimpleTraining {
 	private final long id;
 	private final long dauer;
@@ -9,6 +12,7 @@ public class SimpleTraining {
 	private final int averageHeartBeat;
 	private final int maxHeartBeat;
 	private final double maxSpeed;
+	private final String pace;
 
 	public SimpleTraining(final Training t) {
 		this(t.getId(), t.getDauer(), t.getLaengeInMeter(), t.getAverageHeartBeat(), t.getMaxHeartBeat(),
@@ -23,30 +27,6 @@ public class SimpleTraining {
 		this.averageHeartBeat = averageHeartBeat;
 		this.maxHeartBeat = maxHeartBeat;
 		this.maxSpeed = maxSpeed;
+		pace = DistanceHelper.calculateGeschwindigkeit(laengeInMeter, dauer);
 	}
-
-	public long getId() {
-		return id;
-	}
-
-	public long getDauer() {
-		return dauer;
-	}
-
-	public long getLaengeInMeter() {
-		return laengeInMeter;
-	}
-
-	public int getAverageHeartBeat() {
-		return averageHeartBeat;
-	}
-
-	public int getMaxHeartBeat() {
-		return maxHeartBeat;
-	}
-
-	public double getMaxSpeed() {
-		return maxSpeed;
-	}
-
 }
