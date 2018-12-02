@@ -9,7 +9,7 @@ public class SimpleTraining {
 	private static final String UNDEF = "-";
 	private final long id;
 	private final long timeInSeconds;
-	private final long distanceInMeter;
+	private final double distanceInKm;
 	private final int avgHeartBeat;
 	private final int maxHeartBeat;
 	private final String trainingEffect;
@@ -25,7 +25,7 @@ public class SimpleTraining {
 			final int maxHeartBeat, final Integer trainingEffect, final Integer anaerobTrainingEffect) {
 		this.id = id;
 		this.timeInSeconds = dauer;
-		this.distanceInMeter = laengeInMeter;
+		this.distanceInKm = laengeInMeter / 1000d;
 		this.avgHeartBeat = averageHeartBeat;
 		this.maxHeartBeat = maxHeartBeat;
 		this.trainingEffect = trainingEffect != null ? trainingEffect.toString() : UNDEF;

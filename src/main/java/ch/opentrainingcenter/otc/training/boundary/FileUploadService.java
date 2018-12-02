@@ -30,8 +30,10 @@ import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
+import lombok.extern.slf4j.Slf4j;
 
 @Path("/upload")
+@Slf4j
 public class FileUploadService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
@@ -70,9 +72,18 @@ public class FileUploadService {
 			final Training training = garminConverter.convert(inputStream);
 			newTrainingEvent.fire(training);
 			final String json = createResult(training);
-			return Response.status(200).entity(json).build();
+			log.info("File successfully uploaded {}", json);
+			return Response.status(200).header("Access-Control-Allow-Origin", "*") //
+					.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
+					.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
+					.entity(json).build();
 		} catch (final Exception e) {
-			return Response.status(500).entity(e.getMessage()).build();
+			log.warn("ned guet", e);
+			return Response.status(500)//
+					.header("Access-Control-Allow-Origin", "*") //
+					.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
+					.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
+					.entity(e.getMessage()).build();
 		}
 	}
 
