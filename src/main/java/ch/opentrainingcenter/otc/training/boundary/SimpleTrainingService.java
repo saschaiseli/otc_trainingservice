@@ -35,10 +35,10 @@ public class SimpleTrainingService {
 	}
 
 	@GET
-	@Path("{athleteId}")
+	@Path("{athleteId}/{fileName}")
 	public Response existsTraining(@PathParam("athleteId") final long athleteId,
 			@PathParam("fileName") final String fileName) {
-		log.info("Test if File already imported [Athlete ID {}, FileName {}]", athleteId, fileName);
+		log.info("Test if File is already imported [Athlete ID {}, FileName {}]", athleteId, fileName);
 		final boolean exists = dao.existsFile(athleteId, fileName);
 		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(exists).build();
 	}
