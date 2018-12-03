@@ -15,5 +15,15 @@ if [ -z "$DB_HOST_DEV" ]; then
     exit 1
 fi
 
+if [ -z "$DB_PORT_DEV" ]; then
+    echo "Need to set env DB_PORT_DEV --> DB Port"
+    exit 1
+fi
+
+if [ -z "$DB_DATABASE_DEV" ]; then
+    echo "Need to set env DB_DATABASE_DEV --> DB Database Name"
+    exit 1
+fi
+
 mvn clean package && docker build -t iselisa/trainingservice .
-docker rm -f trainingservice || true && docker run -it --rm -p 8282:8080 -p 9999:9990 -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=3307 -e DB_DATABASE=trainingservice iselisa/trainingservice 
+docker rm -f trainingservice || true && docker run -it --rm -p 8282:8080 -p 9999:9990 -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=$DB_PORT_DEV -e DB_DATABASE=$DB_DATABASE_DEV iselisa/trainingservice 
