@@ -100,4 +100,15 @@ public class TrainingRepositoryTestIT {
 		assertThat(trainings, is(not(empty())));
 	}
 
+	@Test
+	public void testExistsTrainingByAthleteId() {
+		final boolean exists = trainingRepo.existsFile(athlete.getId(), TestConfig.FIT_FILE);
+		assertThat(exists, is(true));
+	}
+
+	@Test
+	public void testExistsTrainingByAthleteIdNotFound() {
+		final boolean exists = trainingRepo.existsFile(athlete.getId(), "schnabber.fit");
+		assertThat(exists, is(false));
+	}
 }

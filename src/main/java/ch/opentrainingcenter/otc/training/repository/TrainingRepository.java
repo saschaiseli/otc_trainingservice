@@ -40,4 +40,11 @@ public class TrainingRepository extends RepositoryServiceBean<Training> {
 		query.setParameter("athleteId", athleteId);
 		return query.getResultList();
 	}
+
+	public boolean existsFile(final long athleteId, final String fileName) {
+		final TypedQuery<Training> query = em.createNamedQuery("Training.existsFileByAthlete", Training.class);
+		query.setParameter("athleteId", athleteId);
+		query.setParameter("fileName", fileName);
+		return !query.getResultList().isEmpty();
+	}
 }

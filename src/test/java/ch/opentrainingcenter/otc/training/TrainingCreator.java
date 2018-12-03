@@ -35,6 +35,7 @@ public final class TrainingCreator {
 		final File file = new File(TestConfig.FOLDER, TestConfig.FIT_FILE);
 
 		final Training training = service.convert(new FileInputStream(file));
+		training.setFileName(TestConfig.FIT_FILE);
 		final Athlete athlete = CommonTransferFactory.createAthlete("first name", "last name",
 				"test@opentrainingcenter.ch", "abc");
 		athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));

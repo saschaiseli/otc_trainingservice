@@ -1,6 +1,5 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +67,14 @@ public class FileUploadService {
 		final List<InputPart> inputParts = uploadForm.get("file");
 		final InputPart inputPart = inputParts.get(0);
 		try {
-			final InputStream inputStream = getInputStream(inputPart);
+			final InputStream inputStream = inputPart.getBody(InputStream.class, null);
+			final MultivaluedMap<String, String> header = inputPart.getHeaders();
+			final String fileName = getFileName(header);
+			LOGGER.info("Upload file %s", fileName);
+
 			final Training training = garminConverter.convert(inputStream);
+			training.setFileName(fileName);
+
 			newTrainingEvent.fire(training);
 			final String json = createResult(training);
 			log.info("File successfully uploaded {}", json);
@@ -85,14 +90,6 @@ public class FileUploadService {
 					.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
 					.entity(e.getMessage()).build();
 		}
-	}
-
-	private InputStream getInputStream(final InputPart inputPart) throws IOException {
-		final MultivaluedMap<String, String> header = inputPart.getHeaders();
-		final String fileName = getFileName(header);
-		LOGGER.info("Upload file %s", fileName);
-		final InputStream inputStream = inputPart.getBody(InputStream.class, null);
-		return inputStream;
 	}
 
 	private String createResult(final Training training) throws JsonProcessingException {

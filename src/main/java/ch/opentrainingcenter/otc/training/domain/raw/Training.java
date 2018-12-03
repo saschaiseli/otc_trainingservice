@@ -33,8 +33,8 @@ import ch.opentrainingcenter.otc.training.domain.Weather;
 
 @NamedQueries({ //
 		@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc"), //
-		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId") //
-})
+		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId"), //
+		@NamedQuery(name = "Training.existsFileByAthlete", query = "select t from TRAINING t where t.athlete.id=:athleteId AND t.fileName=:fileName") })
 @Cacheable
 @Entity(name = "TRAINING")
 public class Training {
@@ -48,6 +48,8 @@ public class Training {
 	private double maxSpeed;
 
 	private String note;
+
+	private String fileName;
 
 	@ManyToOne
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
@@ -282,6 +284,14 @@ public class Training {
 
 	public Integer getAnaerobicTrainingEffect() {
 		return anaerobTrainingEffect;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(final String fileName) {
+		this.fileName = fileName;
 	}
 
 	@Override
