@@ -14,6 +14,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -95,6 +96,9 @@ public class Training {
 
 	@Column(name = "ANAEROB_TRAINING_EFFECT")
 	private Integer anaerobTrainingEffect;
+	@Lob
+	@Column(name = "GEO_JSON")
+	private String geoJson;
 
 	public Training() {
 	}
@@ -292,6 +296,14 @@ public class Training {
 
 	public void setFileName(final String fileName) {
 		this.fileName = fileName;
+	}
+
+	public void setGeoJSON(final String geoJson) {
+		this.geoJson = geoJson;
+	}
+
+	public String getGeoJSON() {
+		return geoJson;
 	}
 
 	@Override

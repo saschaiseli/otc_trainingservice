@@ -2,6 +2,7 @@ package ch.opentrainingcenter.otc.training.service.converter.fit;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.garmin.fit.LapMesg;
@@ -18,7 +19,9 @@ import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Tracktrainingproperty;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class TrainingListener implements MesgListener {
 
 	private static final String RECORD = "record"; //$NON-NLS-1$
@@ -58,7 +61,6 @@ public class TrainingListener implements MesgListener {
 			}
 			lapInfos.add(lap);
 		}
-		// logMessage(mesg);
 	}
 
 	private Tracktrainingproperty convertTrackPoint(final RecordMesg record) {
@@ -92,6 +94,9 @@ public class TrainingListener implements MesgListener {
 		final HeartRate heart = new HeartRate(average, max);
 		final Training training = CommonTransferFactory.createTraining(runData, heart);
 		training.setTrackPoints(trackpoints);
+		training.setGeoJSON(convertGeoJSON(trackpoints));
+		log.info("*********************************************");
+		log.info(training.getGeoJSON());
 		training.setDownMeter(session.getTotalDescent() != null ? session.getTotalDescent() : 0);
 		training.setUpMeter(session.getTotalAscent() != null ? session.getTotalAscent() : 0);
 		final com.garmin.fit.Sport sport = session.getSport();
@@ -120,5 +125,21 @@ public class TrainingListener implements MesgListener {
 		// logger.info(String.format("Qualität der Geodaten: '%s' [prozent]
 		// fehlerhafte Geodaten", fehlerInProzent)); //$NON-NLS-1$
 		return training;
+	}
+
+	private String convertGeoJSON(final List<Tracktrainingproperty> points) {
+		final StringBuffer str = new StringBuffer();
+		str.append(" {\n" + "         \"type\": \"LineString\",\n" + "         \"coordinates\": [");
+
+		final Iterator<Tracktrainingproperty> iterator = points.iterator();
+		while (iterator.hasNext()) {
+			final Tracktrainingproperty p = iterator.next();
+			str.append("[").append(p.getLongitude()).append(',').append(p.getLatitude()).append("]");
+			if (iterator.hasNext()) {
+				str.append(",\n");
+			}
+		}
+		str.append("]\n}");
+		return str.toString();
 	}
 }
