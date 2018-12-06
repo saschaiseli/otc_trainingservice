@@ -116,14 +116,9 @@ public class TrainingListener implements MesgListener {
 			training.setAnaerobicTrainingEffect((int) (10 * totalAnaerobicTrainingEffect.floatValue()));
 		}
 		training.setLapInfos(lapInfos);
-		for (final LapInfo lapInfo : lapInfos) {
-			lapInfo.setTraining(training);
-		}
 		final int total = error + valid;
 		final int fehlerInProzent = (int) (100 * (error / (float) total));
 		training.setGeoQuality(fehlerInProzent);
-		// logger.info(String.format("Qualität der Geodaten: '%s' [prozent]
-		// fehlerhafte Geodaten", fehlerInProzent)); //$NON-NLS-1$
 		return training;
 	}
 

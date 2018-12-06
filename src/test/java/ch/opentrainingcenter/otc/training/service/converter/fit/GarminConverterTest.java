@@ -115,7 +115,6 @@ class GarminConverterTest {
 		assertEquals(1, lapInfos.size());
 		final LapInfo lap = lapInfos.get(0);
 		assertEquals(0, lap.getStart());
-		assertEquals(training, lap.getTraining());
 		assertEquals((int) training.getLaengeInMeter(), lap.getEnd());
 		assertEquals(2003000, lap.getTime());
 		assertEquals(132, lap.getHeartBeat());

@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 @Entity(name = "LAP_INFO")
@@ -26,9 +24,6 @@ public class LapInfo {
 	private int heartBeat;
 	private String pace;
 
-	@ManyToOne
-	@JoinColumn(name = "ID_FK_TRAINING")
-	private Training training;
 	private String geschwindigkeit;
 
 	public LapInfo() {
@@ -130,14 +125,6 @@ public class LapInfo {
 
 	public void setGeschwindigkeit(final String geschwindigkeit) {
 		this.geschwindigkeit = geschwindigkeit;
-	}
-
-	public Training getTraining() {
-		return training;
-	}
-
-	public void setTraining(final Training training) {
-		this.training = training;
 	}
 
 	@Override

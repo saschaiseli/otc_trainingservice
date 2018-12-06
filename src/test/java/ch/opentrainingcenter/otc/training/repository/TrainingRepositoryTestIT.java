@@ -4,6 +4,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 import java.io.File;
 import java.io.IOException;
@@ -110,5 +111,11 @@ public class TrainingRepositoryTestIT {
 	public void testExistsTrainingByAthleteIdNotFound() {
 		final boolean exists = trainingRepo.existsFile(athlete.getId(), "schnabber.fit");
 		assertThat(exists, is(false));
+	}
+
+	@Test
+	public void testFindById() {
+		final Training t = trainingRepo.findFullTraining(training.getId());
+		assertThat(t, is(notNullValue()));
 	}
 }

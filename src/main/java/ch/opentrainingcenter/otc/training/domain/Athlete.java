@@ -59,9 +59,6 @@ public class Athlete {
 	private Date lastLogin;
 
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private Set<Route> routes = new HashSet<>();
-
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Health> healths = new HashSet<>();
 
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)

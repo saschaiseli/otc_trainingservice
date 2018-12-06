@@ -16,8 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @NamedQueries({ //
-		@NamedQuery(name = "Shoe.getShoesByAthlete", query = "SELECT s FROM SHOE s where s.athlete=:athlete"),
-		@NamedQuery(name = "Shoe.getKilometers", query = "SELECT SUM(t.laengeInMeter) FROM TRAINING t where t.shoe=:shoe") })
+		@NamedQuery(name = "Shoe.getShoesByAthlete", query = "SELECT s FROM SHOE s where s.athlete=:athlete") })
 
 @Entity(name = "SHOE")
 public class Shoe {

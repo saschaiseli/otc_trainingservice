@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -27,8 +26,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.HeartRate;
-import ch.opentrainingcenter.otc.training.domain.Route;
-import ch.opentrainingcenter.otc.training.domain.Shoe;
 import ch.opentrainingcenter.otc.training.domain.TrainingType;
 import ch.opentrainingcenter.otc.training.domain.Weather;
 
@@ -56,18 +53,6 @@ public class Training {
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
 	private Athlete athlete;
 
-	@OneToOne
-	@JoinColumn(name = "ID_FK_ROUTE")
-	private Route route;
-
-	@OneToOne
-	@JoinColumn(name = "ID_FK_WEATHER")
-	private Weather weather;
-
-	@OneToOne
-	@JoinColumn(name = "ID_FK_SHOES")
-	private Shoe shoe;
-
 	@OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_fk_training")
 	private List<Tracktrainingproperty> trackPoints = new ArrayList<>();
@@ -79,7 +64,7 @@ public class Training {
 	private Integer upMeter;
 	private Integer downMeter;
 
-	@OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<LapInfo> lapInfos = new ArrayList<>();
 
 	@Enumerated(EnumType.ORDINAL)
@@ -103,8 +88,7 @@ public class Training {
 	public Training() {
 	}
 
-	public Training(final RunData runData, final HeartRate heart, final String remark, final Weather wetter,
-			final Route strecke) {
+	public Training(final RunData runData, final HeartRate heart, final String remark, final Weather wetter) {
 		id = runData.getDateOfStart().getTime();
 		dauer = runData.getTimeInSeconds();
 		laengeInMeter = runData.getDistanceInMeter();
@@ -112,8 +96,6 @@ public class Training {
 		maxHeartBeat = heart.getMax();
 		maxSpeed = runData.getMaxSpeed();
 		note = remark;
-		weather = wetter;
-		route = strecke;
 	}
 
 	public long getId() {
@@ -132,22 +114,7 @@ public class Training {
 		this.trainingType = trainingType;
 	}
 
-	public Weather getWeather() {
-		return weather;
-	}
-
-	public void setWeather(final Weather weather) {
-		this.weather = weather;
-	}
-
-	public Shoe getShoe() {
-		return shoe;
-	}
-
-	public void setShoe(final Shoe shoe) {
-		this.shoe = shoe;
-	}
-
+	@JsonIgnore
 	public Athlete getAthlete() {
 		return athlete;
 	}
@@ -207,14 +174,6 @@ public class Training {
 
 	public void setNote(final String note) {
 		this.note = note;
-	}
-
-	public Route getRoute() {
-		return route;
-	}
-
-	public void setRoute(final Route route) {
-		this.route = route;
 	}
 
 	public List<Tracktrainingproperty> getTrackPoints() {
