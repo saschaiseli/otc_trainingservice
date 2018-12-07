@@ -124,17 +124,17 @@ public class TrainingListener implements MesgListener {
 
 	private String convertGeoJSON(final List<Tracktrainingproperty> points) {
 		final StringBuffer str = new StringBuffer();
-		str.append(" {\n" + "         \"type\": \"LineString\",\n" + "         \"coordinates\": [");
+		str.append(" { type\": \"LineString\",\"coordinates\": [");
 
 		final Iterator<Tracktrainingproperty> iterator = points.iterator();
 		while (iterator.hasNext()) {
 			final Tracktrainingproperty p = iterator.next();
 			str.append("[").append(p.getLongitude()).append(',').append(p.getLatitude()).append("]");
 			if (iterator.hasNext()) {
-				str.append(",\n");
+				str.append(",");
 			}
 		}
-		str.append("]\n}");
+		str.append("]}");
 		return str.toString();
 	}
 }
