@@ -1,0 +1,317 @@
+{
+	"info": {
+		"_postman_id": "2d38c9f5-bce6-4770-9294-28b89752d63c",
+		"name": "OTC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create Athlete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "firstName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "lastName",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "email4@email.ch",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/athlete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"athlete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAthlete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/athlete/{{athleteId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"athlete",
+						"{{athleteId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "uploadTraining",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"trainingId\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTraining",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"var schema = {",
+							"  \"items\": {",
+							"    \"type\": \"boolean\"",
+							"  }",
+							"};",
+							"",
+							"var data1 = [true, false];",
+							"var data2 = [true, 123];",
+							"",
+							"pm.test('Schema is valid', function() {",
+							"  pm.expect(tv4.validate(data1, schema)).to.be.true;",
+							"  pm.expect(tv4.validate(data2, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/trainings/all/{{trainingId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"trainings",
+						"all",
+						"{{trainingId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Training",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/trainings/all/{{trainingId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"trainings",
+						"all",
+						"{{trainingId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete Request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "afaf161b-19ce-41f6-bb9f-a05b9322a637",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8282/trainingservice/api/athlete/{{athleteId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8282",
+					"path": [
+						"trainingservice",
+						"api",
+						"athlete",
+						"{{athleteId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
