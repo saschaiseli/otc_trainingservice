@@ -10,7 +10,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
@@ -19,8 +18,6 @@ import javax.ws.rs.core.UriInfo;
 
 import org.jboss.resteasy.plugins.providers.multipart.InputPart;
 import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +31,6 @@ import lombok.extern.slf4j.Slf4j;
 @Path("/upload")
 @Slf4j
 public class FileUploadService {
-	private static final Logger LOGGER = LoggerFactory.getLogger(FileUploadService.class);
 
 	public FileUploadService() {
 	}
@@ -61,16 +57,17 @@ public class FileUploadService {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response uploadFile(final MultipartFormDataInput input) {
+		log.info("upload a file ----------------------_>");
 		final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		final List<InputPart> inputParts = uploadForm.get("file");
+
 		final InputPart inputPart = inputParts.get(0);
 		try {
 			final InputStream inputStream = inputPart.getBody(InputStream.class, null);
 			final MultivaluedMap<String, String> header = inputPart.getHeaders();
 			final String fileName = getFileName(header);
-			LOGGER.info("Upload file %s", fileName);
+			log.info("Upload file %s", fileName);
 
 			final Training training = garminConverter.convert(inputStream);
 			training.setFileName(fileName);

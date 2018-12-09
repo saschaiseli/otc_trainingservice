@@ -3,6 +3,7 @@ package ch.opentrainingcenter.otc.training.boundary;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -42,6 +43,14 @@ public class TrainingService {
 		log.info("Found {} training by id {}", training, trainingId);
 		final TrainingDto dto = new TrainingDto(training);
 		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(dto).build();
+	}
+
+	@DELETE
+	@Path("{trainingId}")
+	public Response deleteTraining(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
+		log.info("delete Training with id  {}", trainingId);
+		dao.remove(Training.class, trainingId);
+		return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
 	}
 
 	@POST

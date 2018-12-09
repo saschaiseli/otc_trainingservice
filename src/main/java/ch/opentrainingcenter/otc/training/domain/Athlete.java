@@ -19,6 +19,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Pattern;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,15 +60,19 @@ public class Athlete {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date lastLogin;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Health> healths = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Training> trainings = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<PlaningWeek> planungwoches = new HashSet<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Shoe> shoes = new HashSet<>();
 
