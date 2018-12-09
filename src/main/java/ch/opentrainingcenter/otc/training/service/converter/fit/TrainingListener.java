@@ -129,12 +129,18 @@ public class TrainingListener implements MesgListener {
 		final Iterator<Tracktrainingproperty> iterator = points.iterator();
 		while (iterator.hasNext()) {
 			final Tracktrainingproperty p = iterator.next();
-			str.append("[").append(p.getLongitude()).append(',').append(p.getLatitude()).append("]");
-			if (iterator.hasNext()) {
-				str.append(",");
+			if (isValidCoordinate(p)) {
+				str.append("[").append(p.getLongitude()).append(',').append(p.getLatitude()).append("]");
+				if (iterator.hasNext()) {
+					str.append(",");
+				}
 			}
 		}
 		str.append("]}");
 		return str.toString();
+	}
+
+	private boolean isValidCoordinate(final Tracktrainingproperty p) {
+		return p.getLatitude() != null && p.getLongitude() != null;
 	}
 }

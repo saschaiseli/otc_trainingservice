@@ -33,6 +33,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ch.opentrainingcenter.otc.training.TestConfig;
 import ch.opentrainingcenter.otc.training.TrainingCreator;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
+import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
@@ -73,8 +74,8 @@ public class TrainingRepositoryTestIT {
 		final File jsonTraining = new File(TestConfig.FOLDER + "/training.json");
 
 		training = objectMapper.readValue(jsonTraining, Training.class);
-
-		athlete = repository.doSave(training.getAthlete());
+		athlete = CommonTransferFactory.createAthlete("first name", "last name", EMAIL, "abc");
+		athlete = repository.doSave(athlete);
 		training.setDateOfImport(new Date());
 		training.setAthlete(athlete);
 
