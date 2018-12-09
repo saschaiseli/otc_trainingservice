@@ -8,14 +8,14 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh 'mvn clean test -Drun.profiles=test'
+        sh 'mvn test -Drun.profiles=test'
         archive "target/**/*"
         junit 'target/surefire-reports/*.xml'
       }
     }
     stage('Integration Tests') {
       steps {
-        sh 'mvn integration-test -Drun.profiles=test'
+        sh 'mvn verify -Drun.profiles=test'
         archive "target/**/*"
         junit 'target/surefire-reports/*.xml'
       }
