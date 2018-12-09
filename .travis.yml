@@ -2,8 +2,8 @@ language: java
 jdk:
  - oraclejdk8
 install:
-- mvn install -DskipTests=true -Dspring.profiles.active=test -Dmaven.javadoc.skip=true -B -V
+- mvn install
 script:
-- mvn test -Dspring.profiles.active=test 
+- mvn test
 after_success:
 - mvn clean test jacoco:report coveralls:report
