@@ -19,9 +19,7 @@ import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.domain.raw.Tracktrainingproperty;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 public class TrainingListener implements MesgListener {
 
 	private static final String RECORD = "record"; //$NON-NLS-1$
@@ -95,8 +93,6 @@ public class TrainingListener implements MesgListener {
 		final Training training = CommonTransferFactory.createTraining(runData, heart);
 		training.setTrackPoints(trackpoints);
 		training.setGeoJSON(convertGeoJSON(trackpoints));
-		log.info("*********************************************");
-		log.info(training.getGeoJSON());
 		training.setDownMeter(session.getTotalDescent() != null ? session.getTotalDescent() : 0);
 		training.setUpMeter(session.getTotalAscent() != null ? session.getTotalAscent() : 0);
 		final com.garmin.fit.Sport sport = session.getSport();

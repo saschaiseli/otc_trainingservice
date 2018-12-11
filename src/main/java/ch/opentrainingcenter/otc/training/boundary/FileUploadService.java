@@ -1,5 +1,6 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -57,36 +58,29 @@ public class FileUploadService {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(final MultipartFormDataInput input) {
-		log.info("upload a file ----------------------_>");
+	public Response uploadFile(final MultipartFormDataInput input) throws IOException {
+		log.info("upload a file");
 		final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		final List<InputPart> inputParts = uploadForm.get("file");
 
 		final InputPart inputPart = inputParts.get(0);
-		try {
-			final InputStream inputStream = inputPart.getBody(InputStream.class, null);
-			final MultivaluedMap<String, String> header = inputPart.getHeaders();
-			final String fileName = getFileName(header);
-			log.info("Upload file %s", fileName);
 
-			final Training training = garminConverter.convert(inputStream);
-			training.setFileName(fileName);
+		final InputStream inputStream = inputPart.getBody(InputStream.class, null);
+		final MultivaluedMap<String, String> header = inputPart.getHeaders();
+		final String fileName = getFileName(header);
+		log.info("Upload file %s", fileName);
 
-			newTrainingEvent.fire(training);
-			final String json = createResult(training);
-			log.info("File successfully uploaded {}", json);
-			return Response.status(200).header("Access-Control-Allow-Origin", "*") //
-					.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
-					.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
-					.entity(json).build();
-		} catch (final Exception e) {
-			log.warn("ned guet", e);
-			return Response.status(500)//
-					.header("Access-Control-Allow-Origin", "*") //
-					.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
-					.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
-					.entity(e.getMessage()).build();
-		}
+		final Training training = garminConverter.convert(inputStream);
+		training.setFileName(fileName);
+
+		newTrainingEvent.fire(training);
+		final String json = createResult(training);
+		log.info("File {} successfully uploaded and event fired", fileName);
+		return Response.status(200).header("Access-Control-Allow-Origin", "*") //
+				.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
+				.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
+				.entity(json).build();
+
 	}
 
 	private String createResult(final Training training) throws JsonProcessingException {
