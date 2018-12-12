@@ -27,4 +27,18 @@ public class AthleteRepository extends RepositoryServiceBean<Athlete> {
 		return result;
 	}
 
+	public Athlete authenticate(final String email, final String password) {
+		final TypedQuery<Athlete> query = em.createNamedQuery("Athlete.authenticate", Athlete.class);
+		query.setParameter("email", email);
+		query.setParameter("password", password);
+		Athlete result = null;
+		try {
+			result = query.getSingleResult();
+			LOGGER.info("athlete with email '{}' and password {} found", email, password);
+		} catch (final NoResultException noResult) {
+			LOGGER.info("Athlete with email '{}' password {} not found ", email, password);
+		}
+		return result;
+	}
+
 }

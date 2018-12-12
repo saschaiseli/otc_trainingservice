@@ -1,5 +1,6 @@
 package ch.opentrainingcenter.otc.training.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -26,7 +27,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NamedQueries({ //
-		@NamedQuery(name = "Athlete.findByEmail", query = "SELECT a FROM ATHLETE a where a.email=:email") })
+		@NamedQuery(name = "Athlete.findByEmail", query = "SELECT a FROM ATHLETE a where a.email=:email"),
+		@NamedQuery(name = "Athlete.authenticate", query = "SELECT a FROM ATHLETE a where a.email=:email AND a.password=:password") })
 
 @Entity(name = "ATHLETE")
 @Data
@@ -48,6 +50,8 @@ public class Athlete {
 	@Column(nullable = false)
 	private String password;
 
+	private String token;
+
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
@@ -57,8 +61,8 @@ public class Athlete {
 	@Embedded
 	private Settings settings;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date lastLogin;
+	@Column
+	private LocalDateTime lastLogin;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
