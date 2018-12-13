@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
@@ -46,6 +47,7 @@ public class AthleteService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{athleteId}")
+	@JWTTokenNeeded
 	public Response getAthlete(@PathParam("athleteId") final long athleteId) {
 		log.info("getAthlete with id {}", athleteId);
 		final Athlete athlete = dao.find(Athlete.class, athleteId);

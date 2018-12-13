@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,9 +28,13 @@ public class SimpleTrainingService {
 	@Inject
 	private TrainingRepository dao;
 
+	@Context
+	private HttpServletRequest request;
+
 	@GET
 	@Path("{athleteId}")
 	public Response getSimpleTrainingByAthlete(@PathParam("athleteId") final long athleteId) {
+		log.info("Security: {}", request.getUserPrincipal().getName());
 		log.info("Find SimpleTraining by Athlete ID {}", athleteId);
 		final List<SimpleTraining> list = dao.findSimpleTrainingByAthlete(athleteId);
 		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(list).build();

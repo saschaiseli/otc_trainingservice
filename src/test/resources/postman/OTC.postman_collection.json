@@ -15,6 +15,8 @@
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
+							"postman.setEnvironmentVariable(\"email\", jsonData.email);",
+							"postman.setEnvironmentVariable(\"password\", jsonData.password);",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
@@ -83,16 +85,8 @@
 					"script": {
 						"id": "208d40dd-1c42-403d-a3d6-2dfe79b38a13",
 						"exec": [
-							"var jsonData = JSON.parse(responseBody);",
-							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
-							"postman.setEnvironmentVariable(\"email\", jsonData.email);",
-							"postman.setEnvironmentVariable(\"password\", jsonData.password);",
-							"",
-							"pm.test(\"Status code is 200\", function () {",
-							"    pm.response.to.have.status(200);",
-							"});",
-							"pm.test(jsonData.lastLogin ,function() {",
-							"    pm.expect(jsonData.lastLogin).equal(null);",
+							"pm.test(\"Status code is 401\", function () {",
+							"    pm.response.to.have.status(401);",
 							"});"
 						],
 						"type": "text/javascript"
@@ -133,9 +127,14 @@
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
+							"postman.setEnvironmentVariable(\"token\", postman.getResponseHeader('Authorization') );",
 							"",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Authorization is present\", function () {",
+    						"  pm.response.to.have.header(\"Authorization\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -203,7 +202,14 @@
 			},
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+				{
+						"key": "Authorization",
+						"name": "Authorization",
+						"value": "{{token}}",
+						"type": "Bearer"
+					}
+				],
 				"body": {},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/athlete/{{athleteId}}",
