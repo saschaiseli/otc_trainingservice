@@ -39,10 +39,10 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 		final String token = authorizationHeader.substring("Bearer".length()).trim();
 		try {
 			Jwts.parser().setSigningKey(secret.getSigningKey()).parseClaimsJws(token);
-			log.info("#### valid token : {}", token);
+			log.debug("#### valid token: {}", token);
 
 		} catch (final Exception e) {
-			log.error("#### invalid token : {}", token);
+			log.info("#### invalid token: {}", token);
 			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
 		}
 	}

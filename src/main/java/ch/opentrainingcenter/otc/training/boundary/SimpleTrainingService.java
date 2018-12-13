@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
+@JWTTokenNeeded
 public class SimpleTrainingService {
 
 	@Inject
@@ -34,7 +36,6 @@ public class SimpleTrainingService {
 	@GET
 	@Path("{athleteId}")
 	public Response getSimpleTrainingByAthlete(@PathParam("athleteId") final long athleteId) {
-		log.info("Security: {}", request.getUserPrincipal().getName());
 		log.info("Find SimpleTraining by Athlete ID {}", athleteId);
 		final List<SimpleTraining> list = dao.findSimpleTrainingByAthlete(athleteId);
 		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(list).build();

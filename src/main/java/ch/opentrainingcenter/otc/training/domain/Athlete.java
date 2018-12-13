@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,9 +50,6 @@ public class Athlete {
 	private String email;
 	@Column(nullable = false)
 	private String password;
-
-	private String token;
-
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
@@ -79,6 +77,9 @@ public class Athlete {
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private Set<Shoe> shoes = new HashSet<>();
+
+	@Transient
+	private String token;
 
 	public Athlete(final String firstName, final String lastName, final String email, final String password) {
 		this.firstName = firstName;

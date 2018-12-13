@@ -49,6 +49,7 @@ public class AuthenticationService {
 			final String token = issueToken(email);
 			log.info("issued token {} for user {}", token, email);
 			athlete.setLastLogin(LocalDateTime.now());
+			athlete.setToken(token);
 			dao.update(athlete);
 
 			// Return the token on the response
@@ -61,7 +62,7 @@ public class AuthenticationService {
 	}
 
 	private String issueToken(final String login) {
-		final LocalDateTime add = LocalDateTime.now().plusMinutes(15L);
+		final LocalDateTime add = LocalDateTime.now().plusMinutes(1L);
 		final String jwtToken = Jwts.builder()//
 				.setSubject(login)//
 				.setIssuer(uriInfo.getAbsolutePath().toString())//

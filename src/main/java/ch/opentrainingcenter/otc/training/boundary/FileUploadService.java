@@ -23,6 +23,7 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
@@ -31,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Path("/upload")
 @Slf4j
+@JWTTokenNeeded
 public class FileUploadService {
 
 	public FileUploadService() {
