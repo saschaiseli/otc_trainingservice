@@ -1,6 +1,5 @@
 package ch.opentrainingcenter.otc.training.events;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -24,10 +23,15 @@ class TrainingListenerTest {
 	private AthleteRepository athleteRepo;
 
 	@Mock
+	private TrainingEvent trainingEvent;
+
+	@Mock
 	private Training training;
 
 	@Mock
 	private Athlete athlete;
+
+	private final String email = "testemail";
 
 	@BeforeEach
 	public void setUp() {
@@ -37,19 +41,16 @@ class TrainingListenerTest {
 
 	@Test
 	void testHappyCase() {
-		listener.onAddTraining(training);
-		verify(athleteRepo).doSave(any());
-		verify(training).setAthlete(any());
-		verify(trainingRepo).doSave(training);
-	}
+		when(trainingEvent.getTraining()).thenReturn(training);
+		when(trainingEvent.getEmail()).thenReturn(email);
+		when(athleteRepo.findByEmail(email)).thenReturn(athlete);
 
-	@Test
-	void testAthleteIsNull() {
-		when(athleteRepo.findByEmail(any())).thenReturn(athlete);
-		listener.onAddTraining(training);
-		verify(athleteRepo).findByEmail(any());
+		listener.onAddTraining(trainingEvent);
+
+		verify(athleteRepo).findByEmail(email);
 		verifyNoMoreInteractions(athleteRepo);
-		verify(training).setAthlete(any());
+
+		verify(training).setAthlete(athlete);
 		verify(trainingRepo).doSave(training);
 	}
 

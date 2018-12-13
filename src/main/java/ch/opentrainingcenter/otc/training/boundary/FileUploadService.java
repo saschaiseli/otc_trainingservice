@@ -12,6 +12,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
@@ -23,10 +24,12 @@ import org.jboss.resteasy.plugins.providers.multipart.MultipartFormDataInput;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
+import ch.opentrainingcenter.otc.training.events.TrainingEvent;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -40,8 +43,9 @@ public class FileUploadService {
 
 	@Inject
 	@Created
-	private Event<Training> newTrainingEvent;
-
+	private Event<TrainingEvent> newTrainingEvent;
+	@Inject
+	JWTService jwtService;
 	@Context
 	private UriInfo context;
 	/**
@@ -60,8 +64,10 @@ public class FileUploadService {
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response uploadFile(final MultipartFormDataInput input) throws IOException {
+	public Response uploadFile(@Context final HttpHeaders httpHeaders, final MultipartFormDataInput input)
+			throws IOException {
 		log.info("upload a file");
+
 		final Map<String, List<InputPart>> uploadForm = input.getFormDataMap();
 		final List<InputPart> inputParts = uploadForm.get("file");
 
@@ -74,8 +80,9 @@ public class FileUploadService {
 
 		final Training training = garminConverter.convert(inputStream);
 		training.setFileName(fileName);
+		final String email = jwtService.getClaims(httpHeaders).get("email", String.class);
 
-		newTrainingEvent.fire(training);
+		newTrainingEvent.fire(new TrainingEvent(training, email));
 		final String json = createResult(training);
 		log.info("File {} successfully uploaded and event fired", fileName);
 		return Response.status(200).header("Access-Control-Allow-Origin", "*") //

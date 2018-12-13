@@ -33,18 +33,11 @@ public class TrainingListener {
 		this.athleteRepo = athleteRepo;
 	}
 
-	public void onAddTraining(@Observes @Created final Training training) {
-		training.setAthlete(getOrCreateAthlete());
+	public void onAddTraining(@Observes @Created final TrainingEvent event) {
+		final Athlete athlete = athleteRepo.findByEmail(event.getEmail());
+		final Training training = event.getTraining();
+		training.setAthlete(athlete);
 		trainingRepo.doSave(training);
 		LOGGER.info("Training created");
-	}
-
-	private Athlete getOrCreateAthlete() {
-		Athlete athlete = athleteRepo.findByEmail("sascha.iseli@gmx.ch");
-		if (athlete == null) {
-			athlete = new Athlete("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
-			athlete = athleteRepo.doSave(athlete);
-		}
-		return athlete;
 	}
 }

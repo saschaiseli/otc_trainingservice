@@ -37,7 +37,12 @@
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
-
+		<!-- https://mvnrepository.com/artifact/org.eclipse.microprofile.jwt/microprofile-jwt-auth-api -->
+		<dependency>
+			<groupId>org.eclipse.microprofile.jwt</groupId>
+			<artifactId>microprofile-jwt-auth-api</artifactId>
+			<version>1.1.1</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.resteasy</groupId>

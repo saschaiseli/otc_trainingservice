@@ -1,9 +1,9 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -18,7 +18,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.http.HttpStatus;
 
-import ch.opentrainingcenter.otc.training.boundary.security.SecretService;
+import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 import io.jsonwebtoken.Jwts;
@@ -31,7 +31,7 @@ public class AuthenticationService {
 	@Inject
 	private AthleteRepository dao;
 	@Inject
-	private SecretService secret;
+	private JWTService secret;
 
 	@Context
 	private UriInfo uriInfo;
@@ -46,7 +46,7 @@ public class AuthenticationService {
 			log.info("Athlete {} authenticated", email);
 
 			// Issue a token for the user
-			final String token = issueToken(email);
+			final String token = issueToken(athlete);
 			log.info("issued token {} for user {}", token, email);
 			athlete.setLastLogin(LocalDateTime.now());
 			athlete.setToken(token);
@@ -61,15 +61,26 @@ public class AuthenticationService {
 
 	}
 
-	private String issueToken(final String login) {
+	private String issueToken(final Athlete athlete) {
 		final LocalDateTime add = LocalDateTime.now().plusMinutes(1L);
+		final Map<String, Object> claims = convert(athlete);
 		final String jwtToken = Jwts.builder()//
-				.setSubject(login)//
+				.setSubject(athlete.getEmail())//
+				.setClaims(claims)//
 				.setIssuer(uriInfo.getAbsolutePath().toString())//
 				.setIssuedAt(new Date())//
-				.setExpiration(Date.from(add.atZone(ZoneId.systemDefault()).toInstant()))//
+//				.setExpiration(Date.from(add.atZone(ZoneId.systemDefault()).toInstant()))//
 				.signWith(SignatureAlgorithm.HS256, secret.getSigner())//
 				.compact();
 		return jwtToken;
+	}
+
+	private Map<String, Object> convert(final Athlete athlete) {
+		final Map<String, Object> claims = new HashMap<>();
+		claims.put("id", athlete.getId());
+		claims.put("firstname", athlete.getFirstName());
+		claims.put("lastname", athlete.getLastName());
+		claims.put("email", athlete.getEmail());
+		return claims;
 	}
 }

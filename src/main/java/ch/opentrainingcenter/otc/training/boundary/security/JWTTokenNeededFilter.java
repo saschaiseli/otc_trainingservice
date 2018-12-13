@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
 	@Inject
-	private SecretService secret;
+	private JWTService secret;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
