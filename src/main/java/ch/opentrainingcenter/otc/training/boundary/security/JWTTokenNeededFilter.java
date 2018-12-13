@@ -20,8 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
+	static final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 	@Inject
-	private JWTService secret;
+	JWTService secret;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {
@@ -31,7 +32,7 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 		if (authorizationHeader != null) {
 			validateToken(requestContext, authorizationHeader);
 		} else {
-			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+			requestContext.abortWith(UNAUTHORIZED);
 		}
 	}
 
@@ -43,7 +44,7 @@ public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
 		} catch (final Exception e) {
 			log.info("#### invalid token: {}", token);
-			requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+			requestContext.abortWith(UNAUTHORIZED);
 		}
 	}
 }

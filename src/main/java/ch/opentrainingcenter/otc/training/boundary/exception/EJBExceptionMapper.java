@@ -7,20 +7,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Provider
-@Slf4j
 public class EJBExceptionMapper implements ExceptionMapper<EJBException> {
 
 	@Override
 	public Response toResponse(final EJBException ex) {
-		log.error("uiuiuiuiuiui");
-		log.error("uiuiuiuiuiui");
-		log.error("uiuiuiuiuiui");
-		log.error("uiuiuiuiuiui");
-		log.error("uiuiuiuiuiui");
-		log.error("uiuiuiuiuiui");
 		final Throwable cause = ex.getCause();
 		if (cause instanceof OptimisticLockException) {
 			final OptimisticLockException actual = (OptimisticLockException) cause;
@@ -38,7 +29,6 @@ public class EJBExceptionMapper implements ExceptionMapper<EJBException> {
 		}
 		return Response.status(Response.Status.CONFLICT)
 				.header("cause", "conflict caused by entity: " + cause.getMessage())//
-				.header("schnabber", "gugues")//
 				.header("additional-info", cause.getMessage())//
 				.build();
 	}
