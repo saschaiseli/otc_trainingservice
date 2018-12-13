@@ -246,7 +246,14 @@
 			],
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+				{
+						"key": "Authorization",
+						"name": "Authorization",
+						"value": "{{token}}",
+						"type": "Bearer"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": ""

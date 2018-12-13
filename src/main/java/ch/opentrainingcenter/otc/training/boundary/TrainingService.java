@@ -15,6 +15,7 @@ import javax.ws.rs.core.UriInfo;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.dto.TrainingDto;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
@@ -25,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
+@JWTTokenNeeded
 public class TrainingService {
 
 	@Inject

@@ -59,6 +59,7 @@ public class AthleteService {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("{athleteId}")
+	@JWTTokenNeeded
 	public Response deleteAthlete(@PathParam("athleteId") final long athleteId) {
 		log.info("Delete Athlete with id {}", athleteId);
 		dao.remove(Athlete.class, athleteId);

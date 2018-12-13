@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.raw.Tracktrainingproperty;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
@@ -30,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
+@JWTTokenNeeded
 public class ChartService {
 	@Inject
 	private TrainingRepository dao;
@@ -42,7 +44,7 @@ public class ChartService {
 	public Response getTrainingById(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
 		log.info("get heart Track Point Chart for Training {}", trainingId);
 		final Training training = dao.findFullTraining(trainingId);
-		log.info("Found {} training by id {}", training, trainingId);
+		log.debug("Found training by id {}", trainingId);
 
 		final String heart = extractValue(training, "Herzfrequenz", x -> BigDecimal.valueOf(x.getHeartBeat()));
 		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(heart).build();
