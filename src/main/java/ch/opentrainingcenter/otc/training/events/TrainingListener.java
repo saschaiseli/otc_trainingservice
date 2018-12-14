@@ -4,31 +4,29 @@ import javax.ejb.Stateless;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Stateless
+@Slf4j
 public class TrainingListener {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(TrainingListener.class);
 
 	private final TrainingRepository trainingRepo;
 
 	private final AthleteRepository athleteRepo;
 
-	// EJB Container uses an empty Constructor
 	public TrainingListener() {
 		this(null, null);
+		log.info("created by ejb container");
 	}
 
 	@Inject
 	public TrainingListener(final TrainingRepository trainingRepo, final AthleteRepository athleteRepo) {
+		log.info("created by ejb container with injected values");
 		this.trainingRepo = trainingRepo;
 		this.athleteRepo = athleteRepo;
 	}
@@ -38,6 +36,6 @@ public class TrainingListener {
 		final Training training = event.getTraining();
 		training.setAthlete(athlete);
 		trainingRepo.doSave(training);
-		LOGGER.info("Training created");
+		log.info("Training created");
 	}
 }

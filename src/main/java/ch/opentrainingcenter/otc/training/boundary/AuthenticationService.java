@@ -1,6 +1,7 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,14 +63,14 @@ public class AuthenticationService {
 	}
 
 	private String issueToken(final Athlete athlete) {
-		final LocalDateTime add = LocalDateTime.now().plusMinutes(1L);
+		final LocalDateTime add = LocalDateTime.now().plusHours(24L);
 		final Map<String, Object> claims = convert(athlete);
 		final String jwtToken = Jwts.builder()//
 				.setSubject(athlete.getEmail())//
 				.setClaims(claims)//
 				.setIssuer(uriInfo.getAbsolutePath().toString())//
 				.setIssuedAt(new Date())//
-//				.setExpiration(Date.from(add.atZone(ZoneId.systemDefault()).toInstant()))//
+				.setExpiration(Date.from(add.atZone(ZoneId.systemDefault()).toInstant()))//
 				.signWith(SignatureAlgorithm.HS256, secret.getSigner())//
 				.compact();
 		return jwtToken;

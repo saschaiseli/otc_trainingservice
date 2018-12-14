@@ -54,7 +54,6 @@ class GarminConverterTest {
 		final File file = new File(TestConfig.FOLDER, "2_runden.fit");
 
 		final Training training = service.convert(new FileInputStream(file));
-		System.out.println(training.getGeoJSON());
 		assertNotNull(training);
 		assertThat("Ist null, da dieser Timestamp erst vom importer gesetzt", training.getDateOfImport(),
 				is(nullValue()));

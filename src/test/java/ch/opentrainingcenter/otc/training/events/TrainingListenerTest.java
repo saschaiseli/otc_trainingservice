@@ -1,5 +1,6 @@
 package ch.opentrainingcenter.otc.training.events;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -52,6 +53,12 @@ class TrainingListenerTest {
 
 		verify(training).setAthlete(athlete);
 		verify(trainingRepo).doSave(training);
+	}
+
+	@Test
+	void testNullPointerWithEmptyConstructor() {
+		listener = new TrainingListener();
+		assertThrows(NullPointerException.class, () -> listener.onAddTraining(trainingEvent), "a message");
 	}
 
 }

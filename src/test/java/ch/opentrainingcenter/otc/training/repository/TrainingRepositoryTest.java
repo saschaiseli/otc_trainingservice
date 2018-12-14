@@ -1,5 +1,9 @@
 package ch.opentrainingcenter.otc.training.repository;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
+
 import java.util.Collections;
 import java.util.Date;
 
@@ -14,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
+import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
 class TrainingRepositoryTest {
 
@@ -26,6 +31,8 @@ class TrainingRepositoryTest {
 	private TypedQuery<Training> tq;
 	@Mock
 	private Athlete athlete;
+	@Mock
+	private TypedQuery<SimpleTraining> tqSimple;
 
 	@BeforeEach
 	public void setUp() {
@@ -38,39 +45,64 @@ class TrainingRepositoryTest {
 	void testDoSave() {
 		repository.doSave(training);
 
-		Mockito.verify(training).setDateOfImport(Mockito.any(Date.class));
-		Mockito.verify(em).persist(training);
+		verify(training).setDateOfImport(Mockito.any(Date.class));
+		verify(em).persist(training);
 	}
 
 	@Test
 	void testFindTrainingByAthlete() {
 		final long key = 42;
 
-		Mockito.when(em.createNamedQuery("Training.getTrainingByAthlete", Training.class)).thenReturn(tq);
-		Mockito.when(em.find(Athlete.class, key)).thenReturn(athlete);
+		when(em.createNamedQuery("Training.getTrainingByAthlete", Training.class)).thenReturn(tq);
+		when(em.find(Athlete.class, key)).thenReturn(athlete);
 
 		repository.findTrainingByAthlete(key);
 
-		Mockito.verify(tq).setParameter("athlete", athlete);
-		Mockito.verify(tq).getResultList();
-		Mockito.verifyNoMoreInteractions(tq);
-		Mockito.verify(em).createNamedQuery("Training.getTrainingByAthlete", Training.class);
-		Mockito.verify(em).find(Athlete.class, key);
-		Mockito.verifyNoMoreInteractions(em);
+		verify(tq).setParameter("athlete", athlete);
+		verify(tq).getResultList();
+		verifyNoMoreInteractions(tq);
+		verify(em).createNamedQuery("Training.getTrainingByAthlete", Training.class);
+		verify(em).find(Athlete.class, key);
+		verifyNoMoreInteractions(em);
 	}
 
 	@Test
 	void testFindFullTraining() {
 		final long key = 42;
 
-		Mockito.when(em.find(Training.class, key)).thenReturn(training);
-		Mockito.when(training.getTrackPoints()).thenReturn(Collections.emptyList());
-		Mockito.when(training.getLapInfos()).thenReturn(Collections.emptyList());
+		when(em.find(Training.class, key)).thenReturn(training);
+		when(training.getTrackPoints()).thenReturn(Collections.emptyList());
+		when(training.getLapInfos()).thenReturn(Collections.emptyList());
 
 		repository.findFullTraining(key);
 
-		Mockito.verify(training).getTrackPoints();
-		Mockito.verify(training).getLapInfos();
+		verify(training).getTrackPoints();
+		verify(training).getLapInfos();
 	}
 
+	@Test
+	void testFindSimpleTrainingByAthlete() {
+		final long key = 42;
+		when(em.createNamedQuery("Training.getSimpleTrainingByAthlete", SimpleTraining.class)).thenReturn(tqSimple);
+
+		repository.findSimpleTrainingByAthlete(key);
+
+		verify(tqSimple).setParameter("athleteId", key);
+		verify(tqSimple).getResultList();
+		verifyNoMoreInteractions(tqSimple);
+	}
+
+	@Test
+	void testExistsFile() {
+		final long athleteId = 42;
+		final String fileName = "name.fit";
+		when(em.createNamedQuery("Training.existsFileByAthlete", Training.class)).thenReturn(tq);
+
+		repository.existsFile(athleteId, fileName);
+
+		verify(tq).setParameter("athleteId", athleteId);
+		verify(tq).setParameter("fileName", fileName);
+		verify(tq).getResultList();
+		verifyNoMoreInteractions(tq);
+	}
 }

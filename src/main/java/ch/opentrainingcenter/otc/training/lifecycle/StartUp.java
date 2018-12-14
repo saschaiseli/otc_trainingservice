@@ -14,7 +14,7 @@ import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 public class StartUp {
 
 	@Inject
-	private AthleteRepository repo;
+	AthleteRepository repo;
 
 	@PostConstruct
 	void init() {

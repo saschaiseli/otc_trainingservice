@@ -246,7 +246,9 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.2</version>
 				<configuration>
+				<!--
 					<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+					-->
 					<excludes>
 						<exclude>**/ch/opentrainingcenter/otc/training/domain/**/*</exclude>
 						<exclude>**/*Test*.*</exclude>
@@ -277,6 +279,14 @@
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.3</version>
+			</plugin>
+			<plugin>
+				<groupId>org.eluder.coveralls</groupId>
+				<artifactId>coveralls-maven-plugin</artifactId>
+				<version>4.3.0</version>
+				<configuration>
+					<repoToken>AwdDpLjeRlIZtSP4vwyGMofBMc9pDYuxn</repoToken>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
