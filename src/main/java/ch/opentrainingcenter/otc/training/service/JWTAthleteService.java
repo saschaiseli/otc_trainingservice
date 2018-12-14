@@ -10,13 +10,14 @@ import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 
 @RequestScoped
 public class JWTAthleteService {
+	static final String EMAIL = "email";
 	@Inject
 	AthleteRepository athleteRepo;
 	@Inject
 	JWTService jwtService;
 
 	public Athlete getAthlete(final HttpHeaders headers) {
-		final String email = jwtService.getClaims(headers).get("email", String.class);
+		final String email = jwtService.getClaims(headers).get(EMAIL, String.class);
 		return athleteRepo.findByEmail(email);
 	}
 }
