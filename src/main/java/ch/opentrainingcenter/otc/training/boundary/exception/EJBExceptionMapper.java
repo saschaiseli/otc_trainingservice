@@ -27,8 +27,8 @@ public class EJBExceptionMapper implements ExceptionMapper<EJBException> {
 					.header("additional-info", actual.getMessage()).build();
 
 		}
-		return Response.status(Response.Status.CONFLICT)
-				.header("cause", "conflict caused by entity: " + cause.getMessage())//
+		return Response.status(Response.Status.INTERNAL_SERVER_ERROR) //
+				.header("cause", "Error: " + cause.getMessage())//
 				.header("additional-info", cause.getMessage())//
 				.build();
 	}
