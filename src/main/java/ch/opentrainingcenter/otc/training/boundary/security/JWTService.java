@@ -25,7 +25,6 @@ public class JWTService {
 		final String jwt = httpHeaders.getRequestHeaders().getFirst(HttpHeaders.AUTHORIZATION)
 				.substring("Bearer".length()).trim();
 		final Jws<Claims> claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(jwt);
-		final Claims body = claims.getBody();
-		return body;
+		return claims.getBody();
 	}
 }

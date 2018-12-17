@@ -12,7 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
@@ -26,27 +25,30 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-@NamedQueries({ //
-		@NamedQuery(name = "Athlete.findByEmail", query = "SELECT a FROM ATHLETE a where a.email=:email"),
-		@NamedQuery(name = "Athlete.authenticate", query = "SELECT a FROM ATHLETE a where a.email=:email AND a.password=:password") })
-
+@NamedQuery(name = "Athlete.findByEmail", query = "SELECT a FROM ATHLETE a where a.email=:email")
+@NamedQuery(name = "Athlete.authenticate", query = "SELECT a FROM ATHLETE a where a.email=:email AND a.password=:password")
 @Entity(name = "ATHLETE")
 @Data
 @NoArgsConstructor
+@ToString
 public class Athlete {
 
 	@Id
 	@SequenceGenerator(name = "ATHLETE_ID_SEQUENCE", sequenceName = "ATHLETE_ID_SEQUENCE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ATHLETE_ID_SEQUENCE")
+	@ToString.Include
 	private long id;
-
 	@Column(nullable = false)
+	@ToString.Include
 	private String firstName;
 	@Column(nullable = false)
+	@ToString.Include
 	private String lastName;
 	@Pattern(regexp = ".+@.+", message = "{user.email.pattern}")
 	@Column(unique = true, nullable = false)
+	@ToString.Include
 	private String email;
 	@Column(nullable = false)
 	private String password;
@@ -62,21 +64,10 @@ public class Athlete {
 	@Column
 	private LocalDateTime lastLogin;
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-//	private Set<Health> healths = new HashSet<>();
-
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private List<Training> trainings = new ArrayList<>();
 
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-//	private Set<PlaningWeek> planungwoches = new HashSet<>();
-//
-//	@JsonIgnore
-//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-//	private Set<Shoe> shoes = new HashSet<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
 	private List<Target> targets = new ArrayList<>();
@@ -89,12 +80,6 @@ public class Athlete {
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
-	}
-
-	@Override
-	public String toString() {
-		return "Athlete [id=" + id + ", name=" + firstName + ", birthday=" + birthday + ", maxheartrate=" + maxheartrate
-				+ "]";
 	}
 
 	public void addTarget(final Target target) {

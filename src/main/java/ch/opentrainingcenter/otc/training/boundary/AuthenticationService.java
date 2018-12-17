@@ -64,7 +64,7 @@ public class AuthenticationService {
 	private String issueToken(final Athlete athlete) {
 		final LocalDateTime add = LocalDateTime.now().plusHours(24L);
 		final Map<String, Object> claims = convert(athlete);
-		final String jwtToken = Jwts.builder()//
+		return Jwts.builder()//
 				.setSubject(athlete.getEmail())//
 				.setClaims(claims)//
 				.setIssuer(uriInfo.getAbsolutePath().toString())//
@@ -72,7 +72,6 @@ public class AuthenticationService {
 				.setExpiration(Date.from(add.atZone(ZoneId.systemDefault()).toInstant()))//
 				.signWith(SignatureAlgorithm.HS256, secret.getSigner())//
 				.compact();
-		return jwtToken;
 	}
 
 	private Map<String, Object> convert(final Athlete athlete) {

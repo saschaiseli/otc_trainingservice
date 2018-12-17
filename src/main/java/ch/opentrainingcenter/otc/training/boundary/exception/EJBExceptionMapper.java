@@ -10,26 +10,29 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class EJBExceptionMapper implements ExceptionMapper<EJBException> {
 
+	private static final String ADDITIONAL_INFO = "additional-info";
+	private static final String CAUSE = "cause";
+
 	@Override
 	public Response toResponse(final EJBException ex) {
 		final Throwable cause = ex.getCause();
 		if (cause instanceof OptimisticLockException) {
 			final OptimisticLockException actual = (OptimisticLockException) cause;
 			return Response.status(Response.Status.CONFLICT)
-					.header("cause", "conflict caused by entity: " + actual.getEntity())
-					.header("additional-info", actual.getMessage()).build();
+					.header(CAUSE, "conflict caused by entity: " + actual.getEntity())
+					.header(ADDITIONAL_INFO, actual.getMessage()).build();
 
 		}
 		if (cause instanceof PersistenceException) {
 			final PersistenceException actual = (PersistenceException) cause;
 			return Response.status(Response.Status.BAD_REQUEST)
-					.header("cause", "conflict caused by entity: " + actual.getMessage())
-					.header("additional-info", actual.getMessage()).build();
+					.header(CAUSE, "conflict caused by entity: " + actual.getMessage())
+					.header(ADDITIONAL_INFO, actual.getMessage()).build();
 
 		}
 		return Response.status(Response.Status.INTERNAL_SERVER_ERROR) //
-				.header("cause", "Error: " + cause.getMessage())//
-				.header("additional-info", cause.getMessage())//
+				.header(CAUSE, "Error: " + cause.getMessage())//
+				.header(ADDITIONAL_INFO, cause.getMessage())//
 				.build();
 	}
 

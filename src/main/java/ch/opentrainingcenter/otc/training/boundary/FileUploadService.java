@@ -88,8 +88,7 @@ public class FileUploadService {
 
 				final String[] name = filename.split("=");
 
-				final String finalFileName = name[1].trim().replaceAll("\"", "");
-				return finalFileName;
+				return name[1].trim().replaceAll("\"", "");
 			}
 		}
 		return "unknown";
