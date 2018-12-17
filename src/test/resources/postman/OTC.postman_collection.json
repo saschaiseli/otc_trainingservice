@@ -32,37 +32,16 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/x-www-form-urlencoded",
+						"value": "application/json",
 						"type": "text"
 					}
 				],
 				"body": {
-					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "firstName",
-							"value": "test",
-							"type": "text"
-						},
-						{
-							"key": "lastName",
-							"value": "test",
-							"type": "text"
-						},
-						{
-							"key": "email",
-							"value": "postman@email.ch",
-							"type": "text"
-						},
-						{
-							"key": "password",
-							"value": "secret",
-							"type": "text"
-						}
-					]
+					"mode": "raw",
+					"raw": "{\"firstName\": \"test\", \"lastName\": \"test\", \"username\": \"postman@email.ch\", \"password\": \"secret\"}"
 				},
 				"url": {
-					"raw": "http://localhost:{{PORT}}/trainingservice/api/athlete",
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/users/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -71,7 +50,8 @@
 					"path": [
 						"trainingservice",
 						"api",
-						"athlete"
+						"users",
+						"register"
 					]
 				}
 			},

@@ -5,11 +5,12 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -20,9 +21,9 @@ import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 
-class AthleteServiceTest {
+class RegisterServiceTest {
 
-	private AthleteService service;
+	private RegisterService service;
 	@Mock
 	private AthleteRepository dao;
 	private final String firstName = "firstName";
@@ -33,24 +34,26 @@ class AthleteServiceTest {
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		service = new AthleteService();
+		service = new RegisterService();
 		service.dao = dao;
 	}
 
 	@Test
-	void testGetAthlete() {
+	void testRegister() {
 		// Given
 		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
-		final long athleteId = 42L;
-		athlete.setId(athleteId);
+		Mockito.when(dao.doSave(athlete)).thenReturn(athlete);
 
-		Mockito.when(dao.find(Athlete.class, athleteId)).thenReturn(athlete);
-
+		final Map<String, String> datas = new HashMap<>();
+		datas.put("firstName", firstName);
+		datas.put("lastName", lastName);
+		datas.put("username", email);
+		datas.put("password", password);
 		// When
-		final Response response = service.getAthlete(athleteId);
+		final Response response = service.register(datas);
 
 		// Then
-		Mockito.verify(dao).find(Athlete.class, athleteId);
+		Mockito.verify(dao).doSave(athlete);
 		Mockito.verifyNoMoreInteractions(dao);
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
 		final Athlete entity = (Athlete) response.getEntity();
@@ -58,21 +61,4 @@ class AthleteServiceTest {
 		assertThat(response.getHeaders(), equalTo(Collections.EMPTY_MAP));
 	}
 
-	@Test
-	void testDeleteAthlete() {
-		// Given
-		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
-		final long athleteId = 42L;
-		athlete.setId(athleteId);
-
-		// When
-		final Response response = service.deleteAthlete(athleteId);
-
-		// Then
-		Mockito.verify(dao).remove(Athlete.class, athleteId);
-		Mockito.verifyNoMoreInteractions(dao);
-		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
-		assertThat(response.getEntity(), Matchers.nullValue());
-		assertThat(response.getHeaders(), equalTo(Collections.EMPTY_MAP));
-	}
 }
