@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @JWTTokenNeeded
 public class ChartService {
 	@Inject
-	TrainingRepository repo;
+	protected TrainingRepository repo;
 
 	@GET
 	@Path("/heart/{trainingId}")

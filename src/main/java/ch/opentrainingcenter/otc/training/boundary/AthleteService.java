@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AthleteService {
 
 	@Inject
-	AthleteRepository dao;
+	protected AthleteRepository dao;
 
 	@GET
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)

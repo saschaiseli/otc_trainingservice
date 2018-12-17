@@ -29,11 +29,10 @@ class AuthenticationServiceTest {
 	private AuthenticationService service;
 
 	@Mock
-	AthleteRepository dao;
-
-	JWTService secret = new JWTService();
+	private AthleteRepository dao;
 	@Mock
-	UriInfo uriInfo;
+	private UriInfo uriInfo;
+	private final JWTService secret = new JWTService();
 	private final String firstName = "firstName";
 	private final String lastName = "lastName";
 	private final String email = "email";

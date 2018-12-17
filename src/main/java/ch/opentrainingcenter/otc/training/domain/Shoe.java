@@ -37,9 +37,6 @@ public class Shoe {
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
 	private Athlete athlete;
 
-	public Shoe() {
-	}
-
 	public long getId() {
 		return id;
 	}

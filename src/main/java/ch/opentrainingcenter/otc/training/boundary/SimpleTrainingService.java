@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SimpleTrainingService {
 
 	@Inject
-	TrainingRepository dao;
+	protected TrainingRepository dao;
 
 	@GET
 	@Path("{athleteId}")

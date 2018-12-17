@@ -21,7 +21,6 @@ import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
 
 class TrainingDtoTest {
 	private final GarminConverter service = new GarminConverter();
-	private TrainingDto dto;
 
 	@Test
 	void test() throws JsonParseException, JsonMappingException, IOException {
@@ -29,7 +28,7 @@ class TrainingDtoTest {
 
 		final Training training = service.convert(new FileInputStream(file));
 
-		dto = new TrainingDto(training);
+		final TrainingDto dto = new TrainingDto(training);
 
 		assertThat(dto.getId(), is(equalTo(1412070744000L)));
 		assertThat(dto.getTrackPoints(), is(not(empty())));

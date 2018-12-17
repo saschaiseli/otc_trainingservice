@@ -41,7 +41,7 @@ class TrainingListenerTest {
 	}
 
 	@Test
-	void testHappyCase() {
+	public void testHappyCase() {
 		when(trainingEvent.getTraining()).thenReturn(training);
 		when(trainingEvent.getEmail()).thenReturn(email);
 		when(athleteRepo.findByEmail(email)).thenReturn(athlete);
@@ -56,7 +56,7 @@ class TrainingListenerTest {
 	}
 
 	@Test
-	void testNullPointerWithEmptyConstructor() {
+	public void testNullPointerWithEmptyConstructor() {
 		listener = new TrainingListener();
 		assertThrows(NullPointerException.class, () -> listener.onAddTraining(trainingEvent), "a message");
 	}

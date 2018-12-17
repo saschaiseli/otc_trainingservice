@@ -30,10 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 public class TrainingService {
 
 	@Inject
-	private TrainingRepository dao;
+	protected TrainingRepository dao;
 
 	@Context
-	private UriInfo uriInfo;
+	protected UriInfo uriInfo;
 
 	@GET
 	@Path("{trainingId}")

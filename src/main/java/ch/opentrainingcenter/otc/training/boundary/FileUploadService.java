@@ -39,13 +39,13 @@ public class FileUploadService {
 
 	@Inject
 	@Created
-	Event<TrainingEvent> newTrainingEvent;
+	protected Event<TrainingEvent> newTrainingEvent;
 	@Inject
-	JWTService jwtService;
+	protected JWTService jwtService;
 	@Context
-	UriInfo context;
+	protected UriInfo context;
 	@Inject
-	GarminConverter garminConverter;
+	protected GarminConverter garminConverter;
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)

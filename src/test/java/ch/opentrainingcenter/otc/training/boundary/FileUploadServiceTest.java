@@ -65,7 +65,7 @@ class FileUploadServiceTest {
 	}
 
 	@Test
-	void testUploadFile() throws IOException {
+	public void testUploadFile() throws IOException {
 		// Given
 		final Map<String, List<InputPart>> uploadForm = new HashMap<>();
 		final List<InputPart> inputParts = new ArrayList<>();
@@ -91,8 +91,8 @@ class FileUploadServiceTest {
 
 		// Then
 		final TrainingEvent trainingEvent = event.getEvent();
-		assertThat(trainingEvent.getEmail(), Matchers.is(Matchers.equalTo(MAIL)));
-		assertThat(trainingEvent.getTraining().getFileName(), Matchers.is(Matchers.equalTo(TestConfig.FIT_FILE)));
+		assertThat(trainingEvent.getEmail(), is(Matchers.equalTo(MAIL)));
+		assertThat(trainingEvent.getTraining().getFileName(), is(Matchers.equalTo(TestConfig.FIT_FILE)));
 
 		assertThat(response.getHeaders(), equalTo(Collections.EMPTY_MAP));
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));

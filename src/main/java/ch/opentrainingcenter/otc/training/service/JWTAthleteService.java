@@ -12,9 +12,9 @@ import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 public class JWTAthleteService {
 	static final String EMAIL = "email";
 	@Inject
-	AthleteRepository athleteRepo;
+	protected AthleteRepository athleteRepo;
 	@Inject
-	JWTService jwtService;
+	protected JWTService jwtService;
 
 	public Athlete getAthlete(final HttpHeaders headers) {
 		final String email = jwtService.getClaims(headers).get(EMAIL, String.class);

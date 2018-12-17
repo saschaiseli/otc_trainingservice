@@ -20,9 +20,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class JWTTokenNeededFilter implements ContainerRequestFilter {
 
-	static final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
+	protected static final Response UNAUTHORIZED = Response.status(Response.Status.UNAUTHORIZED).build();
 	@Inject
-	JWTService secret;
+	protected JWTService secret;
 
 	@Override
 	public void filter(final ContainerRequestContext requestContext) throws IOException {

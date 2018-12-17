@@ -20,7 +20,7 @@ class LocalDateTimeAttributeConverterTest {
 	}
 
 	@Test
-	void testConvertToDatabaseColumn() {
+	public void testConvertToDatabaseColumn() {
 		final LocalDateTime ldt = LocalDateTime.of(2018, 8, 29, 14, 59);
 
 		final Timestamp converted = converter.convertToDatabaseColumn(ldt);
@@ -29,7 +29,7 @@ class LocalDateTimeAttributeConverterTest {
 	}
 
 	@Test
-	void testConvertToEntityAttribute() {
+	public void testConvertToEntityAttribute() {
 		final LocalDateTime ldt = LocalDateTime.of(2018, 8, 29, 14, 59);
 		final Timestamp time = Timestamp.valueOf(ldt);
 

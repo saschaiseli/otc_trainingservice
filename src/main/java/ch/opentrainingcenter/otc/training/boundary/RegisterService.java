@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RegisterService {
 
 	@Inject
-	AthleteRepository dao;
+	protected AthleteRepository dao;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)

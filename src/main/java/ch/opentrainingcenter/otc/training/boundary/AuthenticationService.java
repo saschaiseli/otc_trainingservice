@@ -30,11 +30,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthenticationService {
 	@Inject
-	AthleteRepository dao;
+	protected AthleteRepository dao;
 	@Inject
-	JWTService secret;
+	protected JWTService secret;
 	@Context
-	UriInfo uriInfo;
+	protected UriInfo uriInfo;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
