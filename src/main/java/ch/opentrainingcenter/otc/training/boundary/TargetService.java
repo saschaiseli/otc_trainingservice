@@ -39,7 +39,7 @@ public class TargetService {
 
 	@GET
 	public Response getTargets(@Context final HttpHeaders httpHeaders) {
-		final Integer athleteId = jwtService.getClaims(httpHeaders).get("id", Integer.class);
+		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("get targets from Athlete {}", athleteId);
 		final List<Target> targets = repository.findByAthlete(Long.valueOf(athleteId));
 		return Response.status(200).entity(targets).build();
@@ -47,13 +47,13 @@ public class TargetService {
 
 	@POST
 	public Response addTarget(@Context final HttpHeaders httpHeaders, final Map<String, String> datas) {
-		final Integer athleteId = jwtService.getClaims(httpHeaders).get("id", Integer.class);
+		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("add targets");
 		final Target target = new Target();
 		target.setAmount(Integer.valueOf(datas.get("amount")));
 		target.setDistance(Integer.valueOf(datas.get("distance")));
 		target.setDuration(Duration.valueOf(datas.get("duration")));
-		target.setTargetBegin(LocalDate.now());
+		target.setTargetBegin(LocalDate.parse(datas.get("targetBegin")));
 		repository.storeTarget(target, Long.valueOf(athleteId));
 		return Response.status(200).entity(target).build();
 	}

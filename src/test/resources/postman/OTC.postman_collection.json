@@ -284,7 +284,16 @@
 							"pm.test(jsonData.duration ,function() {",
 							"    pm.expect(jsonData.duration).equal('WEEK');",
 							"});",
-							""
+							"",
+							"pm.test(jsonData.targetBegin.year ,function() {",
+							"    pm.expect(jsonData.targetBegin.year).equal(2018);",
+							"});",
+							"pm.test(jsonData.targetBegin.month ,function() {",
+							"    pm.expect(jsonData.targetBegin.month).equal('DECEMBER');",
+							"});",
+							"pm.test(jsonData.targetBegin.dayOfMonth ,function() {",
+							"    pm.expect(jsonData.targetBegin.dayOfMonth).equal(24);",
+							"});"
 						],
 						"type": "text/javascript"
 					}
@@ -308,7 +317,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"amount\": \"42\",\n\t\"distance\": \"142\",\n\t\"duration\": \"WEEK\"\n}"
+					"raw": "{\n\t\"amount\": \"42\",\n\t\"distance\": \"142\",\n\t\"duration\": \"WEEK\",\n\t\"targetBegin\": \"2018-12-24\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
@@ -353,6 +362,16 @@
 							"pm.test(\"Duration vorhanden\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData[0].duration).to.eql('WEEK');",
+							"});",
+							"",
+							"pm.test(jsonData[0].targetBegin.year ,function() {",
+							"    pm.expect(jsonData[0].targetBegin.year).equal(2018);",
+							"});",
+							"pm.test(jsonData[0].targetBegin.month ,function() {",
+							"    pm.expect(jsonData[0].targetBegin.month).equal('DECEMBER');",
+							"});",
+							"pm.test(jsonData[0].targetBegin.dayOfMonth ,function() {",
+							"    pm.expect(jsonData[0].targetBegin.dayOfMonth).equal(24);",
 							"});",
 							"",
 							"pm.test(\"Anzahl Resultate\", function () {",

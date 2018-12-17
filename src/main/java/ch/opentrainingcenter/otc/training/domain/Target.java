@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,16 +30,15 @@ public class Target {
 	@SequenceGenerator(name = "TARGET_ID_SEQUENCE", sequenceName = "TARGET_ID_SEQUENCE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TARGET_ID_SEQUENCE")
 	private long id;
-
+	@NotNull
 	private LocalDate targetBegin;
-
+	@NotNull
 	private int amount;
-
+	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Duration duration;
-
+	@NotNull
 	private int distance;
-
 	@ManyToOne
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
 	private Athlete athlete;
