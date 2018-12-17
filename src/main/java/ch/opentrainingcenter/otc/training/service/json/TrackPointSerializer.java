@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TrackPointSerializer extends StdSerializer<Training> {
 
 	private static final long serialVersionUID = 1L;
-	private final Function<Tracktrainingproperty, BigDecimal> function;
+	private transient Function<Tracktrainingproperty, BigDecimal> function;
 	private final String name;
 
 	public TrackPointSerializer(final String name, final Function<Tracktrainingproperty, BigDecimal> function) {

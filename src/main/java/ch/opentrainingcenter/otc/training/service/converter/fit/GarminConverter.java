@@ -12,10 +12,11 @@ import ch.opentrainingcenter.otc.training.domain.raw.Training;
 @SessionScoped
 public class GarminConverter implements Serializable {
 
+	private static final String FIT = "fit";
 	private static final long serialVersionUID = 5169027790370807110L;
 
 	public String getFilePrefix() {
-		return "fit";
+		return FIT;
 	}
 
 	public Training convert(final InputStream inputStream) {

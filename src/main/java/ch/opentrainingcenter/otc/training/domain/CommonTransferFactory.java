@@ -25,13 +25,12 @@ public final class CommonTransferFactory {
 		return new Health(athlete, weight, cardio, dateofmeasure);
 	}
 
-	public static Training createTraining(final RunData runData, final HeartRate heart, final double maximumSpeed,
-			final String note, final Weather weather) {
-		return new Training(runData, heart, note, weather);
+	public static Training createTraining(final RunData runData, final HeartRate heart, final String note) {
+		return new Training(runData, heart, note);
 	}
 
 	public static Training createTraining(final RunData runData, final HeartRate heart) {
-		return new Training(runData, heart, "", null);
+		return new Training(runData, heart, "");
 	}
 
 	/**

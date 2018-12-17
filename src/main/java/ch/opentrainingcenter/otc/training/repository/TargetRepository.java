@@ -32,10 +32,7 @@ public class TargetRepository extends RepositoryServiceBean<Target> {
 	public void storeTargets(final List<Target> targets, final Long athleteId) {
 		log.info("Store Target for athlete {}", athleteId);
 		final Athlete athlete = em.find(Athlete.class, athleteId);
-		targets.forEach(x -> athlete.addTarget(x));
-
-//		targets.forEach(x -> em.persist(x));
-
+		targets.forEach(athlete::addTarget);
 		em.persist(athlete);
 		log.info("Target stored for athlete {}", athleteId);
 	}

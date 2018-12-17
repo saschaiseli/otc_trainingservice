@@ -28,8 +28,8 @@ public class TrainingListener implements MesgListener {
 
 	private final List<Tracktrainingproperty> trackpoints = new ArrayList<>();
 	private final List<LapInfo> lapInfos = new ArrayList<>();
-	private SessionMesg session;
-	private LapInfo lap = null;
+	private SessionMesg sessionMesg;
+	private LapInfo lapInfo = null;
 	private int error = 0;
 	private int valid = 0;
 
@@ -39,7 +39,7 @@ public class TrainingListener implements MesgListener {
 		if (RECORD.equals(messageName)) {
 			trackpoints.add(convertTrackPoint(new RecordMesg(mesg)));
 		} else if (SESSION.equals(messageName)) {
-			session = new SessionMesg(mesg);
+			sessionMesg = new SessionMesg(mesg);
 		} else if (LAP.equals(messageName)) {
 			final LapMesg lapMesg = new LapMesg(mesg);
 			final int end = lapMesg.getTotalDistance().intValue();
@@ -48,16 +48,16 @@ public class TrainingListener implements MesgListener {
 			final int heartRate = lapMesg.getAvgHeartRate() != null ? lapMesg.getAvgHeartRate().shortValue() : 0;
 			final String pace = DistanceHelper.calculatePace(end, timeInSekunden, Sport.RUNNING);
 			final String speed = DistanceHelper.calculatePace(end, timeInSekunden, Sport.BIKING);
-			if (lap == null) {
+			if (lapInfo == null) {
 				// erste Runde
-				lap = CommonTransferFactory.createLapInfo(0, 0, end, timeInMillis, heartRate, pace, speed);
+				lapInfo = CommonTransferFactory.createLapInfo(0, 0, end, timeInMillis, heartRate, pace, speed);
 			} else {
-				final int lapNeu = lap.getLap() + 1;
-				final int startNeu = lap.getEnd();
-				lap = CommonTransferFactory.createLapInfo(lapNeu, startNeu, startNeu + end, timeInMillis, heartRate,
+				final int lapNeu = lapInfo.getLap() + 1;
+				final int startNeu = lapInfo.getEnd();
+				lapInfo = CommonTransferFactory.createLapInfo(lapNeu, startNeu, startNeu + end, timeInMillis, heartRate,
 						pace, speed);
 			}
-			lapInfos.add(lap);
+			lapInfos.add(lapInfo);
 		}
 	}
 
@@ -82,20 +82,20 @@ public class TrainingListener implements MesgListener {
 	}
 
 	public Training getTraining() {
-		final long dateOfStart = session.getStartTime().getDate().getTime();
-		final long timeInSeconds = session.getTotalTimerTime().longValue();
-		final long distanceInMeter = session.getTotalDistance().longValue();
-		final double maxSpeed = session.getMaxSpeed();
+		final long dateOfStart = sessionMesg.getStartTime().getDate().getTime();
+		final long timeInSeconds = sessionMesg.getTotalTimerTime().longValue();
+		final long distanceInMeter = sessionMesg.getTotalDistance().longValue();
+		final double maxSpeed = sessionMesg.getMaxSpeed();
 		final RunData runData = new RunData(new Date(dateOfStart), timeInSeconds, distanceInMeter, maxSpeed);
-		final int average = session.getAvgHeartRate() != null ? session.getAvgHeartRate().intValue() : -1;
-		final int max = session.getMaxHeartRate() != null ? session.getMaxHeartRate().intValue() : -1;
+		final int average = sessionMesg.getAvgHeartRate() != null ? sessionMesg.getAvgHeartRate().intValue() : -1;
+		final int max = sessionMesg.getMaxHeartRate() != null ? sessionMesg.getMaxHeartRate().intValue() : -1;
 		final HeartRate heart = new HeartRate(average, max);
 		final Training training = CommonTransferFactory.createTraining(runData, heart);
 		training.setTrackPoints(trackpoints);
 		training.setGeoJSON(convertGeoJSON(trackpoints));
-		training.setDownMeter(session.getTotalDescent() != null ? session.getTotalDescent() : 0);
-		training.setUpMeter(session.getTotalAscent() != null ? session.getTotalAscent() : 0);
-		final com.garmin.fit.Sport sport = session.getSport();
+		training.setDownMeter(sessionMesg.getTotalDescent() != null ? sessionMesg.getTotalDescent() : 0);
+		training.setUpMeter(sessionMesg.getTotalAscent() != null ? sessionMesg.getTotalAscent() : 0);
+		final com.garmin.fit.Sport sport = sessionMesg.getSport();
 		if (com.garmin.fit.Sport.RUNNING.equals(sport)) {
 			training.setSport(Sport.RUNNING);
 		} else if (com.garmin.fit.Sport.CYCLING.equals(sport)) {
@@ -103,11 +103,11 @@ public class TrainingListener implements MesgListener {
 		} else {
 			training.setSport(Sport.OTHER);
 		}
-		final Float totalTrainingEffect = session.getTotalTrainingEffect();
+		final Float totalTrainingEffect = sessionMesg.getTotalTrainingEffect();
 		if (totalTrainingEffect != null) {
 			training.setTrainingEffect((int) (10 * totalTrainingEffect.floatValue()));
 		}
-		final Float totalAnaerobicTrainingEffect = session.getTotalAnaerobicTrainingEffect();
+		final Float totalAnaerobicTrainingEffect = sessionMesg.getTotalAnaerobicTrainingEffect();
 		if (totalAnaerobicTrainingEffect != null) {
 			training.setAnaerobicTrainingEffect((int) (10 * totalAnaerobicTrainingEffect.floatValue()));
 		}
@@ -119,7 +119,7 @@ public class TrainingListener implements MesgListener {
 	}
 
 	private String convertGeoJSON(final List<Tracktrainingproperty> points) {
-		final StringBuffer str = new StringBuffer();
+		final StringBuilder str = new StringBuilder();
 		str.append(" { type\": \"LineString\",\"coordinates\": [");
 
 		final Iterator<Tracktrainingproperty> iterator = points.iterator();

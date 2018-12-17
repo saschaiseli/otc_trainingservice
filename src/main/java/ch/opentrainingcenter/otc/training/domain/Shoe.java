@@ -9,15 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@NamedQueries({ //
-		@NamedQuery(name = "Shoe.getShoesByAthlete", query = "SELECT s FROM SHOE s where s.athlete=:athlete") })
-
+@NamedQuery(name = "Shoe.getShoesByAthlete", query = "SELECT s FROM SHOE s where s.athlete=:athlete")
 @Entity(name = "SHOE")
 public class Shoe {
 

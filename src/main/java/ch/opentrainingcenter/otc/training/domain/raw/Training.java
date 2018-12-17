@@ -16,7 +16,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -27,12 +26,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.HeartRate;
 import ch.opentrainingcenter.otc.training.domain.TrainingType;
-import ch.opentrainingcenter.otc.training.domain.Weather;
 
-@NamedQueries({ //
-		@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc"), //
-		@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId"), //
-		@NamedQuery(name = "Training.existsFileByAthlete", query = "select t from TRAINING t where t.athlete.id=:athleteId AND t.fileName=:fileName") })
+@NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc")
+@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId")
+@NamedQuery(name = "Training.existsFileByAthlete", query = "select t from TRAINING t where t.athlete.id=:athleteId AND t.fileName=:fileName")
 @Cacheable
 @Entity(name = "TRAINING")
 public class Training {
@@ -88,7 +85,7 @@ public class Training {
 	public Training() {
 	}
 
-	public Training(final RunData runData, final HeartRate heart, final String remark, final Weather wetter) {
+	public Training(final RunData runData, final HeartRate heart, final String remark) {
 		id = runData.getDateOfStart().getTime();
 		dauer = runData.getTimeInSeconds();
 		laengeInMeter = runData.getDistanceInMeter();

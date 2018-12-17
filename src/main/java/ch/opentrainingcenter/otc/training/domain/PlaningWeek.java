@@ -8,7 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity(name = "PLANING_WEEK")
+@Data
+@NoArgsConstructor
 public class PlaningWeek {
 	@Id
 	@SequenceGenerator(name = "PLANING_WEEK_ID_SEQUENCE", sequenceName = "PLANING_WEEK_ID_SEQUENCE")
@@ -24,9 +29,6 @@ public class PlaningWeek {
 	private boolean hasInterval;
 	private Integer langerLauf;
 
-	public PlaningWeek() {
-	}
-
 	public PlaningWeek(final Athlete athlete, final Integer jahr, final Integer kw, final int kmprowoche,
 			final boolean hasInterval, final Integer langerlauf) {
 		this.athlete = athlete;
@@ -35,88 +37,6 @@ public class PlaningWeek {
 		this.kmprowoche = kmprowoche;
 		this.hasInterval = hasInterval;
 		langerLauf = langerlauf;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(final long id) {
-		this.id = id;
-	}
-
-	public Athlete getAthlete() {
-		return athlete;
-	}
-
-	public void setAthlete(final Athlete athlete) {
-		this.athlete = athlete;
-	}
-
-	public int getKw() {
-		return kw;
-	}
-
-	public void setKw(final Integer kw) {
-		this.kw = kw;
-	}
-
-	public int getJahr() {
-		return jahr;
-	}
-
-	public void setJahr(final Integer jahr) {
-		this.jahr = jahr;
-	}
-
-	public Integer getKmprowoche() {
-		return kmprowoche;
-	}
-
-	public void setKmprowoche(final Integer kmprowoche) {
-		this.kmprowoche = kmprowoche;
-	}
-
-	public Integer getLangerlauf() {
-		return langerLauf;
-	}
-
-	public void setLangerlauf(final Integer langerlauf) {
-		langerLauf = langerlauf;
-	}
-
-	public void setKw(final int kw) {
-		this.kw = kw;
-	}
-
-	public void setJahr(final int jahr) {
-		this.jahr = jahr;
-
-	}
-
-	public int getKmProWoche() {
-		return kmprowoche;
-	}
-
-	public void setKmProWoche(final int kmProWoche) {
-		kmprowoche = kmProWoche;
-	}
-
-	public boolean isInterval() {
-		return hasInterval;
-	}
-
-	public void setInterval(final boolean interval) {
-		this.hasInterval = interval;
-
-	}
-
-	public int getLangerLauf() {
-		return langerLauf;
-	}
-
-	public void setLangerLauf(final int langerLauf) {
-		this.langerLauf = langerLauf;
 	}
 
 }

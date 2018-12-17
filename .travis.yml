@@ -1,3 +1,6 @@
+addons:
+  sonarcloud:
+    organization: saschaiseli_otc_trainingservice
 language: java
 jdk:
  - oraclejdk8
@@ -5,3 +8,4 @@ install:
 - mvn test
 script:
 - mvn test
+- sonar-scanner

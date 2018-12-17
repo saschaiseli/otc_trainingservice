@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
@@ -18,9 +17,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NamedQueries({ //
-		@NamedQuery(name = "Target.findByAthlete", query = "SELECT t FROM TARGET t where t.athlete.id=:athleteId") })
-
+@NamedQuery(name = "Target.findByAthlete", query = "SELECT t FROM TARGET t where t.athlete.id=:athleteId")
 @Data
 @NoArgsConstructor
 @Entity(name = "TARGET")
