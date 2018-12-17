@@ -4,8 +4,8 @@ addons:
 language: java
 jdk:
  - oraclejdk8
- before_install:
- - mvn clean
+before_install:
+- mvn clean
 install:
 - mvn install
 script:
