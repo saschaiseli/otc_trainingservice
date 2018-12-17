@@ -9,4 +9,4 @@ before_install:
 install:
 - mvn install
 script:
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -DskipIntegrationTests=true
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar -DskipIntegrationTests=true
