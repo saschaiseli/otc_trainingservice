@@ -1,6 +1,7 @@
 addons:
   sonarcloud:
-    organization: saschaiseli_otc_trainingservice
+    organization: saschaiseli-github
+    projectKey: saschaiseli_otc_trainingservice
 language: java
 jdk:
  - oraclejdk8

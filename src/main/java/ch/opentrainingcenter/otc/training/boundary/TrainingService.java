@@ -42,7 +42,7 @@ public class TrainingService {
 		final Training training = dao.findFullTraining(trainingId);
 		log.info(training != null ? "Training found. ID {}" : "Training not found. ID {}", trainingId);
 		final TrainingDto dto = new TrainingDto(training);
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(dto).build();
+		return Response.status(200).entity(dto).build();
 	}
 
 	@DELETE
@@ -50,6 +50,6 @@ public class TrainingService {
 	public Response deleteTraining(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
 		log.info("delete Training. ID: {}", trainingId);
 		dao.remove(Training.class, trainingId);
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
+		return Response.status(200).build();
 	}
 }
