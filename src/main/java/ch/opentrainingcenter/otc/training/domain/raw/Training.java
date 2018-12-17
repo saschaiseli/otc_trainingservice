@@ -64,10 +64,10 @@ public class Training {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<LapInfo> lapInfos = new ArrayList<>();
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private Sport sport;
 
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private TrainingType trainingType;
 
 	@Column(name = "GEO_QUALITY")
