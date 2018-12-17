@@ -38,7 +38,7 @@ public final class TrainingCreator {
 
 		final Training training = service.convert(new FileInputStream(file));
 		training.setFileName(TestConfig.FIT_FILE);
-		final Athlete athlete = CommonTransferFactory.createAthlete("first name", "last name",
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name",
 				"test@opentrainingcenter.ch", "abc");
 		athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
 		training.setAthlete(athlete);

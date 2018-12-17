@@ -86,9 +86,9 @@ public final class CommonTransferFactory {
 		return shoe;
 	}
 
-	public static Athlete createAthlete(final String firstName, final String lastName, final String email,
-			final String password) {
-		return new Athlete(firstName, lastName, email, password);
+	public static Athlete createAthleteHashedPass(final String firstName, final String lastName, final String email,
+			final String hashedPassword) {
+		return new Athlete(firstName, lastName, email, hashedPassword);
 	}
 
 }

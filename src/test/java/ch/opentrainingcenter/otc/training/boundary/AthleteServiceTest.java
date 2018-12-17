@@ -40,7 +40,7 @@ class AthleteServiceTest {
 	@Test
 	void testGetAthlete() {
 		// Given
-		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email, password);
 		final long athleteId = 42L;
 		athlete.setId(athleteId);
 
@@ -61,7 +61,7 @@ class AthleteServiceTest {
 	@Test
 	void testDeleteAthlete() {
 		// Given
-		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email, password);
 		final long athleteId = 42L;
 		athlete.setId(athleteId);
 

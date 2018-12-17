@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import ch.opentrainingcenter.otc.training.boundary.security.BCryptService;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
@@ -36,12 +37,13 @@ class RegisterServiceTest {
 		MockitoAnnotations.initMocks(this);
 		service = new RegisterService();
 		service.dao = dao;
+		service.cryptService = new BCryptService();
 	}
 
 	@Test
-	void testRegister() {
+	public void testRegisterWithHashedPassword() {
 		// Given
-		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email, password);
 		Mockito.when(dao.doSave(athlete)).thenReturn(athlete);
 
 		final Map<String, String> datas = new HashMap<>();
@@ -50,7 +52,7 @@ class RegisterServiceTest {
 		datas.put("username", email);
 		datas.put("password", password);
 		// When
-		final Response response = service.register(datas);
+		final Response response = service.registerWithHashedPassword(firstName, lastName, email, password);
 
 		// Then
 		Mockito.verify(dao).doSave(athlete);

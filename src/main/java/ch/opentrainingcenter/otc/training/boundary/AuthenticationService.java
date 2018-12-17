@@ -19,6 +19,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.http.HttpStatus;
 
+import ch.opentrainingcenter.otc.training.boundary.security.BCryptService;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
@@ -35,6 +36,8 @@ public class AuthenticationService {
 	protected JWTService secret;
 	@Context
 	protected UriInfo uriInfo;
+	@Inject
+	protected BCryptService cryptService;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -42,7 +45,10 @@ public class AuthenticationService {
 	public Response authenticate(final Map<String, String> datas) {
 		try {
 			final String email = datas.get("username");
-			final Athlete athlete = dao.authenticate(email, datas.get("password"));
+			final String plainPassword = datas.get("password");
+			final Athlete athlete = dao.findByEmail(email);
+			cryptService.checkPassword(plainPassword, athlete.getPassword());
+
 			log.info("Athlete {} authenticated", email);
 
 			// Issue a token for the user
@@ -58,7 +64,6 @@ public class AuthenticationService {
 		} catch (final Exception e) {
 			return Response.status(HttpStatus.SC_UNAUTHORIZED).entity("ausser spesen nix gewesen").build();
 		}
-
 	}
 
 	private String issueToken(final Athlete athlete) {

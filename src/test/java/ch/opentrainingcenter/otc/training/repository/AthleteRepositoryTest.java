@@ -4,7 +4,6 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import javax.persistence.EntityManager;
@@ -86,18 +85,5 @@ public class AthleteRepositoryTest {
 		repository.find(Athlete.class, 42L);
 
 		verify(em).find(Athlete.class, 42L);
-	}
-
-	@Test
-	public void testAuthenticate() {
-		final String password = "secret";
-		when(em.createNamedQuery("Athlete.authenticate", Athlete.class)).thenReturn(tq);
-
-		repository.authenticate(EMAIL, password);
-
-		verify(tq).setParameter("email", EMAIL);
-		verify(tq).setParameter("password", password);
-		verify(tq).getSingleResult();
-		verifyNoMoreInteractions(tq);
 	}
 }

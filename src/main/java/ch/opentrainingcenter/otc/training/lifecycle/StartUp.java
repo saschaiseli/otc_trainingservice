@@ -20,7 +20,7 @@ public class StartUp {
 	void init() {
 		final Athlete athlete = repo.findByEmail("sascha.iseli@gmx.ch");
 		if (athlete == null) {
-			final Athlete a = CommonTransferFactory.createAthlete("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
+			final Athlete a = CommonTransferFactory.createAthleteHashedPass("sascha", "iseli", "sascha.iseli@gmx.ch", "secret");
 			a.setId(0);
 			repo.doSave(a);
 		}

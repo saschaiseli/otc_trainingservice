@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ch.opentrainingcenter.otc.training.boundary.security.BCryptService;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
@@ -23,6 +24,8 @@ public class RegisterService {
 
 	@Inject
 	protected AthleteRepository dao;
+	@Inject
+	protected BCryptService cryptService;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -31,13 +34,19 @@ public class RegisterService {
 		final String firstName = datas.get("firstName");
 		final String lastName = datas.get("lastName");
 		final String email = datas.get("username");
-		final String password = datas.get("password");
+		final String hashed = cryptService.hashPassword(datas.get("password"));
+		return registerWithHashedPassword(firstName, lastName, email, hashed);
+	}
+
+	protected Response registerWithHashedPassword(final String firstName, final String lastName, final String email,
+			final String hashed) {
 		log.info("Create Athlete with {}, {}, {}", firstName, lastName, email);
-		Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
+		Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email, hashed);
 		log.info("Create Athlete {}", athlete);
 		athlete = dao.doSave(athlete);
 		log.info("Athlete {} created in DB", athlete);
 
 		return Response.status(200).entity(athlete).build();
 	}
+
 }

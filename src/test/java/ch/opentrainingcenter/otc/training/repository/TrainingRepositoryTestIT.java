@@ -74,7 +74,7 @@ public class TrainingRepositoryTestIT {
 		final File jsonTraining = new File(TestConfig.FOLDER + "/training.json");
 
 		training = objectMapper.readValue(jsonTraining, Training.class);
-		athlete = CommonTransferFactory.createAthlete("first name", "last name", EMAIL, "abc");
+		athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name", EMAIL, "abc");
 		athlete = repository.doSave(athlete);
 		training.setDateOfImport(new Date());
 		training.setAthlete(athlete);

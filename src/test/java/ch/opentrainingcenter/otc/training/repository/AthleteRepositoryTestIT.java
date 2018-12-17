@@ -56,7 +56,7 @@ public class AthleteRepositoryTestIT {
 
 	@Before
 	public void setUp() {
-		final Athlete athlete = CommonTransferFactory.createAthlete("first name", "last name", EMAIL, "abc");
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name", EMAIL, "abc");
 		athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
 		repository.doSave(athlete);
 	}

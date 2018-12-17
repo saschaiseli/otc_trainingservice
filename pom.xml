@@ -56,6 +56,12 @@
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.3m</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
@@ -223,8 +229,8 @@
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>3.0.0-M1</version>
 				<configuration>
-                    <skipITs>${skipIntegrationTests}</skipITs>
-                </configuration>
+					<skipITs>${skipIntegrationTests}</skipITs>
+				</configuration>
 				<executions>
 					<execution>
 						<id>integration-test</id>
