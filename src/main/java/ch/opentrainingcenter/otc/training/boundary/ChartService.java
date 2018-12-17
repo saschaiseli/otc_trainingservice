@@ -10,10 +10,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,31 +32,28 @@ import lombok.extern.slf4j.Slf4j;
 @JWTTokenNeeded
 public class ChartService {
 	@Inject
-	private TrainingRepository dao;
-
-	@Context
-	private UriInfo uriInfo;
+	TrainingRepository repo;
 
 	@GET
 	@Path("/heart/{trainingId}")
-	public Response getTrainingById(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
+	public Response getHeartById(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
 		log.info("get heart Track Point Chart for Training {}", trainingId);
-		final Training training = dao.findFullTraining(trainingId);
+		final Training training = repo.findFullTraining(trainingId);
 		log.debug("Found training by id {}", trainingId);
 
 		final String heart = extractValue(training, "Herzfrequenz", x -> BigDecimal.valueOf(x.getHeartBeat()));
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(heart).build();
+		return Response.status(200).entity(heart).build();
 	}
 
 	@GET
 	@Path("/altitude/{trainingId}")
 	public Response getAltitudeById(@PathParam("trainingId") final long trainingId) throws JsonProcessingException {
 		log.info("get altitude Track Point Chart for Training {}", trainingId);
-		final Training training = dao.findFullTraining(trainingId);
+		final Training training = repo.findFullTraining(trainingId);
 		log.info("Found {} training by id {}", training, trainingId);
 
 		final String alt = extractValue(training, "Höhenmeter", x -> BigDecimal.valueOf(x.getAltitude()));
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(alt).build();
+		return Response.status(200).entity(alt).build();
 	}
 
 	private String extractValue(final Training training, final String name,

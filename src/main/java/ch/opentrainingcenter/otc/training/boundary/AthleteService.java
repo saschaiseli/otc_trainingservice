@@ -27,20 +27,21 @@ import lombok.extern.slf4j.Slf4j;
 public class AthleteService {
 
 	@Inject
-	private AthleteRepository dao;
+	AthleteRepository dao;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response createAthlete(@FormParam("firstName") final String firstName,
-			@FormParam("lastName") final String lastName, @FormParam("email") final String email) {
+			@FormParam("lastName") final String lastName, @FormParam("email") final String email,
+			@FormParam("password") final String password) {
 		log.info("Create Athlete with {}, {}, {}", firstName, lastName, email);
-		Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, "password");
+		Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
 		log.info("Create Athlete {}", athlete);
 		athlete = dao.doSave(athlete);
 		log.info("Athlete {} created in DB", athlete);
 
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(athlete).build();
+		return Response.status(200).entity(athlete).build();
 	}
 
 	@GET
@@ -52,7 +53,7 @@ public class AthleteService {
 		log.info("getAthlete with id {}", athleteId);
 		final Athlete athlete = dao.find(Athlete.class, athleteId);
 		log.info("athlete found: {}", athlete != null);
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").entity(athlete).build();
+		return Response.status(200).entity(athlete).build();
 	}
 
 	@DELETE
@@ -65,6 +66,6 @@ public class AthleteService {
 		dao.remove(Athlete.class, athleteId);
 		log.info("Athlete with id {} deleted in DB", athleteId);
 
-		return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
+		return Response.status(200).build();
 	}
 }

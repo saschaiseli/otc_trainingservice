@@ -30,17 +30,16 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AuthenticationService {
 	@Inject
-	private AthleteRepository dao;
+	AthleteRepository dao;
 	@Inject
-	private JWTService secret;
-
+	JWTService secret;
 	@Context
-	private UriInfo uriInfo;
+	UriInfo uriInfo;
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response authenticate(final HashMap<String, String> datas) {
+	public Response authenticate(final Map<String, String> datas) {
 		try {
 			final String email = datas.get("username");
 			final Athlete athlete = dao.authenticate(email, datas.get("password"));

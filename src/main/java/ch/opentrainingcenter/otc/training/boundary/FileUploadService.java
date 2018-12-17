@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
@@ -38,29 +37,15 @@ import lombok.extern.slf4j.Slf4j;
 @JWTTokenNeeded
 public class FileUploadService {
 
-	public FileUploadService() {
-	}
-
 	@Inject
 	@Created
-	private Event<TrainingEvent> newTrainingEvent;
+	Event<TrainingEvent> newTrainingEvent;
 	@Inject
 	JWTService jwtService;
 	@Context
-	private UriInfo context;
-	/**
-	 * Returns text response to caller containing uploaded file location
-	 *
-	 * @return error response in case of missing parameters an internal exception or
-	 *         success response if file has been stored successfully
-	 */
+	UriInfo context;
 	@Inject
-	private GarminConverter garminConverter;
-
-	@GET
-	public Response doGet() {
-		return Response.status(200).entity("doGet ").build();
-	}
+	GarminConverter garminConverter;
 
 	@POST
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -85,17 +70,13 @@ public class FileUploadService {
 		newTrainingEvent.fire(new TrainingEvent(training, email));
 		final String json = createResult(training);
 		log.info("File {} successfully uploaded and event fired", fileName);
-		return Response.status(200).header("Access-Control-Allow-Origin", "*") //
-				.header("Access-Control-Allow-Methods", "POST, GET, PUT, OPTIONS, DELETE")
-				.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")//
-				.entity(json).build();
+		return Response.status(200).entity(json).build();
 
 	}
 
 	private String createResult(final Training training) throws JsonProcessingException {
 		final ObjectMapper mapper = new ObjectMapper();
-		final String json = mapper.writeValueAsString(new SimpleTraining(training));
-		return json;
+		return mapper.writeValueAsString(new SimpleTraining(training));
 	}
 
 	private String getFileName(final MultivaluedMap<String, String> header) {
