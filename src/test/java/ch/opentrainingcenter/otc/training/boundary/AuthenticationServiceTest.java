@@ -56,7 +56,7 @@ class AuthenticationServiceTest {
 		// Given
 		final HashMap<String, String> datas = new HashMap<>();
 		datas.put("username", "newUser");
-		datas.put("password", "secret");
+		datas.put("password", "password");
 		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email,
 				hashedPassword);
 		Mockito.when(dao.findByEmail(datas.get("username"))).thenReturn(athlete);
@@ -78,7 +78,7 @@ class AuthenticationServiceTest {
 		// Given
 		final HashMap<String, String> datas = new HashMap<>();
 		datas.put("username", "newUser");
-		datas.put("password", "secret");
+		datas.put("password", "password");
 		Mockito.when(dao.findByEmail(datas.get("username"))).thenReturn(null);
 		Mockito.when(uriInfo.getAbsolutePath()).thenReturn(new URI("http://localhost:8080"));
 
@@ -92,7 +92,28 @@ class AuthenticationServiceTest {
 	}
 
 	@Test
-	void testAuthenticateFailedUserFound() throws URISyntaxException {
+	void testAuthenticateFailedUserFoundPwHashedInDB() throws URISyntaxException {
+		// Given
+		final HashMap<String, String> datas = new HashMap<>();
+		datas.put("username", "newUser");
+		datas.put("password", "WRONG_password");
+		final Athlete athlete = CommonTransferFactory.createAthleteHashedPass(firstName, lastName, email,
+				hashedPassword);
+
+		Mockito.when(dao.findByEmail(datas.get("username"))).thenReturn(athlete);
+		Mockito.when(uriInfo.getAbsolutePath()).thenReturn(new URI("http://localhost:8080"));
+
+		// When
+		final Response response = service.authenticate(datas);
+
+		// Then
+		Mockito.verify(dao).findByEmail(datas.get("username"));
+		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_UNAUTHORIZED)));
+		assertThat(response.getHeaders().get(HttpHeaders.AUTHORIZATION), Matchers.nullValue());
+	}
+
+	@Test
+	void testAuthenticateFailedUserFoundPwNotHashedInDB() throws URISyntaxException {
 		// Given
 		final HashMap<String, String> datas = new HashMap<>();
 		datas.put("username", "newUser");

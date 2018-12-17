@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -47,7 +48,10 @@ public class AuthenticationService {
 			final String email = datas.get("username");
 			final String plainPassword = datas.get("password");
 			final Athlete athlete = dao.findByEmail(email);
-			cryptService.checkPassword(plainPassword, athlete.getPassword());
+
+			if (!cryptService.checkPassword(plainPassword, athlete.getPassword())) {
+				throw new NotAuthorizedException("Wrong Password");
+			}
 
 			log.info("Athlete {} authenticated", email);
 

@@ -7,12 +7,8 @@ import org.mindrot.jbcrypt.BCrypt;
 @Stateless
 public class BCryptService {
 
-	public String hashPassword(final String plainTextPassword, final String salt) {
-		return BCrypt.hashpw(plainTextPassword, salt);
-	}
-
 	public String hashPassword(final String plainTextPassword) {
-		return hashPassword(plainTextPassword, BCrypt.gensalt());
+		return BCrypt.hashpw(plainTextPassword, BCrypt.gensalt());
 	}
 
 	public boolean checkPassword(final String plainPassword, final String hashedPassword) {

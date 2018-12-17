@@ -16,8 +16,6 @@
 							"var jsonData = JSON.parse(responseBody);",
 							"postman.setEnvironmentVariable(\"athleteId\", jsonData.id);",
 							"postman.setEnvironmentVariable(\"email\", jsonData.email);",
-							"postman.setEnvironmentVariable(\"password\", jsonData.password);",
-							"",
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});"
@@ -38,7 +36,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"firstName\": \"test\", \"lastName\": \"test\", \"username\": \"postman@email.ch\", \"password\": \"secret\"}"
+					"raw": "{\"firstName\": \"test\", \"lastName\": \"test\", \"username\": \"postman@email.ch\", \"password\": \"{{PASSWORD}}\"}"
 				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/users/register",
@@ -133,7 +131,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"username\": \"{{email}}\",\n\t\"password\": \"{{password}}\"\n}"
+					"raw": "{\n\t\"username\": \"{{email}}\",\n\t\"password\": \"{{PASSWORD}}\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/users/authenticate",
