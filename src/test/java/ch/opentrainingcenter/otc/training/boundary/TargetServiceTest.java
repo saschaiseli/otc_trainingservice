@@ -91,7 +91,6 @@ class TargetServiceTest {
 		verify(repository).storeTarget(target, athleteId);
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
 		assertThat(response.getHeaders(), equalTo(Collections.EMPTY_MAP));
-
 	}
 
 }
