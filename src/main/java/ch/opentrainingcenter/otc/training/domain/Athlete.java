@@ -1,9 +1,9 @@
 package ch.opentrainingcenter.otc.training.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -62,21 +62,24 @@ public class Athlete {
 	@Column
 	private LocalDateTime lastLogin;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private Set<Health> healths = new HashSet<>();
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+//	private Set<Health> healths = new HashSet<>();
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private Set<Training> trainings = new HashSet<>();
+	private List<Training> trainings = new ArrayList<>();
 
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+//	private Set<PlaningWeek> planungwoches = new HashSet<>();
+//
+//	@JsonIgnore
+//	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+//	private Set<Shoe> shoes = new HashSet<>();
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private Set<PlaningWeek> planungwoches = new HashSet<>();
-
-	@JsonIgnore
-	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private Set<Shoe> shoes = new HashSet<>();
+	private List<Target> targets = new ArrayList<>();
 
 	@Transient
 	private String token;
@@ -94,4 +97,23 @@ public class Athlete {
 				+ "]";
 	}
 
+	public void addTarget(final Target target) {
+		targets.add(target);
+		target.setAthlete(this);
+	}
+
+	public void removeTarget(final Target target) {
+		targets.remove(target);
+		target.setAthlete(null);
+	}
+
+	public void addTraining(final Training training) {
+		trainings.add(training);
+		training.setAthlete(this);
+	}
+
+	public void removeTraining(final Training training) {
+		trainings.remove(training);
+		training.setAthlete(null);
+	}
 }

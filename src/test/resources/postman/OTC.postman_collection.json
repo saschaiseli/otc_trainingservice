@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "2d38c9f5-bce6-4770-9294-28b89752d63c",
+		"_postman_id": "034e86b9-f3c8-4f50-a5d4-937678cbebac",
 		"name": "OTC",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -73,13 +73,13 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/athlete/{{athleteId}}",
 					"protocol": "http",
@@ -114,7 +114,7 @@
 							"});",
 							"",
 							"pm.test(\"Authorization is present\", function () {",
-    						"  pm.response.to.have.header(\"Authorization\");",
+							"  pm.response.to.have.header(\"Authorization\");",
 							"});"
 						],
 						"type": "text/javascript"
@@ -177,20 +177,20 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
 				"method": "GET",
 				"header": [
-				{
+					{
 						"key": "Authorization",
 						"name": "Authorization",
 						"value": "{{token}}",
 						"type": "Bearer"
 					}
 				],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/athlete/{{athleteId}}",
 					"protocol": "http",
@@ -203,6 +203,192 @@
 						"api",
 						"athlete",
 						"{{athleteId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTargets",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "208d40dd-1c42-403d-a3d6-2dfe79b38a13",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Body is correct\", function () {",
+							"    pm.response.to.have.body(\"[]\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "Bearer",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"targets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTarget",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "208d40dd-1c42-403d-a3d6-2dfe79b38a13",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(jsonData.amount ,function() {",
+							"    pm.expect(jsonData.amount).equal(42);",
+							"});",
+							"",
+							"pm.test(jsonData.distance ,function() {",
+							"    pm.expect(jsonData.distance).equal(142);",
+							"});",
+							"",
+							"pm.test(jsonData.duration ,function() {",
+							"    pm.expect(jsonData.duration).equal('WEEK');",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "Bearer",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"amount\": \"42\",\n\t\"distance\": \"142\",\n\t\"duration\": \"WEEK\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"targets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTargets after add",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "208d40dd-1c42-403d-a3d6-2dfe79b38a13",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Amount vorhanden\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].amount).to.eql(42);",
+							"});",
+							"",
+							"pm.test(\"Distanz vorhanden\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].distance).to.eql(142);",
+							"});",
+							"",
+							"pm.test(\"Duration vorhanden\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].duration).to.eql('WEEK');",
+							"});",
+							"",
+							"pm.test(\"Anzahl Resultate\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eql(1);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "Bearer",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"targets"
 					]
 				}
 			},
@@ -227,7 +413,7 @@
 			"request": {
 				"method": "DELETE",
 				"header": [
-				{
+					{
 						"key": "Authorization",
 						"name": "Authorization",
 						"value": "{{token}}",
