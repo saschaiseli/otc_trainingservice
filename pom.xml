@@ -17,7 +17,7 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<docker.image.prefix>iselisa</docker.image.prefix>
-		<version.garmin>16.60.0</version.garmin>
+		<version.garmin>20.78.00</version.garmin>
 		<version.joda>2.9.2</version.joda>
 		<version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
 	</properties>
@@ -93,8 +93,6 @@
 			<groupId>garmin.com</groupId>
 			<artifactId>fit-sdk</artifactId>
 			<version>${version.garmin}</version>
-			<scope>system</scope>
-			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/fit_20.78.00.jar</systemPath>
 		</dependency>
 		<!-- ################### TEST #################### -->
 		<dependency>
@@ -224,6 +222,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>3.0.0-M1</version>
+				<configuration>
+                    <skipITs>${skipIntegrationTests}</skipITs>
+                </configuration>
 				<executions>
 					<execution>
 						<id>integration-test</id>
@@ -246,9 +247,7 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.2</version>
 				<configuration>
-				<!--
-					<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
-					-->
+					<!-- <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory> -->
 					<excludes>
 						<exclude>**/ch/opentrainingcenter/otc/training/domain/**/*</exclude>
 						<exclude>**/*Test*.*</exclude>
@@ -287,6 +286,30 @@
 				<configuration>
 					<repoToken>AwdDpLjeRlIZtSP4vwyGMofBMc9pDYuxn</repoToken>
 				</configuration>
+			</plugin>
+			<!-- ########################### -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.5.2</version>
+				<executions>
+					<execution>
+						<id>install-external</id>
+						<phase>clean</phase>
+						<configuration>
+							<file>${basedir}/src/main/webapp/WEB-INF/lib/fit_20.78.00.jar</file>
+							<repositoryLayout>default</repositoryLayout>
+							<groupId>garmin.com</groupId>
+							<artifactId>fit-sdk</artifactId>
+							<version>${version.garmin}</version>
+							<packaging>jar</packaging>
+							<generatePom>true</generatePom>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
