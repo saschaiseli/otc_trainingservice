@@ -28,7 +28,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @NamedQuery(name = "Athlete.findByEmail", query = "SELECT a FROM ATHLETE a where a.email=:email")
-@NamedQuery(name = "Athlete.authenticate", query = "SELECT a FROM ATHLETE a where a.email=:email AND a.password=:password")
+@NamedQuery(name = "Athlete.authenticate", query = "SELECT a FROM ATHLETE a where a.email=:email AND a.pwd=:pwd")
 @Entity(name = "ATHLETE")
 @Data
 @NoArgsConstructor
@@ -51,7 +51,7 @@ public class Athlete {
 	@ToString.Include
 	private String email;
 	@Column(nullable = false)
-	private String password;
+	private String pwd;
 	@Temporal(TemporalType.DATE)
 	private Date birthday;
 
@@ -75,11 +75,11 @@ public class Athlete {
 	@Transient
 	private String token;
 
-	public Athlete(final String firstName, final String lastName, final String email, final String password) {
+	public Athlete(final String firstName, final String lastName, final String email, final String pwd) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.password = password;
+		this.pwd = pwd;
 	}
 
 	public void addTarget(final Target target) {
