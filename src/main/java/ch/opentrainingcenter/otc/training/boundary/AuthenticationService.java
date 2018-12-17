@@ -42,7 +42,7 @@ public class AuthenticationService {
 	public Response authenticate(final Map<String, String> datas) {
 		try {
 			final String email = datas.get("username");
-			final Athlete athlete = dao.authenticate(email, datas.get("pwd"));
+			final Athlete athlete = dao.authenticate(email, datas.get("password"));
 			log.info("Athlete {} authenticated", email);
 
 			// Issue a token for the user
@@ -56,7 +56,7 @@ public class AuthenticationService {
 			return Response.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + token).entity(athlete).build();
 
 		} catch (final Exception e) {
-			return Response.status(HttpStatus.SC_UNAUTHORIZED).build();
+			return Response.status(HttpStatus.SC_UNAUTHORIZED).entity("ausser spesen nix gewesen").build();
 		}
 
 	}

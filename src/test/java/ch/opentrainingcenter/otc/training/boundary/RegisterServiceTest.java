@@ -48,7 +48,7 @@ class RegisterServiceTest {
 		datas.put("firstName", firstName);
 		datas.put("lastName", lastName);
 		datas.put("username", email);
-		datas.put("pwd", password);
+		datas.put("password", password);
 		// When
 		final Response response = service.register(datas);
 

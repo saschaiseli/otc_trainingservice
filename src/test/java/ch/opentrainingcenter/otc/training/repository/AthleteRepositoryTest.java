@@ -96,7 +96,7 @@ public class AthleteRepositoryTest {
 		repository.authenticate(EMAIL, password);
 
 		verify(tq).setParameter("email", EMAIL);
-		verify(tq).setParameter("pwd", password);
+		verify(tq).setParameter("password", password);
 		verify(tq).getSingleResult();
 		verifyNoMoreInteractions(tq);
 	}
