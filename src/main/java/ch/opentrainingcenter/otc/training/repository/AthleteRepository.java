@@ -27,10 +27,10 @@ public class AthleteRepository extends RepositoryServiceBean<Athlete> {
 		return result;
 	}
 
-	public Athlete authenticate(final String email, final String password) {
+	public Athlete authenticate(final String email, final String pwd) {
 		final TypedQuery<Athlete> query = em.createNamedQuery("Athlete.authenticate", Athlete.class);
 		query.setParameter("email", email);
-		query.setParameter("password", password);
+		query.setParameter("pwd", pwd);
 		return query.getSingleResult();
 	}
 

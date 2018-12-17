@@ -31,7 +31,7 @@ public class RegisterService {
 		final String firstName = datas.get("firstName");
 		final String lastName = datas.get("lastName");
 		final String email = datas.get("username");
-		final String password = datas.get("password");
+		final String password = datas.get("pwd");
 		log.info("Create Athlete with {}, {}, {}", firstName, lastName, email);
 		Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
 		log.info("Create Athlete {}", athlete);

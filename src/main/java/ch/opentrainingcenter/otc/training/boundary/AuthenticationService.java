@@ -42,7 +42,7 @@ public class AuthenticationService {
 	public Response authenticate(final Map<String, String> datas) {
 		try {
 			final String email = datas.get("username");
-			final Athlete athlete = dao.authenticate(email, datas.get("password"));
+			final Athlete athlete = dao.authenticate(email, datas.get("pwd"));
 			log.info("Athlete {} authenticated", email);
 
 			// Issue a token for the user

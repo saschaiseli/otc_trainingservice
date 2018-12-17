@@ -52,16 +52,16 @@ class AuthenticationServiceTest {
 		// Given
 		final HashMap<String, String> datas = new HashMap<>();
 		datas.put("username", "newUser");
-		datas.put("password", "secret");
+		datas.put("pwd", "secret");
 		final Athlete athlete = CommonTransferFactory.createAthlete(firstName, lastName, email, password);
-		Mockito.when(dao.authenticate(datas.get("username"), datas.get("password"))).thenReturn(athlete);
+		Mockito.when(dao.authenticate(datas.get("username"), datas.get("pwd"))).thenReturn(athlete);
 		Mockito.when(uriInfo.getAbsolutePath()).thenReturn(new URI("http://localhost:8080"));
 
 		// When
 		final Response response = service.authenticate(datas);
 
 		// Then
-		Mockito.verify(dao).authenticate(datas.get("username"), datas.get("password"));
+		Mockito.verify(dao).authenticate(datas.get("username"), datas.get("pwd"));
 		Mockito.verify(dao).update(athlete);
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
 		assertThat(response.getHeaders().get(HttpHeaders.AUTHORIZATION), Matchers.notNullValue());
@@ -73,15 +73,15 @@ class AuthenticationServiceTest {
 		// Given
 		final HashMap<String, String> datas = new HashMap<>();
 		datas.put("username", "newUser");
-		datas.put("password", "secret");
-		Mockito.when(dao.authenticate(datas.get("username"), datas.get("password"))).thenReturn(null);
+		datas.put("pwd", "secret");
+		Mockito.when(dao.authenticate(datas.get("username"), datas.get("pwd"))).thenReturn(null);
 		Mockito.when(uriInfo.getAbsolutePath()).thenReturn(new URI("http://localhost:8080"));
 
 		// When
 		final Response response = service.authenticate(datas);
 
 		// Then
-		Mockito.verify(dao).authenticate(datas.get("username"), datas.get("password"));
+		Mockito.verify(dao).authenticate(datas.get("username"), datas.get("pwd"));
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_UNAUTHORIZED)));
 		assertThat(response.getHeaders().get(HttpHeaders.AUTHORIZATION), Matchers.nullValue());
 	}
