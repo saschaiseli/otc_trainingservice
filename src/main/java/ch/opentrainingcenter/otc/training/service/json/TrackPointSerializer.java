@@ -40,7 +40,7 @@ public class TrackPointSerializer extends StdSerializer<Training> {
 		t.getTrackPoints().forEach(x -> {
 			try {
 				gen.writeStartObject();
-				gen.writeNumberField("name", Double.valueOf(x.getDistance()).intValue());
+				gen.writeNumberField("name", (int) x.getDistance());
 				gen.writeNumberField("value", function.apply(x));
 				gen.writeEndObject();
 			} catch (final IOException e) {

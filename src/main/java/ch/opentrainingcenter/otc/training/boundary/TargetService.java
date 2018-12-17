@@ -41,7 +41,7 @@ public class TargetService {
 	public Response getTargets(@Context final HttpHeaders httpHeaders) {
 		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("get targets from Athlete {}", athleteId);
-		final List<Target> targets = repository.findByAthlete(Long.valueOf(athleteId));
+		final List<Target> targets = repository.findByAthlete(athleteId);
 		return Response.status(200).entity(targets).build();
 	}
 
@@ -54,7 +54,7 @@ public class TargetService {
 		target.setDistance(Integer.valueOf(datas.get("distance")));
 		target.setDuration(Duration.valueOf(datas.get("duration")));
 		target.setTargetBegin(LocalDate.parse(datas.get("targetBegin")));
-		repository.storeTarget(target, Long.valueOf(athleteId));
+		repository.storeTarget(target, athleteId);
 		return Response.status(200).entity(target).build();
 	}
 

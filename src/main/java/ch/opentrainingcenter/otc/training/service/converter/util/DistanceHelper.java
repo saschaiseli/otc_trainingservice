@@ -83,7 +83,7 @@ public final class DistanceHelper {
 	 * @return min/km im format MM:SS
 	 */
 	public static String calculatePace(final double distanceInMeter, final double timeInSeconds) {
-		final double timeInSecondsRounded = Math.round(timeInSeconds * 1000) / 1000;
+		final double timeInSecondsRounded = Math.round(timeInSeconds * 1000) / 1000d;
 		final double km = distanceInMeter / KILOMETER_IN_METER;
 		final double min = timeInSecondsRounded / MINUTE_IN_SEKUNDEN;
 		// min = Math.round(min * 1000) / 1000;

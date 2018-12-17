@@ -187,7 +187,7 @@ public final class TimeHelper {
 	 * 2013 00:00:00 zurück.
 	 */
 	public static LocalDateTime getFirstDayOfWeek(final LocalDateTime now) {
-		LocalDateTime result = now.minusDays(now.getDayOfWeek().getValue() - 1);
+		LocalDateTime result = now.minusDays(now.getDayOfWeek().getValue() - 1L);
 		result = result.minusHours(now.getHour());
 		result = result.minusMinutes(now.getMinute());
 		result = result.minusSeconds(now.getSecond());
