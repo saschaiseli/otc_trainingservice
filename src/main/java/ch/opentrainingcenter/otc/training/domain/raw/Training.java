@@ -261,12 +261,4 @@ public class Training {
 	public String getGeoJSON() {
 		return geoJson;
 	}
-
-	@Override
-	public String toString() {
-		return "Training [dateOfStart=" + new Date(id) + ", dauer=" + dauer + ", laengeInMeter=" + laengeInMeter
-				+ ", averageHeartBeat=" + averageHeartBeat + ", maxHeartBeat=" + maxHeartBeat + ", maxSpeed=" + maxSpeed
-				+ ", athlete=" + athlete + ", sport=" + sport + ", trainingEffect=" + trainingEffect + "]";
-	}
-
 }
