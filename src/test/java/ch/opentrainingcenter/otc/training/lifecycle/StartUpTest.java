@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import ch.opentrainingcenter.otc.training.boundary.security.BCryptService;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.repository.AthleteRepository;
 
@@ -26,6 +27,7 @@ class StartUpTest {
 		MockitoAnnotations.initMocks(this);
 		startUp = new StartUp();
 		startUp.repo = athleteRepo;
+		startUp.cryptService = new BCryptService();
 	}
 
 	@Test

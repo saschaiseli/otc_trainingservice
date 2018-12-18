@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 
 import org.apache.http.HttpStatus;
@@ -18,14 +19,23 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
+import io.jsonwebtoken.Claims;
 
 class SimpleTrainingServiceTest {
 
 	private SimpleTrainingService service;
 	@Mock
 	private TrainingRepository trainingRepo;
+	@Mock
+	private HttpHeaders httpHeaders;
+	@Mock
+	private JWTService jwtService;
+	@Mock
+	private Claims claims;
+
 	private final long athleteId = 42L;
 
 	@BeforeEach
@@ -33,6 +43,7 @@ class SimpleTrainingServiceTest {
 		MockitoAnnotations.initMocks(this);
 		service = new SimpleTrainingService();
 		service.dao = trainingRepo;
+		service.jwtService = jwtService;
 	}
 
 	@Test
@@ -42,9 +53,11 @@ class SimpleTrainingServiceTest {
 		final SimpleTraining simpleTraining = Mockito.mock(SimpleTraining.class);
 		trainings.add(simpleTraining);
 		when(trainingRepo.findSimpleTrainingByAthlete(athleteId)).thenReturn(trainings);
+		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);
+		when(claims.get("id", Long.class)).thenReturn(athleteId);
 
 		// When
-		final Response response = service.getSimpleTrainingByAthlete(athleteId);
+		final Response response = service.getSimpleTrainingByAthlete(httpHeaders);
 
 		// Then
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
@@ -59,9 +72,11 @@ class SimpleTrainingServiceTest {
 		// Given
 		final String fileName = "abcdef.fit";
 		when(trainingRepo.existsFile(athleteId, fileName)).thenReturn(true);
+		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);
+		when(claims.get("id", Long.class)).thenReturn(athleteId);
 
 		// When
-		final Response response = service.existsTraining(athleteId, fileName);
+		final Response response = service.existsTraining(httpHeaders, fileName);
 
 		assertThat(response.getStatus(), is(HttpStatus.SC_OK));
 		assertThat(((Boolean) response.getEntity()), is(true));
@@ -72,9 +87,10 @@ class SimpleTrainingServiceTest {
 		// Given
 		final String fileName = "abcdef.fit";
 		when(trainingRepo.existsFile(athleteId, fileName)).thenReturn(false);
-
+		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);
+		when(claims.get("id", Long.class)).thenReturn(athleteId);
 		// When
-		final Response response = service.existsTraining(athleteId, fileName);
+		final Response response = service.existsTraining(httpHeaders, fileName);
 
 		assertThat(response.getStatus(), is(HttpStatus.SC_OK));
 		assertThat(((Boolean) response.getEntity()), is(false));
