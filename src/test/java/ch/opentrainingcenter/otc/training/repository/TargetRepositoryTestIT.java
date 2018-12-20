@@ -29,6 +29,7 @@ import ch.opentrainingcenter.otc.training.domain.Settings;
 import ch.opentrainingcenter.otc.training.domain.Speed;
 import ch.opentrainingcenter.otc.training.domain.SystemOfUnit;
 import ch.opentrainingcenter.otc.training.domain.Target;
+import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
@@ -83,11 +84,11 @@ public class TargetRepositoryTestIT {
 	@Test
 	public void testFindByAthleteDataFound() {
 		final Target nt = new Target();
-		nt.setAmount(1);
-		nt.setAthlete(athlete);
-		nt.setDistance(42);
-		nt.setDuration(Duration.MONTH);
 		nt.setTargetBegin(LocalDate.now());
+		nt.setDistanceOrHours(42);
+		nt.setAthlete(athlete);
+		nt.setGoalUnit(TargetUnit.DISTANCE_KM);
+		nt.setDuration(Duration.MONTH);
 
 		targetRepository.storeTarget(nt, athlete.getId());
 

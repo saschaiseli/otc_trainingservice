@@ -20,6 +20,7 @@ import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.Duration;
 import ch.opentrainingcenter.otc.training.domain.Target;
+import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.repository.TargetRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,10 +51,10 @@ public class TargetService {
 		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("add targets");
 		final Target target = new Target();
-		target.setAmount(Integer.valueOf(datas.get("amount")));
-		target.setDistance(Integer.valueOf(datas.get("distance")));
-		target.setDuration(Duration.valueOf(datas.get("duration")));
 		target.setTargetBegin(LocalDate.parse(datas.get("targetBegin")));
+		target.setGoalUnit(TargetUnit.valueOfFromClient(datas.get("kind")));
+		target.setDuration(Duration.valueOfFromClient(datas.get("duration")));
+		target.setDistanceOrHours(Integer.valueOf(datas.get("distanceOrHours")));
 		repository.storeTarget(target, athleteId);
 		return Response.status(200).entity(target).build();
 	}

@@ -25,6 +25,7 @@ import org.mockito.MockitoAnnotations;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.domain.Duration;
 import ch.opentrainingcenter.otc.training.domain.Target;
+import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.repository.TargetRepository;
 import io.jsonwebtoken.Claims;
 
@@ -69,10 +70,10 @@ class TargetServiceTest {
 	@Test
 	void testAddTarget() {
 		final Map<String, String> data = new HashMap<>();
-		data.put("amount", "1");
-		data.put("distance", "2");
-		data.put("duration", "WEEK");
 		data.put("targetBegin", "2018-12-03");
+		data.put("kind", "DISTANCE");
+		data.put("duration", "WEEK");
+		data.put("distanceOrHours", "10");
 
 		final long athleteId = 42;
 		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);
@@ -83,10 +84,10 @@ class TargetServiceTest {
 
 		// Then
 		final Target target = new Target();
-		target.setAmount(Integer.valueOf(data.get("amount")));
-		target.setDistance(Integer.valueOf(data.get("distance")));
-		target.setDuration(Duration.valueOf(data.get("duration")));
 		target.setTargetBegin(LocalDate.parse("2018-12-03"));
+		target.setGoalUnit(TargetUnit.valueOfFromClient(data.get("kind")));
+		target.setDuration(Duration.valueOfFromClient(data.get("duration")));
+		target.setDistanceOrHours(Integer.valueOf(data.get("distanceOrHours")));
 
 		verify(repository).storeTarget(target, athleteId);
 		assertThat(response.getStatus(), is(equalTo(HttpStatus.SC_OK)));
