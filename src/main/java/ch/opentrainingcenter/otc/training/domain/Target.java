@@ -30,12 +30,13 @@ public class Target {
 	@NotNull
 	private LocalDate targetBegin;
 	@NotNull
-	private int amount;
+	@Enumerated(EnumType.STRING)
+	private TargetUnit goalUnit;
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Duration duration;
 	@NotNull
-	private int distance;
+	private int distanceOrHours;
 	@ManyToOne
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
 	private Athlete athlete;
