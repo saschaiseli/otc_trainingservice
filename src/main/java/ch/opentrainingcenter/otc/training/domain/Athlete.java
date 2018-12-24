@@ -69,7 +69,7 @@ public class Athlete {
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
-	private List<Target> targets = new ArrayList<>();
+	private List<TrainingGoal> goals = new ArrayList<>();
 
 	@Transient
 	private String token;
@@ -81,14 +81,14 @@ public class Athlete {
 		this.password = hashedPassword;
 	}
 
-	public void addTarget(final Target target) {
-		targets.add(target);
-		target.setAthlete(this);
+	public void addTarget(final TrainingGoal goal) {
+		goals.add(goal);
+		goal.setAthlete(this);
 	}
 
-	public void removeTarget(final Target target) {
-		targets.remove(target);
-		target.setAthlete(null);
+	public void removeTarget(final TrainingGoal goal) {
+		goals.remove(goal);
+		goal.setAthlete(null);
 	}
 
 	public void addTraining(final Training training) {

@@ -3,103 +3,46 @@ package ch.opentrainingcenter.otc.training.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 
-import ch.opentrainingcenter.otc.training.domain.raw.Sport;
+import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@NamedQuery(name = "TrainingGoal.findByAthlete", query = "SELECT tg FROM TRAINING_GOAL tg where tg.athlete.id=:athleteId")
+@NoArgsConstructor
+@Data
 @Entity(name = "TRAINING_GOAL")
 public class TrainingGoal {
 	@Id
 	@SequenceGenerator(name = "TRAINING_GOAL_ID_SEQUENCE", sequenceName = "TRAINING_GOAL_ID_SEQUENCE")
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TRAINING_GOAL_ID_SEQUENCE")
 	private long id;
-	private long athleteId;
 	private String name;
 	private LocalDate begin;
 	private LocalDate end;
-	private long value;
+	private int distanceOrHour;
+	private double currentValue;
+	private boolean active;
+	@ManyToOne
+	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
+	private Athlete athlete;
 
-	@Enumerated(EnumType.STRING)
-	private Unity unity;
-	@Enumerated(EnumType.STRING)
-	private Sport sport;
-	private String property;
+	public TrainingGoal(final TrainingGoalDto dto, final Athlete athlete) {
+		this.id = dto.getId();
+		this.athlete = athlete;
+		this.name = "dummy";
+		this.begin = dto.getBegin();
+		this.end = dto.getEnd();
+		this.distanceOrHour = dto.getDistanceOrHour();
+		this.currentValue = dto.getCurrentValue();
+		this.active = dto.isActive();
 
-	public long getId() {
-		return id;
 	}
-
-	public void setId(final long id) {
-		this.id = id;
-	}
-
-	public long getAthleteId() {
-		return athleteId;
-	}
-
-	public void setAthleteId(final long athleteId) {
-		this.athleteId = athleteId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(final String name) {
-		this.name = name;
-	}
-
-	public LocalDate getBegin() {
-		return begin;
-	}
-
-	public void setBegin(final LocalDate begin) {
-		this.begin = begin;
-	}
-
-	public LocalDate getEnd() {
-		return end;
-	}
-
-	public void setEnd(final LocalDate end) {
-		this.end = end;
-	}
-
-	public long getValue() {
-		return value;
-	}
-
-	public void setValue(final long value) {
-		this.value = value;
-	}
-
-	public Unity getUnity() {
-		return unity;
-	}
-
-	public void setUnity(final Unity unity) {
-		this.unity = unity;
-	}
-
-	public Sport getSport() {
-		return sport;
-	}
-
-	public void setSport(final Sport sport) {
-		this.sport = sport;
-	}
-
-	public String getProperty() {
-		return property;
-	}
-
-	public void setProperty(final String property) {
-		this.property = property;
-	}
-
 }

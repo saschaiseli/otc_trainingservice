@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
-import ch.opentrainingcenter.otc.training.domain.Target;
+import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 
 class TargetRepositoryTest {
 
@@ -21,9 +21,9 @@ class TargetRepositoryTest {
 	@Mock
 	private EntityManager em;
 	@Mock
-	private TypedQuery<Target> tq;
+	private TypedQuery<TrainingGoal> tq;
 	@Mock
-	private Target target;
+	private TrainingGoal target;
 	@Mock
 	private Athlete athlete;
 
@@ -39,7 +39,7 @@ class TargetRepositoryTest {
 	@Test
 	public void testFindByAthlete() {
 		// Given
-		when(em.createNamedQuery("Target.findByAthlete", Target.class)).thenReturn(tq);
+		when(em.createNamedQuery("TrainingGoal.findByAthlete", TrainingGoal.class)).thenReturn(tq);
 
 		// When
 		repository.findByAthlete(ATHLETE_ID);
@@ -53,7 +53,7 @@ class TargetRepositoryTest {
 	@Test
 	public void testStoreTarget() {
 		// Given
-		when(em.createNamedQuery("Target.findByAthlete", Target.class)).thenReturn(tq);
+		when(em.createNamedQuery("TrainingGoal.findByAthlete", TrainingGoal.class)).thenReturn(tq);
 		when(em.find(Athlete.class, ATHLETE_ID)).thenReturn(athlete);
 
 		// When

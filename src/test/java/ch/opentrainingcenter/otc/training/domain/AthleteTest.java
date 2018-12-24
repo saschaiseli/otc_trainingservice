@@ -20,14 +20,14 @@ class AthleteTest {
 	void testAddTargetBidirectional() {
 		athlete = new Athlete("firstname", "lastname", "email", "hashed");
 
-		final Target target = new Target();
-		athlete.addTarget(target);
+		final TrainingGoal goal = new TrainingGoal();
+		athlete.addTarget(goal);
 
-		assertThat(athlete.getTargets(), Matchers.is(Matchers.contains(target)));
-		assertThat(target.getAthlete(), Matchers.is(Matchers.equalTo(athlete)));
+		assertThat(athlete.getGoals(), Matchers.is(Matchers.contains(goal)));
+		assertThat(goal.getAthlete(), Matchers.is(Matchers.equalTo(athlete)));
 
-		athlete.removeTarget(target);
-		assertThat(athlete.getTargets(), Matchers.empty());
+		athlete.removeTarget(goal);
+		assertThat(athlete.getTrainings(), Matchers.empty());
 	}
 
 	@Test

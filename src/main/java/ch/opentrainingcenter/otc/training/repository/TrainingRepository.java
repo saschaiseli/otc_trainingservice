@@ -1,5 +1,7 @@
 package ch.opentrainingcenter.otc.training.repository;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -46,5 +48,9 @@ public class TrainingRepository extends RepositoryServiceBean<Training> {
 		query.setParameter("athleteId", athleteId);
 		query.setParameter("fileName", fileName);
 		return !query.getResultList().isEmpty();
+	}
+
+	public List<SimpleTraining> findTrainings(final long id, final LocalDate beginDate, final LocalDate endDate) {
+		return Collections.emptyList();
 	}
 }

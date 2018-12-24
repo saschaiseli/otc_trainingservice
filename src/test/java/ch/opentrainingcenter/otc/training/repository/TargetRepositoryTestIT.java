@@ -24,12 +24,10 @@ import org.junit.runner.RunWith;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.CommonTransferFactory;
-import ch.opentrainingcenter.otc.training.domain.Duration;
 import ch.opentrainingcenter.otc.training.domain.Settings;
 import ch.opentrainingcenter.otc.training.domain.Speed;
 import ch.opentrainingcenter.otc.training.domain.SystemOfUnit;
-import ch.opentrainingcenter.otc.training.domain.Target;
-import ch.opentrainingcenter.otc.training.domain.TargetUnit;
+import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
@@ -76,23 +74,21 @@ public class TargetRepositoryTestIT {
 
 	@Test
 	public void testFindByAthleteNoDataFound() {
-		final List<Target> targets = targetRepository.findByAthlete(athlete.getId());
+		final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 
 		assertThat(targets, Matchers.empty());
 	}
 
 	@Test
 	public void testFindByAthleteDataFound() {
-		final Target nt = new Target();
-		nt.setTargetBegin(LocalDate.now());
-		nt.setDistanceOrHours(42);
+		final TrainingGoal nt = new TrainingGoal();
+		nt.setBegin(LocalDate.now());
+		nt.setDistanceOrHour(42);
 		nt.setAthlete(athlete);
-		nt.setGoalUnit(TargetUnit.DISTANCE_KM);
-		nt.setDuration(Duration.MONTH);
 
 		targetRepository.storeTarget(nt, athlete.getId());
 
-		final List<Target> targets = targetRepository.findByAthlete(athlete.getId());
+		final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 
 		assertThat(targets.get(0).getId(), Matchers.is(Matchers.equalTo(nt.getId())));
 	}
