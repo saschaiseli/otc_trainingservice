@@ -15,7 +15,7 @@ import org.mockito.MockitoAnnotations;
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 
-class TargetRepositoryTest {
+class TrainingGoalRepositoryTest {
 
 	private static final long ATHLETE_ID = 42L;
 	@Mock
@@ -27,12 +27,12 @@ class TargetRepositoryTest {
 	@Mock
 	private Athlete athlete;
 
-	private TargetRepository repository;
+	private TrainingGoalRepository repository;
 
 	@BeforeEach
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		repository = new TargetRepository();
+		repository = new TrainingGoalRepository();
 		repository.em = em;
 	}
 
@@ -57,7 +57,7 @@ class TargetRepositoryTest {
 		when(em.find(Athlete.class, ATHLETE_ID)).thenReturn(athlete);
 
 		// When
-		repository.storeTarget(target, ATHLETE_ID);
+		repository.storeTrainingGoal(target, ATHLETE_ID);
 
 		// Then
 		verify(em).find(Athlete.class, ATHLETE_ID);

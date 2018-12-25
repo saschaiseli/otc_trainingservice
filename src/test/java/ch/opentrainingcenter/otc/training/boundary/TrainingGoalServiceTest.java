@@ -28,7 +28,7 @@ import org.mockito.MockitoAnnotations;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
-import ch.opentrainingcenter.otc.training.repository.TargetRepository;
+import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 import ch.opentrainingcenter.otc.training.service.goal.GoalProgressCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.TrainingGoalDateCalculator;
@@ -39,7 +39,7 @@ class TrainingGoalServiceTest {
 	@Mock
 	private HttpHeaders httpHeaders;
 	@Mock
-	private TargetRepository repository;
+	private TrainingGoalRepository repository;
 	@Mock
 	private TrainingRepository trainingRepo;
 	@Mock

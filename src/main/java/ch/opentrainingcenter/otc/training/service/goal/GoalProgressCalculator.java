@@ -14,10 +14,10 @@ public class GoalProgressCalculator {
 	public double calculateTrainingGoalProgress(final TrainingGoalDto dto, final List<SimpleTraining> trainings) {
 		double result = 0;
 		if (TargetUnit.DURATION_H.equals(dto.getUnit())) {
-			result = trainings.stream().mapToDouble(x -> x.getTimeInSeconds()).sum();
+			result = trainings.stream().mapToDouble(SimpleTraining::getTimeInSeconds).sum();
 			result = result / 3600d;
 		} else {
-			result = trainings.stream().mapToDouble(x -> x.getDistanceInKm()).sum();
+			result = trainings.stream().mapToDouble(SimpleTraining::getDistanceInKm).sum();
 		}
 		return getProgress(result, dto.getDistanceOrHour());
 	}

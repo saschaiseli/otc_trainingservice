@@ -32,20 +32,20 @@ import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
 @RunWith(Arquillian.class)
-public class TargetRepositoryTestIT {
+public class TrainingGoalRepositoryTestIT {
 
 	private static final String EMAIL = "test@opentrainingcenter.ch";
 	@Inject
 	private AthleteRepository repository;
 
 	@Inject
-	private TargetRepository targetRepository;
+	private TrainingGoalRepository targetRepository;
 	private Athlete athlete;
 
 	@Deployment
 	public static WebArchive createDeployment() {
 		final WebArchive archive = ShrinkWrap.create(WebArchive.class)
-				.addClasses(RepositoryServiceBean.class, AthleteRepository.class, TargetRepository.class)
+				.addClasses(RepositoryServiceBean.class, AthleteRepository.class, TrainingGoalRepository.class)
 				.addPackage(Athlete.class.getPackage()).addPackage(Sport.class.getPackage())
 				.addPackage(SimpleTraining.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 		archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
@@ -86,7 +86,7 @@ public class TargetRepositoryTestIT {
 		nt.setDistanceOrHour(42);
 		nt.setAthlete(athlete);
 
-		targetRepository.storeTarget(nt, athlete.getId());
+		targetRepository.storeTrainingGoal(nt, athlete.getId());
 
 		final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 

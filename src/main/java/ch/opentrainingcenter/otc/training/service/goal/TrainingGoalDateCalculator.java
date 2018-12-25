@@ -20,7 +20,7 @@ public class TrainingGoalDateCalculator {
 
 	public LocalDate getEndDate(final LocalDate beginDate, final GoalDuration duration) {
 		if (!GoalDuration.MONTH.equals(duration)) {
-			return beginDate.plusDays(duration.getDays() - 1);
+			return beginDate.plusDays(duration.getDays() - 1L);
 		} else {
 			return beginDate.withDayOfMonth(beginDate.lengthOfMonth());
 		}

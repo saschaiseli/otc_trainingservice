@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Stateless
 @Slf4j
-public class TargetRepository extends RepositoryServiceBean<TrainingGoal> {
+public class TrainingGoalRepository extends RepositoryServiceBean<TrainingGoal> {
 
 	public List<TrainingGoal> findByAthlete(final long athleteId) {
 		log.info("Get targets for athlete {}", athleteId);
@@ -23,13 +23,13 @@ public class TargetRepository extends RepositoryServiceBean<TrainingGoal> {
 		return resultList;
 	}
 
-	public void storeTarget(final TrainingGoal goal, final Long athleteId) {
+	public void storeTrainingGoal(final TrainingGoal goal, final Long athleteId) {
 		final List<TrainingGoal> goals = new ArrayList<>();
 		goals.add(goal);
-		storeTargets(goals, athleteId);
+		storeTrainingGoals(goals, athleteId);
 	}
 
-	public void storeTargets(final List<TrainingGoal> goals, final Long athleteId) {
+	public void storeTrainingGoals(final List<TrainingGoal> goals, final Long athleteId) {
 		log.info("Store Target for athlete {}", athleteId);
 		final Athlete athlete = em.find(Athlete.class, athleteId);
 		goals.forEach(athlete::addTarget);

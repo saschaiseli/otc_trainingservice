@@ -20,9 +20,6 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import ch.opentrainingcenter.otc.training.boundary.security.JWTService;
 import ch.opentrainingcenter.otc.training.boundary.security.JWTTokenNeeded;
 import ch.opentrainingcenter.otc.training.domain.GoalDuration;
@@ -32,7 +29,7 @@ import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Updated;
-import ch.opentrainingcenter.otc.training.repository.TargetRepository;
+import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 import ch.opentrainingcenter.otc.training.service.goal.GoalProgressCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.TrainingGoalDateCalculator;
@@ -53,7 +50,7 @@ public class TrainingGoalService {
 	@Inject
 	protected TrainingGoalDateCalculator beginEnd;
 	@Inject
-	protected TargetRepository repository;
+	protected TrainingGoalRepository repository;
 	@Inject
 	protected TrainingRepository trainingRepo;
 
@@ -64,7 +61,6 @@ public class TrainingGoalService {
 	@Inject
 	@Updated
 	protected Event<TrainingGoalDto> updatedTrainingGoalEvent;
-	private String json;
 
 	@GET
 	public Response getTrainingGoals(@Context final HttpHeaders httpHeaders) {
@@ -72,14 +68,6 @@ public class TrainingGoalService {
 		log.info("get targets from Athlete {}", athleteId);
 		final List<TrainingGoal> targets = repository.findByAthlete(athleteId);
 		final List<TrainingGoalDto> dtos = targets.stream().map(TrainingGoalDto::new).collect(Collectors.toList());
-		final ObjectMapper mapper = new ObjectMapper();
-		try {
-			json = mapper.writeValueAsString(dtos);
-			log.info(json);
-		} catch (final JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Response.status(200).entity(dtos).build();
 	}
 
@@ -109,22 +97,13 @@ public class TrainingGoalService {
 		} else {
 			updatedTrainingGoalEvent.fire(dto);
 		}
-		final ObjectMapper mapper = new ObjectMapper();
-		try {
-			json = mapper.writeValueAsString(dto);
-			log.info(json);
-		} catch (final JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Response.status(200).entity(dto).build();
 	}
 
 	private LocalDate getBeginLocalDate(final String text) {
 		final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 		final LocalDateTime beginLocalDateTime = LocalDateTime.parse(text, dtf);
-		final LocalDate beginLocalDate = beginLocalDateTime.toLocalDate();
-		return beginLocalDate;
+		return beginLocalDateTime.toLocalDate();
 	}
 
 }
