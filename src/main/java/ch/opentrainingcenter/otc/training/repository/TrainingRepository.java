@@ -2,7 +2,6 @@ package ch.opentrainingcenter.otc.training.repository;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -17,7 +16,7 @@ public class TrainingRepository extends RepositoryServiceBean<Training> {
 
 	@Override
 	public Training doSave(final Training training) {
-		training.setDateOfImport(new Date());
+		training.setDateOfImport(LocalDate.now());
 		em.persist(training);
 		return training;
 	}

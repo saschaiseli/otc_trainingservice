@@ -3,6 +3,8 @@ package ch.opentrainingcenter.otc.training.domain;
 import java.time.LocalDate;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +18,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NamedQuery(name = "TrainingGoal.findByAthlete", query = "SELECT tg FROM TRAINING_GOAL tg where tg.athlete.id=:athleteId")
+@NamedQuery(name = "TrainingGoal.findByAthleteAndDate", query = "SELECT t FROM TRAINING_GOAL t where "
+		+ "t.athlete.id=:athleteId " //
+		+ "and "//
+		+ "t.begin<=:date and t.end>:date")
+
 @NoArgsConstructor
 @Data
 @Entity(name = "TRAINING_GOAL")
@@ -28,6 +35,8 @@ public class TrainingGoal {
 	private LocalDate begin;
 	private LocalDate end;
 	private int distanceOrHour;
+	@Enumerated(EnumType.STRING)
+	private TargetUnit unit;
 	private double currentValue;
 	private boolean active;
 	@ManyToOne
@@ -36,13 +45,13 @@ public class TrainingGoal {
 
 	public TrainingGoal(final TrainingGoalDto dto, final Athlete athlete) {
 		this.id = dto.getId();
-		this.athlete = athlete;
 		this.name = "dummy";
 		this.begin = dto.getBegin();
 		this.end = dto.getEnd();
 		this.distanceOrHour = dto.getDistanceOrHour();
+		this.unit = dto.getUnit();
 		this.currentValue = dto.getCurrentValue();
 		this.active = dto.isActive();
-
+		this.athlete = athlete;
 	}
 }

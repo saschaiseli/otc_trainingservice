@@ -4,8 +4,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Date;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -45,7 +45,7 @@ class TrainingRepositoryTest {
 	void testDoSave() {
 		repository.doSave(training);
 
-		verify(training).setDateOfImport(Mockito.any(Date.class));
+		verify(training).setDateOfImport(Mockito.any(LocalDate.class));
 		verify(em).persist(training);
 	}
 

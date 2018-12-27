@@ -315,7 +315,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"distanceOrHours\": \"42\",\n\t\"goalUnit\": \"DISTANCE\",\n\t\"duration\": \"WEEK\",\n\t\"targetBegin\": \"2018-12-24T11:12:55.123Z\"\n}"
+					"raw": "{\n\t\"distanceOrHour\": \"42\",\n\t\"unit\": \"DISTANCE\",\n\t\"duration\": \"WEEK\",\n\t\"begin\": \"2018-12-24T11:12:55.123Z\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",

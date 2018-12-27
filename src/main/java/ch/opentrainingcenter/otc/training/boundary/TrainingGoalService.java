@@ -48,7 +48,7 @@ public class TrainingGoalService {
 	@Inject
 	protected GoalProgressCalculator calculator;
 	@Inject
-	protected TrainingGoalDateCalculator beginEnd;
+	protected TrainingGoalDateCalculator dateCalculator;
 	@Inject
 	protected TrainingGoalRepository repository;
 	@Inject
@@ -76,21 +76,21 @@ public class TrainingGoalService {
 		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("add targets");
 		final String id = datas.get("id");
-		final String text = datas.get("targetBegin");
+		final String text = datas.get("begin");
 		final GoalDuration duration = GoalDuration.valueOfFromClient(datas.get("duration"));
 		final TargetUnit targetUnit = TargetUnit.valueOfFromClient(datas.get("kind"));
-		final Integer distanceOrHour = Integer.valueOf(datas.get("distanceOrHours"));
+		final Integer distanceOrHour = Integer.valueOf(datas.get("distanceOrHour"));
 
 		final LocalDate beginLocalDate = getBeginLocalDate(text);
 
 		// create DTO
-		final TrainingGoalDto dto = new TrainingGoalDto(distanceOrHour, targetUnit, duration);
-		dto.setBegin(beginEnd.getBeginDate(beginLocalDate, duration));
-		dto.setEnd(beginEnd.getEndDate(beginLocalDate, duration));
+		final LocalDate begin = dateCalculator.getBeginDate(beginLocalDate, duration);
+		final LocalDate end = dateCalculator.getEndDate(beginLocalDate, duration);
+		final TrainingGoalDto dto = new TrainingGoalDto(distanceOrHour, targetUnit, duration, begin, end);
 		final List<SimpleTraining> trainings = trainingRepo.findTrainings(athleteId, dto.getBegin(), dto.getEnd());
 		final double progress = calculator.calculateTrainingGoalProgress(dto, trainings);
 		dto.setProgress(progress);
-		dto.setActive(beginEnd.isActive(dto, LocalDate.now()));
+		dto.setActive(dateCalculator.isActive(dto, LocalDate.now()));
 		dto.setAthleteId(athleteId);
 		if (id == null) {
 			newTrainingGoalEvent.fire(dto);
