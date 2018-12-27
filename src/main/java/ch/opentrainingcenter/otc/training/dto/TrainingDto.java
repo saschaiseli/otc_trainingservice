@@ -1,9 +1,14 @@
 package ch.opentrainingcenter.otc.training.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import lombok.Getter;
@@ -14,7 +19,9 @@ import lombok.ToString;
 public class TrainingDto {
 	private final long id;
 	private final String geoJson;
-	private final Date dateOfImport;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private final LocalDate dateOfImport;
 	private final String fileName;
 	private final Integer geoQuality;
 	private final String note;

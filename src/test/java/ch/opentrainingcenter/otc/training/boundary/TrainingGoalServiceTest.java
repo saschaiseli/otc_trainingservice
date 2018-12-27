@@ -60,7 +60,7 @@ class TrainingGoalServiceTest {
 		service.repository = repository;
 		service.trainingRepo = trainingRepo;
 		service.jwtService = jwtService;
-		service.beginEnd = new TrainingGoalDateCalculator();
+		service.dateCalculator = new TrainingGoalDateCalculator();
 		service.calculator = calculator;
 		service.newTrainingGoalEvent = newTrainingGoalEvent;
 		service.updatedTrainingGoalEvent = updatedTrainingGoalEvent;
@@ -90,10 +90,10 @@ class TrainingGoalServiceTest {
 	void testAddTargetCreate() {
 		final Map<String, String> data = new HashMap<>();
 		// yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
-		data.put("targetBegin", "2018-12-03T11:12:55.123Z");
+		data.put("begin", "2018-12-03T11:12:55.123Z");
 		data.put("kind", "DISTANCE");
 		data.put("duration", "WEEK");
-		data.put("distanceOrHours", "10");
+		data.put("distanceOrHour", "10");
 
 		final long athleteId = 42;
 		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);
@@ -120,10 +120,10 @@ class TrainingGoalServiceTest {
 		final Map<String, String> data = new HashMap<>();
 		// yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 		data.put("id", "42");
-		data.put("targetBegin", "2018-12-03T11:12:55.123Z");
+		data.put("begin", "2018-12-03T11:12:55.123Z");
 		data.put("kind", "DISTANCE");
 		data.put("duration", "WEEK");
-		data.put("distanceOrHours", "10");
+		data.put("distanceOrHour", "10");
 
 		final long athleteId = 42;
 		when(jwtService.getClaims(httpHeaders)).thenReturn(claims);

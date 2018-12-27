@@ -1,8 +1,11 @@
 package ch.opentrainingcenter.otc.training.domain.raw;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Cacheable;
@@ -18,10 +21,14 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import ch.opentrainingcenter.otc.training.domain.Athlete;
 import ch.opentrainingcenter.otc.training.domain.HeartRate;
@@ -36,6 +43,9 @@ public class Training {
 
 	@Id
 	private long id;
+	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	private LocalDateTime dateOfStart;
 	private long dauer;
 	private long laengeInMeter;
 	private int averageHeartBeat;
@@ -54,9 +64,10 @@ public class Training {
 	@JoinColumn(name = "id_fk_training")
 	private List<Tracktrainingproperty> trackPoints = new ArrayList<>();
 
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
-	private Date dateOfImport;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
+	private LocalDate dateOfImport;
 
 	private Integer upMeter;
 	private Integer downMeter;
@@ -87,6 +98,7 @@ public class Training {
 
 	public Training(final RunData runData, final HeartRate heart, final String remark) {
 		id = runData.getDateOfStart().getTime();
+		dateOfStart = Instant.ofEpochMilli(id).atZone(ZoneId.systemDefault()).toLocalDateTime();
 		dauer = runData.getTimeInSeconds();
 		laengeInMeter = runData.getDistanceInMeter();
 		averageHeartBeat = heart.getAverage();
@@ -121,8 +133,8 @@ public class Training {
 	}
 
 	@JsonIgnore
-	public Date getDateOfStart() {
-		return new Date(id);
+	public LocalDateTime getDateOfStart() {
+		return dateOfStart;
 	}
 
 	public long getDauer() {
@@ -181,11 +193,11 @@ public class Training {
 		this.trackPoints = trackPoints;
 	}
 
-	public Date getDateOfImport() {
+	public LocalDate getDateOfImport() {
 		return dateOfImport;
 	}
 
-	public void setDateOfImport(final Date dateOfImport) {
+	public void setDateOfImport(final LocalDate dateOfImport) {
 		this.dateOfImport = dateOfImport;
 
 	}

@@ -30,18 +30,16 @@ class TrainingGoalListenerTest {
 		MockitoAnnotations.initMocks(this);
 		listener = new TrainingGoalListener();
 		listener.repo = repo;
-		dto = new TrainingGoalDto(42, TargetUnit.DISTANCE_KM, GoalDuration.SEVEN_DAYS);
 		begin = LocalDate.of(2018, 12, 22);
 		end = LocalDate.of(2018, 12, 29);
+		dto = new TrainingGoalDto(42, TargetUnit.DISTANCE_KM, GoalDuration.SEVEN_DAYS, begin, end);
 	}
 
 	@Test
 	void testOnNewTrainingGoal() {
 		// Given
 		dto.setActive(true);
-		dto.setBegin(begin);
 		dto.setCurrentValue(dto.getCurrentValue());
-		dto.setEnd(end);
 		dto.setAthleteId(42L);
 
 		final TrainingGoal entity = new TrainingGoal(dto, null);

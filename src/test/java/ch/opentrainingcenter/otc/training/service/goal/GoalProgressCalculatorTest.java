@@ -91,7 +91,7 @@ class GoalProgressCalculatorTest {
 	}
 
 	private TrainingGoalDto createDto(final int distanceOrHours, final TargetUnit unit) {
-		return new TrainingGoalDto(distanceOrHours, unit, null);
+		return new TrainingGoalDto(distanceOrHours, unit, null, null, null);
 	}
 
 	private SimpleTraining createSimpleTraining(final long durationInSec, final int distanceInMeter) {

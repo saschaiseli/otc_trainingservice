@@ -8,7 +8,7 @@ import static org.hamcrest.Matchers.notNullValue;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -76,7 +76,7 @@ public class TrainingRepositoryTestIT {
 		training = objectMapper.readValue(jsonTraining, Training.class);
 		athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name", EMAIL, "abc");
 		athlete = repository.doSave(athlete);
-		training.setDateOfImport(new Date());
+		training.setDateOfImport(LocalDate.now());
 		training.setAthlete(athlete);
 
 		trainingRepo.doSave(training);

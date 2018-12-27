@@ -16,11 +16,11 @@ public class TrainingGoalDto {
 	private final int distanceOrHour;
 	private final TargetUnit unit;
 	private final GoalDuration duration;
+	private final LocalDate begin;
+	private final LocalDate end;
 
 	// calculated field
 	private long id;
-	private LocalDate begin;
-	private LocalDate end;
 	private boolean isActive;
 	private double progress;
 	private double currentValue;

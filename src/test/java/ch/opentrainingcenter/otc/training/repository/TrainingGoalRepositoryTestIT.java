@@ -1,5 +1,6 @@
 package ch.opentrainingcenter.otc.training.repository;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.io.File;
@@ -90,7 +91,61 @@ public class TrainingGoalRepositoryTestIT {
 
 		final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 
-		assertThat(targets.get(0).getId(), Matchers.is(Matchers.equalTo(nt.getId())));
+		assertThat(targets.get(0).getId(), is(Matchers.equalTo(nt.getId())));
 	}
 
+	@Test
+	public void testFindByAthleteAndDataBeginEqualsDate() {
+		final TrainingGoal goal = new TrainingGoal();
+		final LocalDate begin = LocalDate.of(2018, 12, 22);
+		final LocalDate end = LocalDate.of(2018, 12, 29);
+
+		goal.setBegin(begin);
+		goal.setEnd(end);
+		goal.setDistanceOrHour(42);
+		goal.setAthlete(athlete);
+
+		targetRepository.storeTrainingGoal(goal, athlete.getId());
+
+		final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), begin);
+
+		assertThat(targets.get(0).getId(), is(Matchers.equalTo(goal.getId())));
+	}
+
+	@Test
+	public void testFindByAthleteAndDataDateBetweenBeginEnd() {
+		final TrainingGoal goal = new TrainingGoal();
+		final LocalDate begin = LocalDate.of(2018, 12, 22);
+		final LocalDate date = LocalDate.of(2018, 12, 25);
+		final LocalDate end = LocalDate.of(2018, 12, 29);
+
+		goal.setBegin(begin);
+		goal.setEnd(end);
+		goal.setDistanceOrHour(42);
+		goal.setAthlete(athlete);
+
+		targetRepository.storeTrainingGoal(goal, athlete.getId());
+
+		final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), date);
+
+		assertThat(targets.get(0).getId(), is(Matchers.equalTo(goal.getId())));
+	}
+
+	@Test
+	public void testFindByAthleteAndDataEndEqualsDate() {
+		final TrainingGoal goal = new TrainingGoal();
+		final LocalDate begin = LocalDate.of(2018, 12, 22);
+		final LocalDate end = LocalDate.of(2018, 12, 29);
+
+		goal.setBegin(begin);
+		goal.setEnd(end);
+		goal.setDistanceOrHour(42);
+		goal.setAthlete(athlete);
+
+		targetRepository.storeTrainingGoal(goal, athlete.getId());
+
+		final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), end);
+
+		assertThat(0, is(targets.size()));
+	}
 }
