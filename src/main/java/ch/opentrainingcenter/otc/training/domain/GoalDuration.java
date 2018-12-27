@@ -39,8 +39,7 @@ public enum GoalDuration {
 		case "YEAR":
 			return GoalDuration.YEAR;
 		default:
-			return SEVEN_DAYS;
-
+			throw new IllegalArgumentException(String.format("GoalDuration key '%s' is unknown", key));
 		}
 	}
 

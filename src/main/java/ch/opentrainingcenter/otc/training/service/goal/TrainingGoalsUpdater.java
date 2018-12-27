@@ -20,7 +20,7 @@ public class TrainingGoalsUpdater {
 	protected TrainingGoalRepository goalRepository;
 
 	public void updateGoalsFor(final Training training) {
-		log.info("Update training goals for {}", training.getAthlete());
+		log.info("Update training goals for {}", training.getAthlete().getId());
 
 		final List<TrainingGoal> goals = goalRepository.findTrainingGoalsByAthleteAndDate(training.getAthlete().getId(),
 				training.getDateOfStart().toLocalDate());

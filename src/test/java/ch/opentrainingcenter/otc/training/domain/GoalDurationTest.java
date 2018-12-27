@@ -1,6 +1,7 @@
 package ch.opentrainingcenter.otc.training.domain;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,12 @@ class GoalDurationTest {
 
 	@Test
 	void testValueOfFromClientDefaultEmpty() {
-		final GoalDuration d = GoalDuration.valueOfFromClient("");
+		assertThrows(IllegalArgumentException.class, () -> GoalDuration.valueOfFromClient(""));
+	}
 
-		assertThat(GoalDuration.SEVEN_DAYS, Matchers.equalTo(d));
+	@Test
+	void testValueOfFromClientDefaultUnknown() {
+		assertThrows(IllegalArgumentException.class, () -> GoalDuration.valueOfFromClient("unknown_key"));
 	}
 
 	@Test

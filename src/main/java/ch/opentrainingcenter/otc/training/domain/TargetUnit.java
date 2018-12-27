@@ -20,10 +20,16 @@ public enum TargetUnit {
 	}
 
 	public static TargetUnit valueOfFromClient(final String key) {
-		if (key == null || key.isEmpty() || DISTANCE_KM.key.equals(key)) {
+		if (key == null) {
+			throw new IllegalArgumentException("Not possible to create a TargetUnit with null key");
+		}
+		switch (key) {
+		case "DISTANCE":
 			return DISTANCE_KM;
-		} else {
+		case "HOURS":
 			return DURATION_H;
+		default:
+			throw new IllegalArgumentException(String.format("GoalDuration key '%s' is unknown", key));
 		}
 	}
 

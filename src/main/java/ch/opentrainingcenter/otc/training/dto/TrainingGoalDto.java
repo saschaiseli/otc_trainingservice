@@ -3,6 +3,10 @@ package ch.opentrainingcenter.otc.training.dto;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import ch.opentrainingcenter.otc.training.domain.GoalDuration;
 import ch.opentrainingcenter.otc.training.domain.TargetUnit;
@@ -16,7 +20,11 @@ public class TrainingGoalDto {
 	private final int distanceOrHour;
 	private final TargetUnit unit;
 	private final GoalDuration duration;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private final LocalDate begin;
+	@JsonDeserialize(using = LocalDateDeserializer.class)
+	@JsonSerialize(using = LocalDateSerializer.class)
 	private final LocalDate end;
 
 	// calculated field

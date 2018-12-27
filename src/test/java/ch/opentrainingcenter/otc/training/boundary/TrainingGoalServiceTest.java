@@ -91,7 +91,7 @@ class TrainingGoalServiceTest {
 		final Map<String, String> data = new HashMap<>();
 		// yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 		data.put("begin", "2018-12-03T11:12:55.123Z");
-		data.put("kind", "DISTANCE");
+		data.put("unit", "DISTANCE");
 		data.put("duration", "WEEK");
 		data.put("distanceOrHour", "10");
 
@@ -121,7 +121,7 @@ class TrainingGoalServiceTest {
 		// yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
 		data.put("id", "42");
 		data.put("begin", "2018-12-03T11:12:55.123Z");
-		data.put("kind", "DISTANCE");
+		data.put("unit", "DISTANCE");
 		data.put("duration", "WEEK");
 		data.put("distanceOrHour", "10");
 

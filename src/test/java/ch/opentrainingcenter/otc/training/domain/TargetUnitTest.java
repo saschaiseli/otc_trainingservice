@@ -1,6 +1,7 @@
 package ch.opentrainingcenter.otc.training.domain;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -9,16 +10,17 @@ class TargetUnitTest {
 
 	@Test
 	void testValueOfFromClientDefaultNull() {
-		final TargetUnit tu = TargetUnit.valueOfFromClient(null);
-
-		assertThat(TargetUnit.DISTANCE_KM, Matchers.equalTo(tu));
+		assertThrows(IllegalArgumentException.class, () -> TargetUnit.valueOfFromClient(null));
 	}
 
 	@Test
 	void testValueOfFromClientDefaultEmpty() {
-		final TargetUnit tu = TargetUnit.valueOfFromClient("");
+		assertThrows(IllegalArgumentException.class, () -> TargetUnit.valueOfFromClient(""));
+	}
 
-		assertThat(TargetUnit.DISTANCE_KM, Matchers.equalTo(tu));
+	@Test
+	void testValueOfFromClientDefaultUnknown() {
+		assertThrows(IllegalArgumentException.class, () -> TargetUnit.valueOfFromClient("unknown_key"));
 	}
 
 	@Test

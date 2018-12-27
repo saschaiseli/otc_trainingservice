@@ -78,7 +78,7 @@ public class TrainingGoalService {
 		final String id = datas.get("id");
 		final String text = datas.get("begin");
 		final GoalDuration duration = GoalDuration.valueOfFromClient(datas.get("duration"));
-		final TargetUnit targetUnit = TargetUnit.valueOfFromClient(datas.get("kind"));
+		final TargetUnit targetUnit = TargetUnit.valueOfFromClient(datas.get("unit"));
 		final Integer distanceOrHour = Integer.valueOf(datas.get("distanceOrHour"));
 
 		final LocalDate beginLocalDate = getBeginLocalDate(text);
