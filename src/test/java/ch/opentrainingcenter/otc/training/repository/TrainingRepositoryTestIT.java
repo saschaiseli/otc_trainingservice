@@ -9,6 +9,7 @@ import static org.hamcrest.Matchers.notNullValue;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -118,5 +119,33 @@ public class TrainingRepositoryTestIT {
 	public void testFindById() {
 		final Training t = trainingRepo.findFullTraining(training.getId());
 		assertThat(t, is(notNullValue()));
+	}
+
+	@Test
+	public void testFindByAthleteIdAndDateBeginEqualDate() {
+		final LocalDateTime dateOfStart = training.getDateOfStart();
+		final List<SimpleTraining> trainings = trainingRepo.findByAthleteAndDate(athlete.getId(),
+				dateOfStart.toLocalDate(), dateOfStart.plusDays(12).toLocalDate());
+		assertThat(trainings, is(not(empty())));
+	}
+
+	@Test
+	public void testFindByAthleteIdAndDateBeginEndDate() {
+		final LocalDateTime date = training.getDateOfStart();
+		final LocalDateTime begin = date.minusDays(1);
+		final LocalDateTime end = date.plusDays(1);
+		final List<SimpleTraining> trainings = trainingRepo.findByAthleteAndDate(athlete.getId(), begin.toLocalDate(),
+				end.toLocalDate());
+		assertThat(trainings, is(not(empty())));
+	}
+
+	@Test
+	public void testFindByAthleteIdAndDateEqualsEndDate() {
+		final LocalDateTime date = training.getDateOfStart();
+		final LocalDateTime begin = date;
+		final LocalDateTime end = date;
+		final List<SimpleTraining> trainings = trainingRepo.findByAthleteAndDate(athlete.getId(), begin.toLocalDate(),
+				end.toLocalDate());
+		assertThat(trainings, is(empty()));
 	}
 }

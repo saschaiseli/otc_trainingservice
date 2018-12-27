@@ -36,7 +36,7 @@ class GoalProgressCalculatorTest {
 
 		final double result = calculator.calculateTrainingGoalProgress(dto, list);
 
-		assertThat(result, Matchers.equalTo(200d));
+		assertThat(result, Matchers.equalTo(16d));
 	}
 
 	@Test
@@ -47,7 +47,7 @@ class GoalProgressCalculatorTest {
 
 		final double result = calculator.calculateTrainingGoalProgress(dto, list);
 
-		assertThat(result, Matchers.closeTo(88.88d, 0.01d));
+		assertThat(result, Matchers.closeTo(16d, 0.01d));
 	}
 
 	@Test
@@ -58,7 +58,7 @@ class GoalProgressCalculatorTest {
 
 		final double result = calculator.calculateTrainingGoalProgress(dto, list);
 
-		assertThat(result, Matchers.equalTo(300d));
+		assertThat(result, Matchers.equalTo(3d));
 	}
 
 	@Test
@@ -69,7 +69,7 @@ class GoalProgressCalculatorTest {
 
 		final double result = calculator.calculateTrainingGoalProgress(dto, list);
 
-		assertThat(result, Matchers.closeTo(33.33d, 0.01d));
+		assertThat(result, Matchers.closeTo(3, 0.01d));
 	}
 
 	@Test

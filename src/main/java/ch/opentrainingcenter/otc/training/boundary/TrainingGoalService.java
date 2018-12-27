@@ -87,9 +87,10 @@ public class TrainingGoalService {
 		final LocalDate begin = dateCalculator.getBeginDate(beginLocalDate, duration);
 		final LocalDate end = dateCalculator.getEndDate(beginLocalDate, duration);
 		final TrainingGoalDto dto = new TrainingGoalDto(distanceOrHour, targetUnit, duration, begin, end);
-		final List<SimpleTraining> trainings = trainingRepo.findTrainings(athleteId, dto.getBegin(), dto.getEnd());
-		final double progress = calculator.calculateTrainingGoalProgress(dto, trainings);
-		dto.setProgress(progress);
+		final List<SimpleTraining> trainings = trainingRepo.findByAthleteAndDate(athleteId, dto.getBegin(),
+				dto.getEnd());
+		final double currentValue = calculator.calculateTrainingGoalProgress(dto, trainings);
+		dto.setCurrentValue(currentValue);
 		dto.setActive(dateCalculator.isActive(dto, LocalDate.now()));
 		dto.setAthleteId(athleteId);
 		if (id == null) {

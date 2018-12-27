@@ -14,11 +14,14 @@ import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
 import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
+import ch.opentrainingcenter.otc.training.service.goal.TrainingGoalsUpdater;
 
 class TrainingGoalListenerTest {
 	private TrainingGoalListener listener;
 	@Mock
 	private TrainingGoalRepository repo;
+	@Mock
+	private TrainingGoalsUpdater updater;
 	private TrainingGoalDto dto;
 	private LocalDate begin;
 	private LocalDate end;

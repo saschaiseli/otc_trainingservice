@@ -22,6 +22,7 @@ import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
+import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 
 class TrainingGoalsUpdaterTest {
 
@@ -31,6 +32,8 @@ class TrainingGoalsUpdaterTest {
 
 	@Mock
 	private TrainingGoalRepository repo;
+	@Mock
+	private TrainingRepository trainingRepo;
 	@Mock
 	private Athlete athlete;
 	@Spy
@@ -45,6 +48,7 @@ class TrainingGoalsUpdaterTest {
 		MockitoAnnotations.initMocks(this);
 		updater = new TrainingGoalsUpdater();
 		updater.goalRepository = repo;
+		updater.trainingRepository = trainingRepo;
 		when(athlete.getId()).thenReturn(ATHLETE_ID);
 	}
 
@@ -175,5 +179,15 @@ class TrainingGoalsUpdaterTest {
 		when(result.getCurrentValue()).thenReturn(currentValue);
 		when(result.getUnit()).thenReturn(unit);
 		return result;
+	}
+
+	private TrainingGoal createGoal(final int distanceOrHour, final TargetUnit unit, final LocalDate begin,
+			final LocalDate end) {
+		final TrainingGoal goal = new TrainingGoal();
+		goal.setDistanceOrHour(distanceOrHour);
+		goal.setUnit(unit);
+		goal.setBegin(begin);
+		goal.setEnd(end);
+		return goal;
 	}
 }

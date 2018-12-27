@@ -1,7 +1,8 @@
 package ch.opentrainingcenter.otc.training.repository;
 
 import java.time.LocalDate;
-import java.util.Collections;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -49,7 +50,13 @@ public class TrainingRepository extends RepositoryServiceBean<Training> {
 		return !query.getResultList().isEmpty();
 	}
 
-	public List<SimpleTraining> findTrainings(final long id, final LocalDate beginDate, final LocalDate endDate) {
-		return Collections.emptyList();
+	public List<SimpleTraining> findByAthleteAndDate(final long athleteId, final LocalDate beginDate,
+			final LocalDate endDate) {
+		final TypedQuery<SimpleTraining> query = em.createNamedQuery("Training.findByAthleteAndDate",
+				SimpleTraining.class);
+		query.setParameter("athleteId", athleteId);
+		query.setParameter("beginDate", LocalDateTime.of(beginDate, LocalTime.of(0, 0)));
+		query.setParameter("endDate", LocalDateTime.of(endDate, LocalTime.of(0, 0)));
+		return query.getResultList();
 	}
 }

@@ -19,11 +19,7 @@ public class GoalProgressCalculator {
 		} else {
 			result = trainings.stream().mapToDouble(SimpleTraining::getDistanceInKm).sum();
 		}
-		return getProgress(result, dto.getDistanceOrHour());
-	}
-
-	private double getProgress(final double result, final int distanceOrHours) {
-		return (result / distanceOrHours) * 100;
+		return result;
 	}
 
 }

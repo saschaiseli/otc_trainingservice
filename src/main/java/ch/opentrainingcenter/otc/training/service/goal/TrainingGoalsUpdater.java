@@ -10,6 +10,7 @@ import ch.opentrainingcenter.otc.training.domain.TargetUnit;
 import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.domain.raw.Training;
 import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
+import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Stateless
@@ -18,6 +19,9 @@ public class TrainingGoalsUpdater {
 
 	@Inject
 	protected TrainingGoalRepository goalRepository;
+
+	@Inject
+	protected TrainingRepository trainingRepository;
 
 	public void updateGoalsFor(final Training training) {
 		log.info("Update training goals for {}", training.getAthlete().getId());
@@ -38,4 +42,5 @@ public class TrainingGoalsUpdater {
 			goalRepository.storeTrainingGoals(goals, training.getAthlete().getId());
 		}
 	}
+
 }
