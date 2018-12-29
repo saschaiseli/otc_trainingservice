@@ -207,6 +207,134 @@
 			"response": []
 		},
 		{
+			"name": "uploadTraining",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"trainingId\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"value": "{{token}}",
+						"type": "Bearer"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "src/test/resources/fit/6ACB4237.FIT"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTraining",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6892c9c8-b6ed-4b34-8f18-d41436580fc4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"ID check\" ,function() {",
+							"    pm.expect(jsonData.id).to.eql(1476265357000);",
+							"});",
+							"pm.test(\"Filename\" ,function() {",
+							"    pm.expect(jsonData.fileName).to.eql(\"6ACB4237.FIT\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "Bearer",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/trainings/all/{{trainingId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"trainings",
+						"all",
+						"{{trainingId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getTargets",
 			"event": [
 				{
