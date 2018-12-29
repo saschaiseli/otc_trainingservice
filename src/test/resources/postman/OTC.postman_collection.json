@@ -462,6 +462,67 @@
 			"response": []
 		},
 		{
+			"name": "uploadTraining fit in training goal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "15a2701a-3e68-43f0-a7f6-b0690c05ca82",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"trainingId\", jsonData.id);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"value": "{{token}}",
+						"type": "Bearer"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "src/test/resources/fit/2018_12_26.FIT"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/upload",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"upload"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getTargets after add",
 			"event": [
 				{
@@ -510,13 +571,13 @@
 							"    pm.expect(jsonData[0].end.dayOfMonth).equal(30);",
 							"});",
 							"pm.test(\"Progress\" ,function() {",
-							"    pm.expect(jsonData[0].progress).equal(0.0);",
+							"    pm.expect(jsonData[0].progress).equal(57.14285714285714);",
 							"});",
 							"pm.test(\"Active ?\" ,function() {",
 							"    pm.expect(jsonData[0].active).equal(true);",
 							"});",
 							"pm.test(\"Current Value\" ,function() {",
-							"    pm.expect(jsonData[0].currentValue).equal(0.0);",
+							"    pm.expect(jsonData[0].currentValue).equal(24.0);",
 							"});",
 							"",
 							"pm.test(\"Anzahl Resultate\", function () {",
@@ -541,6 +602,88 @@
 				"body": {
 					"mode": "raw",
 					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{PORT}}",
+					"path": [
+						"trainingservice",
+						"api",
+						"targets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addTarget",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "208d40dd-1c42-403d-a3d6-2dfe79b38a13",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"pm.test(\"Distanz\" ,function() {",
+							"    pm.expect(jsonData.distanceOrHour).equal(42);",
+							"});",
+							"",
+							"pm.test(\"Duration\" ,function() {",
+							"    pm.expect(jsonData.duration).equal('WEEK');",
+							"});",
+							"",
+							"pm.test(\"GoalUnit\" ,function() {",
+							"    pm.expect(jsonData.unit).equal('DISTANCE');",
+							"});",
+							"",
+							"pm.test(\"Year\" ,function() {",
+							"    pm.expect(jsonData.begin.year).equal(2016);",
+							"});",
+							"pm.test(\"Month\" ,function() {",
+							"    pm.expect(jsonData.begin.month).equal('OCTOBER');",
+							"});",
+							"pm.test(\"Current Value\" ,function() {",
+							"    pm.expect(jsonData.currentValue).equal(15.71);",
+							"});",
+							"pm.test(\"Active ?\" ,function() {",
+							"    pm.expect(jsonData.active).equal(false);",
+							"});",
+							"pm.test(\"DayOfMonth\" ,function() {",
+							"    pm.expect(jsonData.begin.dayOfMonth).equal(12);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"name": "Authorization",
+						"type": "Bearer",
+						"value": "{{token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"distanceOrHour\": \"42\",\n\t\"unit\": \"DISTANCE\",\n\t\"duration\": \"WEEK\",\n\t\"begin\": \"2016-10-12T11:12:55.123Z\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:{{PORT}}/trainingservice/api/targets",
