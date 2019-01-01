@@ -24,6 +24,7 @@ public class TrainingGoalDto {
 	private boolean isActive;
 	private double progress;
 	private double currentValue;
+	private double prediction;
 	@JsonIgnore
 	private long athleteId;
 

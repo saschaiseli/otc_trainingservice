@@ -30,6 +30,7 @@ import ch.opentrainingcenter.otc.training.domain.TrainingGoal;
 import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
 import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
+import ch.opentrainingcenter.otc.training.service.goal.GoalPredictionCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.GoalProgressCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.TrainingGoalDateCalculator;
 import io.jsonwebtoken.Claims;
@@ -44,6 +45,8 @@ class TrainingGoalServiceTest {
 	private TrainingRepository trainingRepo;
 	@Mock
 	private GoalProgressCalculator calculator;
+	@Mock
+	private GoalPredictionCalculator prediction;
 	@Mock
 	private JWTService jwtService;
 	@Mock
@@ -64,6 +67,7 @@ class TrainingGoalServiceTest {
 		service.calculator = calculator;
 		service.newTrainingGoalEvent = newTrainingGoalEvent;
 		service.updatedTrainingGoalEvent = updatedTrainingGoalEvent;
+		service.prediction = prediction;
 
 	}
 

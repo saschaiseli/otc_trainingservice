@@ -31,6 +31,7 @@ import ch.opentrainingcenter.otc.training.events.EventAnnotations.Created;
 import ch.opentrainingcenter.otc.training.events.EventAnnotations.Updated;
 import ch.opentrainingcenter.otc.training.repository.TrainingGoalRepository;
 import ch.opentrainingcenter.otc.training.repository.TrainingRepository;
+import ch.opentrainingcenter.otc.training.service.goal.GoalPredictionCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.GoalProgressCalculator;
 import ch.opentrainingcenter.otc.training.service.goal.TrainingGoalDateCalculator;
 import lombok.extern.slf4j.Slf4j;
@@ -50,6 +51,8 @@ public class TrainingGoalService {
 	@Inject
 	protected TrainingGoalDateCalculator dateCalculator;
 	@Inject
+	protected GoalPredictionCalculator prediction;
+	@Inject
 	protected TrainingGoalRepository repository;
 	@Inject
 	protected TrainingRepository trainingRepo;
@@ -67,7 +70,8 @@ public class TrainingGoalService {
 		final Long athleteId = jwtService.getClaims(httpHeaders).get("id", Long.class);
 		log.info("get targets from Athlete {}", athleteId);
 		final List<TrainingGoal> targets = repository.findByAthlete(athleteId);
-		final List<TrainingGoalDto> dtos = targets.stream().map(TrainingGoalDto::new).collect(Collectors.toList());
+		final List<TrainingGoalDto> dtos = targets.stream().map(TrainingGoalDto::new)
+				.map(dto -> prediction.predictTrainingGoal(dto, LocalDate.now())).collect(Collectors.toList());
 		return Response.status(200).entity(dtos).build();
 	}
 
@@ -93,6 +97,7 @@ public class TrainingGoalService {
 		dto.setCurrentValue(currentValue);
 		dto.setActive(dateCalculator.isActive(dto, LocalDate.now()));
 		dto.setAthleteId(athleteId);
+		prediction.predictTrainingGoal(dto, LocalDate.now());
 		if (id == null) {
 			newTrainingGoalEvent.fire(dto);
 		} else {

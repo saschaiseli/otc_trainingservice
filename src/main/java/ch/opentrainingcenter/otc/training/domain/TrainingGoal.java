@@ -38,6 +38,7 @@ public class TrainingGoal {
 	@Enumerated(EnumType.STRING)
 	private TargetUnit unit;
 	private double currentValue;
+	private double prediction;
 	private boolean active;
 	@ManyToOne
 	@JoinColumn(name = "ID_FK_ATHLETE", nullable = false)
