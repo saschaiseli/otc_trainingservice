@@ -306,7 +306,7 @@
                 <version>2.5.2</version>
                 <executions>
                     <execution>
-                        <phase>install</phase>
+                        <phase>clean</phase>
                         <configuration>
                             <file>${basedir}/src/main/webapp/WEB-INF/lib/fit_20.78.00.jar</file>
                             <repositoryLayout>default</repositoryLayout>
