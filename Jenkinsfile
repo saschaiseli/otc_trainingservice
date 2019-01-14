@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Test') {
       steps {
-        sh 'mvn test -Drun.profiles=test'
+        sh 'mvn install:install-file test -Drun.profiles=test'
         archive "target/**/*"
         junit 'target/surefire-reports/*.xml'
       }
