@@ -329,22 +329,6 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${version.fabric8}</version>
-                <executions>
-                    <execution>
-                        <id>start</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>start</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>stop</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>stop</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
