@@ -102,7 +102,7 @@
         </dependency>
 
         <dependency>
-            <groupId>garmin.com</groupId>
+            <groupId>com.garmin</groupId>
             <artifactId>fit-sdk</artifactId>
             <version>${version.garmin}</version>
         </dependency>
@@ -310,7 +310,7 @@
                         <configuration>
                             <file>${basedir}/src/main/webapp/WEB-INF/lib/fit_20.78.00.jar</file>
                             <repositoryLayout>default</repositoryLayout>
-                            <groupId>garmin.com</groupId>
+                            <groupId>com.garmin</groupId>
                             <artifactId>fit-sdk</artifactId>
                             <version>${version.garmin}</version>
                             <packaging>jar</packaging>
