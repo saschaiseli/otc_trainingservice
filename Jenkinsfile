@@ -17,7 +17,7 @@ pipeline {
         sh 'mvn test -Drun.profiles=test'
         archive "target/**/*"
         junit 'target/surefire-reports/*.xml'
-      }W
+      }
     }
     stage('Package') {
       steps {
