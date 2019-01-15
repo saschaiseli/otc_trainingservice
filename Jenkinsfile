@@ -1,11 +1,5 @@
-@Library('github.com/fabric8io/fabric8-pipeline-library@master') _
-
 pipeline {
-  agent {
-    docker {
-      image 'maven:3.5-jdk-8'
-    }
-  }
+  agent any
   stages {
     stage('Install Garmin') {
       steps {
@@ -19,19 +13,26 @@ pipeline {
         junit 'target/surefire-reports/*.xml'
       }
     }
+    stage('Integration Tests') {
+      steps {
+        sh 'mvn verify -DskipTests=true'
+      }
+    }
     stage('Package') {
       steps {
-        sh 'mvn package'
+        sh 'mvn install'
       }
     }
     stage('Build & Push TrainingService 2 Docker Hub') {
       steps {
-        sh 'mvn docker:build docker:push'
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+            sh 'mvn docker:build -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
+        }
       }
     }
     stage('Start Service and Database') {
       steps {
-        sh 'mvn docker:run'
+        sh 'mvn docker:start'
       }
     }
     stage('Stop Service and Database') {
