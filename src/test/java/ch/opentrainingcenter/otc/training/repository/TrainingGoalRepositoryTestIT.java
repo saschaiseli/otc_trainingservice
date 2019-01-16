@@ -20,6 +20,7 @@ import org.jboss.shrinkwrap.resolver.api.maven.MavenResolverSystem;
 import org.jboss.shrinkwrap.resolver.api.maven.ScopeType;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,6 +34,7 @@ import ch.opentrainingcenter.otc.training.domain.raw.Sport;
 import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 
 @RunWith(Arquillian.class)
+@Ignore
 public class TrainingGoalRepositoryTestIT {
 
 	private static final String EMAIL = "test@opentrainingcenter.ch";
