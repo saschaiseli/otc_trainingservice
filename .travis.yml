@@ -10,6 +10,6 @@ before_install:
 - sudo service mysql stop
 - mvn clean
 install:
-- mvn clean
+- mvn install -DskipIntegrationTests=true
 script:
 - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar coveralls:report -DskipIntegrationTests=true
