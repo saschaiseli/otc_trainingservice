@@ -9,4 +9,6 @@ jdk:
 before_install:
 - mvn clean
 install:
-- mvn org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar coveralls:report install -DskipIntegrationTests=true
+- mvn install -DskipIntegrationTests=true
+script:
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar coveralls:report -DskipIntegrationTests=true
