@@ -21,6 +21,7 @@
         <version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
         <version.jackson>2.9.8</version.jackson>
         <version.fabric8>0.28.0</version.fabric8>
+        <version.jboss>7.1.1.Final</version.jboss>
     </properties>
 
 
@@ -327,6 +328,30 @@
                 <configuration>
                     <repoToken>AwdDpLjeRlIZtSP4vwyGMofBMc9pDYuxn</repoToken>
                 </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.jboss.as</groupId>
+                                    <artifactId>jboss-as-dist</artifactId>
+                                    <version>${version.jboss}</version>
+                                    <type>zip</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>target</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <!-- ########################### -->
             <plugin>
