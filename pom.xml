@@ -21,7 +21,6 @@
         <version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
         <version.jackson>2.9.8</version.jackson>
         <version.fabric8>0.28.0</version.fabric8>
-        <version.jboss>7.1.1.Final</version.jboss>
     </properties>
 
 
@@ -239,6 +238,13 @@
             <artifactId>shrinkwrap-resolver-impl-maven-archive</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/io.rest-assured/rest-assured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>3.3.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <dependencyManagement>
@@ -328,30 +334,6 @@
                 <configuration>
                     <repoToken>AwdDpLjeRlIZtSP4vwyGMofBMc9pDYuxn</repoToken>
                 </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack</id>
-                        <phase>process-test-classes</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.jboss.as</groupId>
-                                    <artifactId>jboss-as-dist</artifactId>
-                                    <version>${version.jboss}</version>
-                                    <type>zip</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>target</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <!-- ########################### -->
             <plugin>
@@ -449,8 +431,6 @@
                         <id>start</id>
                         <phase>pre-integration-test</phase>
                         <goals>
-                            <!-- "build" should be used to create the images with the
-                                 artifact -->
                             <goal>build</goal>
                             <goal>start</goal>
                         </goals>
