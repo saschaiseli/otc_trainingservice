@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.startsWith;
 
 public class RegisterServiceIT {
-    private final static String PATH = "http://localhost:8282";
+    private final static String PATH = "http://127.0.0.1:8282";
 
     @Test
     public void shouldRegisterUser() {
