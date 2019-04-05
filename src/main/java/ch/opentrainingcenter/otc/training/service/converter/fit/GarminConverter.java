@@ -1,29 +1,27 @@
 package ch.opentrainingcenter.otc.training.service.converter.fit;
 
-import java.io.InputStream;
-import java.io.Serializable;
-
-import javax.enterprise.context.SessionScoped;
-
+import ch.opentrainingcenter.otc.training.entity.raw.Training;
 import com.garmin.fit.Decode;
 
-import ch.opentrainingcenter.otc.training.domain.raw.Training;
+import javax.enterprise.context.SessionScoped;
+import java.io.InputStream;
+import java.io.Serializable;
 
 @SessionScoped
 public class GarminConverter implements Serializable {
 
-	private static final String FIT = "fit";
-	private static final long serialVersionUID = 5169027790370807110L;
+    private static final String FIT = "fit";
+    private static final long serialVersionUID = 5169027790370807110L;
 
-	public String getFilePrefix() {
-		return FIT;
-	}
+    public String getFilePrefix() {
+        return FIT;
+    }
 
-	public Training convert(final InputStream inputStream) {
-		final TrainingListener listener = new TrainingListener();
-		final Decode decode = new Decode();
-		decode.read(inputStream, listener);
-		return listener.getTraining();
-	}
+    public Training convert(final InputStream inputStream) {
+        final TrainingListener listener = new TrainingListener();
+        final Decode decode = new Decode();
+        decode.read(inputStream, listener);
+        return listener.getTraining();
+    }
 
 }

@@ -16,7 +16,7 @@ services:
   trainingservice:
     image: iselisa/trainingservice:latest
     ports:
-      - 8282:8080
+      - 8080:8080
       - 9999:9990
     external_links:
       - mariadb
