@@ -17,7 +17,7 @@ public class SimpleTraining {
     private final String pace;
 
     public SimpleTraining(final Training t) {
-        this(t.getId(), t.getDauer(), t.getLaengeInMeter(), t.getAverageHeartBeat(), t.getMaxHeartBeat(),
+        this(t.getStartInMillis(), t.getDauer(), t.getLaengeInMeter(), t.getAverageHeartBeat(), t.getMaxHeartBeat(),
                 t.getTrainingEffect(), t.getAnaerobicTrainingEffect());
     }
 

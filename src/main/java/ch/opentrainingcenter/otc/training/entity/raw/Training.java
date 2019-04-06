@@ -30,7 +30,11 @@ import java.util.List;
 public class Training {
 
     @Id
+    @GeneratedValue
     private long id;
+
+    private long startInMillis;
+
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime dateOfStart;
@@ -39,7 +43,6 @@ public class Training {
     private int averageHeartBeat;
     private int maxHeartBeat;
     private double maxSpeed;
-
     private String note;
 
     private String fileName;
@@ -58,8 +61,8 @@ public class Training {
     private LocalDate dateOfImport;
 
     private Integer upMeter;
-    private Integer downMeter;
 
+    private Integer downMeter;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<LapInfo> lapInfos = new ArrayList<>();
 
@@ -77,6 +80,7 @@ public class Training {
 
     @Column(name = "ANAEROB_TRAINING_EFFECT")
     private Integer anaerobTrainingEffect;
+
     @Lob
     @Column(name = "GEO_JSON")
     private String geoJson;
@@ -85,8 +89,8 @@ public class Training {
     }
 
     public Training(final RunData runData, final HeartRate heart, final String remark) {
-        id = runData.getDateOfStart().getTime();
-        dateOfStart = Instant.ofEpochMilli(id).atZone(ZoneId.systemDefault()).toLocalDateTime();
+        startInMillis = runData.getDateOfStart().getTime();
+        dateOfStart = Instant.ofEpochMilli(startInMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
         dauer = runData.getTimeInSeconds();
         laengeInMeter = runData.getDistanceInMeter();
         averageHeartBeat = heart.getAverage();
@@ -101,6 +105,14 @@ public class Training {
 
     public void setId(final long id) {
         this.id = id;
+    }
+
+    public long getStartInMillis() {
+        return startInMillis;
+    }
+
+    public void setStartInMillis(final long startInMillis) {
+        this.startInMillis = startInMillis;
     }
 
     public TrainingType getTrainingType() {

@@ -22,6 +22,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -40,6 +42,10 @@ public class TrainingRepositoryIT {
     private AthleteRepository repository;
     @Inject
     private TrainingRepository trainingRepo;
+
+    @PersistenceContext
+    EntityManager em;
+
     private Athlete athlete;
     private Training training;
 

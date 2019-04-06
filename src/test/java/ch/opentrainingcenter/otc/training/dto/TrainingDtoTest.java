@@ -25,7 +25,6 @@ class TrainingDtoTest {
 
         final TrainingDto dto = new TrainingDto(training);
 
-        assertThat(dto.getId(), is(equalTo(1412070744000L)));
         assertThat(dto.getTrackPoints(), is(not(empty())));
         assertThat(dto.getLaps(), is(not(empty())));
     }

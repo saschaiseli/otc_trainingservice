@@ -39,7 +39,7 @@ class ChartServiceTest {
         final File file = new File(TestConfig.FOLDER, TestConfig.FIT_FILE);
 
         training = converter.convert(new FileInputStream(file));
-        training.setId(ID);
+        training.setStartInMillis(ID);
     }
 
     @Test

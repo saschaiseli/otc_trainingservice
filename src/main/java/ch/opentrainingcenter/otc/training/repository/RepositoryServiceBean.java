@@ -3,12 +3,11 @@ package ch.opentrainingcenter.otc.training.repository;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
 
 @Stateless
 public class RepositoryServiceBean<T> {
 
-    @PersistenceContext(unitName = "postgres", type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext
     protected EntityManager em;
 
     public T doSave(final T t) {
