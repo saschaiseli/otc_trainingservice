@@ -7,14 +7,8 @@
 
     <container qualifier="wildfly" default="true">
         <configuration>
-            <property name="jbossHome">/home/celita/bin/wildfly-14.0.1.Final</property>
-            <property name="modulePath">/home/celita/bin/wildfly-14.0.1.Final/modules</property>
+            <property name="jbossHome">/opt/wildfly-14.0.1.Final</property>
+            <property name="modulePath">/opt/wildfly-14.0.1.Final/modules</property>
         </configuration>
     </container>
-
-    <!--<container qualifier="jbossas-managed" default="true">-->
-    <!--<configuration>-->
-    <!--<property name="jbossHome">target/jboss-as-7.1.1.Final</property>-->
-    <!--</configuration>-->
-    <!--</container>-->
 </arquillian>
