@@ -31,9 +31,9 @@ public class Training {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
-    private long startInMillis;
+//    private long startInMillis;
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -89,7 +89,7 @@ public class Training {
     }
 
     public Training(final RunData runData, final HeartRate heart, final String remark) {
-        startInMillis = runData.getDateOfStart().getTime();
+        final long startInMillis = runData.getDateOfStart().getTime();
         dateOfStart = Instant.ofEpochMilli(startInMillis).atZone(ZoneId.systemDefault()).toLocalDateTime();
         dauer = runData.getTimeInSeconds();
         laengeInMeter = runData.getDistanceInMeter();
@@ -99,7 +99,7 @@ public class Training {
         note = remark;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -107,13 +107,13 @@ public class Training {
         this.id = id;
     }
 
-    public long getStartInMillis() {
-        return startInMillis;
-    }
-
-    public void setStartInMillis(final long startInMillis) {
-        this.startInMillis = startInMillis;
-    }
+//    public long getStartInMillis() {
+//        return startInMillis;
+//    }
+//
+//    public void setStartInMillis(final long startInMillis) {
+//        this.startInMillis = startInMillis;
+//    }
 
     public TrainingType getTrainingType() {
         return trainingType;

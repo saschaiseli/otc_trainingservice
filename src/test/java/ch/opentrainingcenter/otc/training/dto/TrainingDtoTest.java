@@ -22,6 +22,7 @@ class TrainingDtoTest {
         final File file = new File(TestConfig.FOLDER, "2_runden.fit");
 
         final Training training = service.convert(new FileInputStream(file));
+        training.setId(42L);
 
         final TrainingDto dto = new TrainingDto(training);
 

@@ -1,10 +1,10 @@
 package ch.opentrainingcenter.otc.training.repository;
 
-import javax.ejb.Stateless;
+import javax.enterprise.context.Dependent;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-@Stateless
+@Dependent
 public class RepositoryServiceBean<T> {
 
     @PersistenceContext

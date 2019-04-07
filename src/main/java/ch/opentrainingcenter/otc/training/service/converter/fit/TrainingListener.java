@@ -77,7 +77,7 @@ public class TrainingListener implements MesgListener {
         final long dateOfStart = sessionMesg.getStartTime().getDate().getTime();
         final long timeInSeconds = sessionMesg.getTotalTimerTime().longValue();
         final long distanceInMeter = sessionMesg.getTotalDistance().longValue();
-        final double maxSpeed = sessionMesg.getMaxSpeed();
+        final double maxSpeed = sessionMesg.getMaxSpeed() == null ? 0 : sessionMesg.getMaxSpeed();
         final RunData runData = new RunData(new Date(dateOfStart), timeInSeconds, distanceInMeter, maxSpeed);
         final int average = sessionMesg.getAvgHeartRate() != null ? sessionMesg.getAvgHeartRate().intValue() : -1;
         final int max = sessionMesg.getMaxHeartRate() != null ? sessionMesg.getMaxHeartRate().intValue() : -1;

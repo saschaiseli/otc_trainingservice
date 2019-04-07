@@ -1,4 +1,4 @@
-DROP SEQUENCE public.hibernate_sequence;
+DROP SEQUENCE IF EXISTS public.hibernate_sequence;
 
 CREATE SEQUENCE public.hibernate_sequence
   INCREMENT 1

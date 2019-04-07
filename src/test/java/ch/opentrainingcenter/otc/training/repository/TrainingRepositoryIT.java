@@ -22,8 +22,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -42,9 +40,6 @@ public class TrainingRepositoryIT {
     private AthleteRepository repository;
     @Inject
     private TrainingRepository trainingRepo;
-
-    @PersistenceContext
-    EntityManager em;
 
     private Athlete athlete;
     private Training training;
@@ -77,7 +72,8 @@ public class TrainingRepositoryIT {
         }
         training.setDateOfImport(LocalDate.now());
         training.setAthlete(athlete);
-        System.out.println("vor dem speichern-----------------------------------------------------------------");
+        System.out.println("athlete ist null? " + athlete + " --> id: " + athlete.getId());
+        System.out.println("vor dem speichern-----------------------------------------------------------------" + training.getAthlete().getId());
         trainingRepo.doSave(training);
         System.out.println("nach dem speichern");
     }
@@ -89,6 +85,27 @@ public class TrainingRepositoryIT {
             repository.remove(Athlete.class, athlete.getId());
         }
     }
+
+    @Test
+    public void testStore() throws IOException {
+
+        final File jsonTraining = new File(TestConfig.FOLDER + "/training.json");
+        final ObjectMapper objectMapper = new ObjectMapper();
+        training = objectMapper.readValue(jsonTraining, Training.class);
+
+
+        final Athlete original = repository.findByEmail(EMAIL);
+        if (original == null) {
+            athlete = repository.doSave(athlete);
+        } else {
+            athlete = original;
+        }
+        System.out.println("athlete ist null IM TESCHT--------------------? " + athlete);
+        training.setAthlete(athlete);
+        final Training newTraining = trainingRepo.doSave(training);
+        assertThat(newTraining.getId(), is(notNullValue()));
+    }
+
 
     @Test
     public void testFindByAthleteId() {

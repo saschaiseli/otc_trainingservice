@@ -22,6 +22,7 @@ public class SimpleTrainingTest {
     @BeforeEach
     void setUp() throws JsonParseException, JsonMappingException, IOException {
         training = objectMapper.readValue(jsonTraining, Training.class);
+        training.setId(42L);
     }
 
     @Test

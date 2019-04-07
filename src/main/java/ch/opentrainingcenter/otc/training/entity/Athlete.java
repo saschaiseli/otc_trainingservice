@@ -85,4 +85,13 @@ public class Athlete {
         trainings.remove(training);
         training.setAthlete(null);
     }
+
+    @Override
+    public String toString() {
+        return "Athlete{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
+    }
 }

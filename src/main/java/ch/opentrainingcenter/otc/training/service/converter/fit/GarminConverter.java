@@ -3,11 +3,11 @@ package ch.opentrainingcenter.otc.training.service.converter.fit;
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
 import com.garmin.fit.Decode;
 
-import javax.enterprise.context.SessionScoped;
+import javax.ejb.Stateless;
 import java.io.InputStream;
 import java.io.Serializable;
 
-@SessionScoped
+@Stateless
 public class GarminConverter implements Serializable {
 
     private static final String FIT = "fit";

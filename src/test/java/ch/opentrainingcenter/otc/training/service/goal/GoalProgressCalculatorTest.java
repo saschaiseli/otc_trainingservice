@@ -94,7 +94,7 @@ class GoalProgressCalculatorTest {
     }
 
     private SimpleTraining createSimpleTraining(final long durationInSec, final int distanceInMeter) {
-        return new SimpleTraining(0, durationInSec, distanceInMeter, 0, 0, 0, 0);
+        return new SimpleTraining(0L, durationInSec, distanceInMeter, 0, 0, 0, 0);
     }
 
 }

@@ -44,7 +44,7 @@ public class FlywayService implements DBService {
         logger.info("*****************************************");
         logger.info("*    --> Flyway clean / migration       *");
         logger.info("*****************************************");
-        clean();
+//        clean();
         migrate();
     }
 
