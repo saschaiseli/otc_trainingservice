@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -94,7 +95,7 @@ class GoalProgressCalculatorTest {
     }
 
     private SimpleTraining createSimpleTraining(final long durationInSec, final int distanceInMeter) {
-        return new SimpleTraining(0L, durationInSec, distanceInMeter, 0, 0, 0, 0);
+        return new SimpleTraining(0L, LocalDateTime.now(), durationInSec, distanceInMeter, 0, 0, 0, 0);
     }
 
 }

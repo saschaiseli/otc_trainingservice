@@ -21,10 +21,10 @@ import java.util.Collections;
 import java.util.List;
 
 @NamedQuery(name = "Training.getTrainingByAthlete", query = "SELECT t FROM TRAINING t where t.athlete=:athlete order by t.id desc")
-@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId")
+@NamedQuery(name = "Training.getSimpleTrainingByAthlete", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dateOfStart,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete.id=:athleteId order by t.dateOfStart desc")
 @NamedQuery(name = "Training.existsFileByAthlete", query = "select t from TRAINING t where t.athlete.id=:athleteId AND t.fileName=:fileName")
-@NamedQuery(name = "Training.findByAthleteAndDate", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) from TRAINING t where t.athlete.id=:athleteId AND "
-        + "t.dateOfStart>=:beginDate and t.dateOfStart<:endDate") //
+@NamedQuery(name = "Training.findByAthleteAndDate", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dateOfStart,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) from TRAINING t where t.athlete.id=:athleteId AND "
+        + "t.dateOfStart>=:beginDate and t.dateOfStart<:endDate order by t.dateOfStart desc") //
 @Cacheable
 @Entity(name = "TRAINING")
 public class Training {
@@ -106,14 +106,6 @@ public class Training {
     public void setId(final long id) {
         this.id = id;
     }
-
-//    public long getStartInMillis() {
-//        return startInMillis;
-//    }
-//
-//    public void setStartInMillis(final long startInMillis) {
-//        this.startInMillis = startInMillis;
-//    }
 
     public TrainingType getTrainingType() {
         return trainingType;
