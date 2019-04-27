@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.ZoneId;
 import java.util.*;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,12 +46,12 @@ class FileUploadServiceTest {
     final File file = new File(TestConfig.FOLDER, TestConfig.FIT_FILE);
     @Mock
     private JWTService jwtService;
-    private final String expectedJson = "{\"id\":null,\"start\":1476272557000,\"timeInSeconds\":5641,\"distanceInKm\":15.71,\"avgHeartBeat\":154,\"maxHeartBeat\":196,\"trainingEffect\":\"41\",\"anaerobTrainingEffect\":\"-\",\"pace\":\"10.0\"}";
+    private final String expectedJson = "{\"id\":null,\"start\":1476265357000,\"timeInSeconds\":5641,\"distanceInKm\":15.71,\"avgHeartBeat\":154,\"maxHeartBeat\":196,\"trainingEffect\":\"41\",\"anaerobTrainingEffect\":\"-\",\"pace\":\"10.0\"}";
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-
+        TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.of("GMT")));
         service = new FileUploadService();
         service.context = context;
         service.garminConverter = new GarminConverter();

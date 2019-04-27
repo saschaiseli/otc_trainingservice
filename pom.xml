@@ -409,7 +409,7 @@
                             <alias>postgres</alias>
                             <run>
                                 <ports>
-                                    <port>5432:5432</port>
+                                    <port>5430:5432</port>
                                 </ports>
                                 <env>
                                     <ALLOW_EMPTY_PASSWORD>yes</ALLOW_EMPTY_PASSWORD>
