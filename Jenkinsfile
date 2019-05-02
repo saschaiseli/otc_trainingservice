@@ -40,12 +40,14 @@ pipeline {
         sh 'mvn docker:stop'
       }
     }
-    stage('Push Image to Dockerhub') {
-      steps {
-        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh 'mvn docker:push -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
-         }
-      }
+    if(env.BRANCH_NAME == 'master'){
+        stage('Push Image to Dockerhub') {
+          steps {
+            withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+              sh 'mvn docker:push -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
+             }
+          }
+        }
     }
     stage('Cleanup') {
       steps {
