@@ -3,6 +3,7 @@ package ch.opentrainingcenter.otc.training.entity.raw;
 import ch.opentrainingcenter.otc.training.entity.Athlete;
 import ch.opentrainingcenter.otc.training.entity.HeartRate;
 import ch.opentrainingcenter.otc.training.entity.TrainingType;
+import ch.opentrainingcenter.otc.training.entity.converter.LocalDateTimeAttributeConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -37,6 +38,7 @@ public class Training {
 
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Convert(converter = LocalDateTimeAttributeConverter.class)
     private LocalDateTime dateOfStart;
     private long dauer;
     private long laengeInMeter;

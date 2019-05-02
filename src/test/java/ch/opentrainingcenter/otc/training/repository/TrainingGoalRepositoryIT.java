@@ -1,92 +1,73 @@
 package ch.opentrainingcenter.otc.training.repository;
 
-import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
 import ch.opentrainingcenter.otc.training.entity.*;
-import ch.opentrainingcenter.otc.training.entity.raw.Sport;
 import org.hamcrest.Matchers;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import javax.inject.Inject;
 import java.time.LocalDate;
 import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-@RunWith(Arquillian.class)
-@Ignore
-public class TrainingGoalRepositoryIT {
+public class TrainingGoalRepositoryIT extends BaseIT {
 
     private static final String EMAIL = "test@opentrainingcenter.ch";
-    @Inject
-    private AthleteRepository repository;
+    private final AthleteRepository repository = new AthleteRepository();
 
-    @Inject
-    private TrainingGoalRepository targetRepository;
+    private final TrainingGoalRepository targetRepository = new TrainingGoalRepository();
     private Athlete athlete;
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        final WebArchive archive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(RepositoryServiceBean.class, AthleteRepository.class, TrainingGoalRepository.class)
-                .addPackage(Athlete.class.getPackage()).addPackage(Sport.class.getPackage())
-                .addPackage(SimpleTraining.class.getPackage()).addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-        archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
 
-//        final MavenResolverSystem resolver = Maven.resolver();
-//        final File[] files = resolver.loadPomFromFile("pom.xml")
-//                .importDependencies(ScopeType.COMPILE, ScopeType.RUNTIME).resolve().withTransitivity().asFile();
-//        archive.addAsLibraries(files);
-        return archive;
-    }
-
-    @Before
+    @BeforeEach
     public void setUp() {
+        repository.em = getEntityManager();
+        targetRepository.em = getEntityManager();
         athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name", EMAIL, "abc");
         athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
-        athlete = repository.doSave(athlete);
+        athlete = executeInTransaction((AthleteRepository r) -> r.doSave(athlete), repository);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         final Athlete athlete = repository.findByEmail(EMAIL);
         if (athlete != null) {
-            repository.remove(Athlete.class, athlete.getId());
+            executeInTransaction((AthleteRepository r) -> r.remove(Athlete.class, athlete.getId()), repository);
         }
     }
 
     @Test
     public void testFindByAthleteNoDataFound() {
+        // Given
+
+        // When
         final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 
+        // Then
         assertThat(targets, Matchers.empty());
     }
 
     @Test
     public void testFindByAthleteDataFound() {
+        // Given
         final TrainingGoal nt = new TrainingGoal();
         nt.setDerStart(LocalDate.now());
         nt.setDistanceOrHour(42);
         nt.setAthlete(athlete);
+        executeInTransaction((TrainingGoalRepository r) -> r.storeTrainingGoal(nt, athlete.getId()), targetRepository);
 
-        targetRepository.storeTrainingGoal(nt, athlete.getId());
-
+        // When
         final List<TrainingGoal> targets = targetRepository.findByAthlete(athlete.getId());
 
+        // Then
         assertThat(targets.get(0).getId(), is(Matchers.equalTo(nt.getId())));
     }
 
     @Test
     public void testFindByAthleteAndDataBeginEqualsDate() {
+        // Given
         final TrainingGoal goal = new TrainingGoal();
         final LocalDate begin = LocalDate.of(2018, 12, 22);
         final LocalDate end = LocalDate.of(2018, 12, 29);
@@ -95,16 +76,18 @@ public class TrainingGoalRepositoryIT {
         goal.setDasEnde(end);
         goal.setDistanceOrHour(42);
         goal.setAthlete(athlete);
+        executeInTransaction((TrainingGoalRepository r) -> r.storeTrainingGoal(goal, athlete.getId()), targetRepository);
 
-        targetRepository.storeTrainingGoal(goal, athlete.getId());
-
+        // When
         final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), begin);
 
+        // Then
         assertThat(targets.get(0).getId(), is(Matchers.equalTo(goal.getId())));
     }
 
     @Test
     public void testFindByAthleteAndDataDateBetweenBeginEnd() {
+        // Given
         final TrainingGoal goal = new TrainingGoal();
         final LocalDate begin = LocalDate.of(2018, 12, 22);
         final LocalDate date = LocalDate.of(2018, 12, 25);
@@ -115,15 +98,18 @@ public class TrainingGoalRepositoryIT {
         goal.setDistanceOrHour(42);
         goal.setAthlete(athlete);
 
-        targetRepository.storeTrainingGoal(goal, athlete.getId());
+        executeInTransaction((TrainingGoalRepository r) -> r.storeTrainingGoal(goal, athlete.getId()), targetRepository);
 
+        // When
         final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), date);
 
+        // Then
         assertThat(targets.get(0).getId(), is(Matchers.equalTo(goal.getId())));
     }
 
     @Test
     public void testFindByAthleteAndDataEndEqualsDate() {
+        // Given
         final TrainingGoal goal = new TrainingGoal();
         final LocalDate begin = LocalDate.of(2018, 12, 22);
         final LocalDate end = LocalDate.of(2018, 12, 29);
@@ -133,10 +119,12 @@ public class TrainingGoalRepositoryIT {
         goal.setDistanceOrHour(42);
         goal.setAthlete(athlete);
 
-        targetRepository.storeTrainingGoal(goal, athlete.getId());
+        executeInTransaction((TrainingGoalRepository r) -> r.storeTrainingGoal(goal, athlete.getId()), targetRepository);
 
+        // When
         final List<TrainingGoal> targets = targetRepository.findTrainingGoalsByAthleteAndDate(athlete.getId(), end);
 
+        // Then
         assertThat(0, is(targets.size()));
     }
 }

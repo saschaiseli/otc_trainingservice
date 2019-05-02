@@ -1,52 +1,28 @@
 package ch.opentrainingcenter.otc.training.repository;
 
-import ch.opentrainingcenter.otc.training.dto.SimpleTraining;
-import ch.opentrainingcenter.otc.training.dto.TrainingGoalDto;
 import ch.opentrainingcenter.otc.training.entity.*;
-import ch.opentrainingcenter.otc.training.entity.raw.Sport;
-import ch.opentrainingcenter.otc.training.entity.raw.Training;
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.shrinkwrap.api.ShrinkWrap;
-import org.jboss.shrinkwrap.api.asset.EmptyAsset;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
+import lombok.extern.java.Log;
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
-import javax.inject.Inject;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-@RunWith(Arquillian.class)
-@Ignore
-public class AthleteRepositoryIT {
+@Log
+public class AthleteRepositoryIT extends BaseIT {
 
     private static final String EMAIL = "test@opentrainingcenter.ch";
-    private static final String EMAIL_2 = "test2@opentrainingcenter.ch";
-    @Inject
-    private AthleteRepository repository;
+    private final AthleteRepository repository = new AthleteRepository();
 
-    @Deployment
-    public static WebArchive createDeployment() {
-        final WebArchive archive = ShrinkWrap.create(WebArchive.class)
-                .addClasses(RepositoryServiceBean.class, AthleteRepository.class).addPackage(Athlete.class.getPackage()).addPackage(Training.class.getPackage())
-                .addPackage(Sport.class.getPackage()).addPackage(SimpleTraining.class.getPackage())
-                .addPackage(TrainingGoalDto.class.getPackage())
-                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
-        archive.addAsResource("META-INF/test-persistence.xml", "META-INF/persistence.xml");
 
-        return archive;
-    }
-
-    @Before
+    @BeforeEach
     public void setUp() {
+        repository.em = getEntityManager();
         final Athlete athlete = CommonTransferFactory.createAthleteHashedPass("first name", "last name", EMAIL, "abc");
         athlete.setSettings(Settings.of(SystemOfUnit.METRIC, Speed.PACE));
-        repository.doSave(athlete);
+
+        executeInTransaction((AthleteRepository r) -> r.doSave(athlete), repository);
     }
 
     @After

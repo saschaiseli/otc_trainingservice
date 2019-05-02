@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
@@ -49,7 +51,8 @@ public class Athlete {
     private LocalDateTime lastLogin;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "athlete", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Training> trainings = new ArrayList<>();
 
     @JsonIgnore
