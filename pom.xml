@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.opentrainingcenter.otc</groupId>
     <artifactId>trainingservice</artifactId>
-    <version>0.0.1</version>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Training Service</name>
     <description>Service for managing Training Datas</description>
@@ -265,6 +265,12 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <scm>
+        <connection>scm:git:https://github.com/saschaiseli/otc_trainingservice.git</connection>
+        <developerConnection>scm:git:https://github.com/saschaiseli/otc_trainingservice.git</developerConnection>
+    </scm>
+
     <build>
         <finalName>trainingservice</finalName>
         <plugins>
@@ -375,7 +381,7 @@
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
                         <image>
-                            <name>iselisa/trainingservice:latest</name>
+                            <name>iselisa/trainingservice:${project.version}</name>
                             <alias>trainingservice</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
@@ -386,7 +392,7 @@
                                     <DB_PASSWORD>otc</DB_PASSWORD>
                                     <DB_HOST>postgres</DB_HOST>
                                     <DB_PORT>5432</DB_PORT>
-                                    <DB_DATABASE>trainingservice</DB_DATABASE>
+                                    <DB_DATABASE>trainingservice_dev</DB_DATABASE>
                                     <isDev>false</isDev>
                                 </env>
                                 <ports>

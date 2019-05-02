@@ -26,4 +26,4 @@ if [ -z "$DB_DATABASE_DEV" ]; then
 fi
 
 mvn clean package -DskipTests=true && docker build -t iselisa/trainingservice .
-docker rm -f trainingservice || true && docker run -it --rm  --net=host -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=$DB_PORT_DEV -e DB_DATABASE=$DB_DATABASE_DEV iselisa/trainingservice
+docker rm -f trainingservice || true && docker run -it --rm  --net=host -e DB_USERNAME=$DB_USER_DEV -e DB_PASSWORD=$DB_PASS_DEV -e DB_HOST=$DB_HOST_DEV -e DB_PORT=$DB_PORT_DEV -e DB_DATABASE=trainingservice_dev iselisa/trainingservice

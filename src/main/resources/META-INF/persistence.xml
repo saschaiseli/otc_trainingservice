@@ -11,7 +11,6 @@
         <properties>
             <property name="hibernate.generate_statistics" value="false"/>
             <property name="hibernate.format_sql" value="true"/>
-            <!--<property name="hibernate.dialect" value="org.hibernate.dialect.MariaDBDialect"/>-->
         </properties>
     </persistence-unit>
 

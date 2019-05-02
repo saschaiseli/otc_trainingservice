@@ -23,7 +23,7 @@ pipeline {
         sh 'mvn install'
       }
     }
-    stage('Build & Push TrainingService 2 Docker Hub') {
+    stage('Docker Build') {
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
             sh 'mvn docker:build -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
@@ -38,6 +38,13 @@ pipeline {
     stage('Stop Service and Database') {
       steps {
         sh 'mvn docker:stop'
+      }
+    }
+    stage('Push Image to Dockerhub') {
+      steps {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh 'mvn docker:push -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
+         }
       }
     }
     stage('Cleanup') {
