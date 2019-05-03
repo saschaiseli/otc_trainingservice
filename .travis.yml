@@ -5,11 +5,11 @@ addons:
     projectKey: saschaiseli_otc_trainingservice
 language: java
 jdk:
- - oraclejdk8
+  - oraclejdk8
 before_install:
-- sudo service mysql stop
-- mvn clean
+  - sudo service mysql stop
+  - mvn clean
 install:
-- mvn install
+  - mvn install
 script:
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test sonar:sonar coveralls:report
+  - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent coveralls:report -Pintegration

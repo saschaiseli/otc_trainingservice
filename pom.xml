@@ -23,6 +23,21 @@
         <version.fabric8>0.28.0</version.fabric8>
     </properties>
 
+    <profiles>
+        <profile>
+            <id>test</id>
+            <properties>
+                <skipIntegrationTests>true</skipIntegrationTests>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>integration</id>
+            <properties>
+                <skipIntegrationTests>false</skipIntegrationTests>
+            </properties>
+        </profile>
+    </profiles>
 
     <dependencies>
         <dependency>
