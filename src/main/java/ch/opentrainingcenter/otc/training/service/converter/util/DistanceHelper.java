@@ -47,8 +47,6 @@ public final class DistanceHelper {
      * --> muss 5:15 ergeben
      * </pre>
      *
-     * @param distanceInMeter
-     * @param timeInSeconds
      * @return min/km im format MM:SS
      */
     public static String calculatePace(final double distanzInMeter, final double dauerInSekunden, final Sport sport) {
@@ -99,11 +97,4 @@ public final class DistanceHelper {
         return (int) floor + ":" + s; //$NON-NLS-1$
     }
 
-    /**
-     * Berechnet je nach Sport die maximale min/km oder km/h
-     */
-    public static String calculatePace(final double speedMperSecond, final Sport sport) {
-        final double secPerKm = KILOMETER_IN_METER / speedMperSecond;
-        return calculatePace(KILOMETER_IN_METER, secPerKm, sport);
-    }
 }
