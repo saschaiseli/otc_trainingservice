@@ -12,9 +12,9 @@ import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceException;
 import javax.ws.rs.core.Response;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 class EJBExceptionMapperTest {
     private EJBExceptionMapper mapper;

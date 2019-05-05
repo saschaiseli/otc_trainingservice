@@ -6,7 +6,7 @@ import ch.opentrainingcenter.otc.training.entity.raw.Sport;
 import ch.opentrainingcenter.otc.training.entity.raw.Tracktrainingproperty;
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.naming.NamingException;
@@ -29,7 +29,7 @@ class GarminConverterTest {
 
     private final GarminConverter service = new GarminConverter();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         Locale.setDefault(Locale.GERMAN);
         TimeZone.setDefault(TimeZone.getTimeZone("Europe/Zurich"));

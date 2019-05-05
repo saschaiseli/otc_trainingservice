@@ -11,7 +11,8 @@ import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 class TrainingGoalDateCalculatorTest {
     private TrainingGoalDateCalculator calculator;

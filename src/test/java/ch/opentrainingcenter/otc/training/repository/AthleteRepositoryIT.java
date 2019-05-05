@@ -2,7 +2,7 @@ package ch.opentrainingcenter.otc.training.repository;
 
 import ch.opentrainingcenter.otc.training.entity.*;
 import lombok.extern.java.Log;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ public class AthleteRepositoryIT extends BaseIT {
         executeInTransaction((AthleteRepository r) -> r.doSave(athlete), repository);
     }
 
-    @After
+    @AfterEach
     public void tearDown() {
         final Athlete athlete = repository.findByEmail(EMAIL);
         if (athlete != null) {

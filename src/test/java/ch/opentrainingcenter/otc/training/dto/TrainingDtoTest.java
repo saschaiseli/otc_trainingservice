@@ -3,22 +3,20 @@ package ch.opentrainingcenter.otc.training.dto;
 import ch.opentrainingcenter.otc.training.TestConfig;
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.fit.GarminConverter;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
 
 class TrainingDtoTest {
     private final GarminConverter service = new GarminConverter();
 
     @Test
-    void test() throws JsonParseException, JsonMappingException, IOException {
+    void test() throws IOException {
         final File file = new File(TestConfig.FOLDER, "2_runden.fit");
 
         final Training training = service.convert(new FileInputStream(file));

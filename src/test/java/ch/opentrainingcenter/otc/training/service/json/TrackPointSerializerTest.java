@@ -4,8 +4,6 @@ import ch.opentrainingcenter.otc.training.TestConfig;
 import ch.opentrainingcenter.otc.training.entity.CommonTransferFactory;
 import ch.opentrainingcenter.otc.training.entity.raw.Tracktrainingproperty;
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 class TrackPointSerializerTest {
 
@@ -28,7 +26,7 @@ class TrackPointSerializerTest {
     private Training training;
 
     @BeforeEach
-    public void setUp() throws JsonParseException, JsonMappingException, IOException {
+    public void setUp() throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper();
         final File jsonTraining = new File(TestConfig.FOLDER + "/training.json");
         training = objectMapper.readValue(jsonTraining, Training.class);

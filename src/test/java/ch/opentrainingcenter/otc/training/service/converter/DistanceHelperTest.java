@@ -2,16 +2,17 @@ package ch.opentrainingcenter.otc.training.service.converter;
 
 import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DistanceHelperTest {
     @Test
     public void testConvert() {
         final String roundDistance = DistanceHelper.roundDistanceFromMeterToKmMitEinheit(10123.4567890);
-        assertEquals("10.123km", roundDistance);
+        assertThat(roundDistance, is("10.123km"));
     }
 
     @Test

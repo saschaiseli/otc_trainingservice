@@ -2,8 +2,6 @@ package ch.opentrainingcenter.otc.training.dto;
 
 import ch.opentrainingcenter.otc.training.TestConfig;
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
 
 public class SimpleTrainingTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -20,7 +18,7 @@ public class SimpleTrainingTest {
     private Training training;
 
     @BeforeEach
-    void setUp() throws JsonParseException, JsonMappingException, IOException {
+    void setUp() throws IOException {
         training = objectMapper.readValue(jsonTraining, Training.class);
         training.setId(42L);
     }
