@@ -50,6 +50,14 @@ pipeline {
          }
       }
     }
+    stage('Start new Image') {
+      when{
+         branch 'master'
+      }
+      steps {
+        sh "sh cleanrestart.ch ${currentBuild.number}"
+      }
+    }
     stage('Cleanup') {
       steps {
         cleanWs(cleanWhenAborted: true, cleanWhenFailure: true, cleanWhenNotBuilt: true, cleanWhenSuccess: true, cleanWhenUnstable: true, cleanupMatrixParent: true, deleteDirs: true)
