@@ -16,11 +16,24 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <docker.image.prefix>iselisa</docker.image.prefix>
+
+        <version.javaee>8.0.1</version.javaee>
+
+        <version.hibernate-core>6.0.0.Alpha2</version.hibernate-core>
+        <version.hibernate-ehcache>5.3.0.Beta1</version.hibernate-ehcache>
+        <version.hibernate-validator>6.1.0.Alpha4</version.hibernate-validator>
+        <version.postgres>42.2.5.jre7</version.postgres>
+        <version.slf4j>1.8.0-beta4</version.slf4j>
+        <version.microprofile>3.0-RC1</version.microprofile>
+
         <version.garmin>20.78.00</version.garmin>
         <version.joda>2.9.2</version.joda>
         <version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
-        <version.jackson>2.9.8</version.jackson>
+        <version.jackson>2.9.9</version.jackson>
         <version.fabric8>0.28.0</version.fabric8>
+        <version.h2>1.4.199</version.h2>
+        <version.rest-assured>4.0.0</version.rest-assured>
+        <version.flywaydb>6.0.0-beta</version.flywaydb>
     </properties>
 
     <profiles>
@@ -43,7 +56,7 @@
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
-            <version>8.0</version>
+            <version>${version.javaee}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -59,11 +72,21 @@
             <artifactId>microprofile-jwt-auth-api</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.8</version>
+            <version>${version.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${version.jackson}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${version.jackson}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -95,25 +118,14 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.2</version>
+            <version>${version.postgres}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${version.jackson}</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${version.jackson}</version>
-        </dependency>
+
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-maven-plugin</artifactId>
-            <version>5.2.4</version>
+            <version>${version.flywaydb}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -128,17 +140,18 @@
             <artifactId>fit-sdk</artifactId>
             <version>${version.garmin}</version>
         </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-core</artifactId>
-            <version>5.1.0.Final</version>
-            <scope>provided</scope>
-        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.hibernate</groupId>-->
+        <!--            <artifactId>hibernate-core</artifactId>-->
+        <!--            <version>5.1.0.Final</version>-->
+        <!--            <scope>provided</scope>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.2.4.Final</version>
+            <version>${version.hibernate-validator}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -146,14 +159,14 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.1.0.Final</version>
+            <version>${version.hibernate-ehcache}</version>
             <scope>provided</scope>
         </dependency>
 
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-ehcache</artifactId>
-            <version>5.1.0.Final</version>
+            <version>${version.hibernate-ehcache}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -197,7 +210,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <version>${version.h2}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
@@ -211,7 +224,7 @@
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
-            <version>3.3.0</version>
+            <version>${version.rest-assured}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -326,7 +339,7 @@
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
                         <image>
-                            <name>iselisa/trainingservice:${project.version}</name>
+                            <name>iselisa/trainingservice:latest</name>
                             <alias>trainingservice</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
