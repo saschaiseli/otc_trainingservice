@@ -40,13 +40,27 @@ pipeline {
         sh 'mvn docker:stop'
       }
     }
+    stage('Push Image to Dockerhub (Develop)') {
+      when{
+         branch 'develop'
+      }
+      steps {
+        withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
+          sh "docker build -t iselisa/trainingservice:env.BRANCH_NAME-${currentBuild.number}"
+          sh "docker login  --username ${USERNAME} --password ${PASSWORD}"
+          sh "docker push iselisa/trainingservice:env.BRANCH_NAME-${currentBuild.number}"
+         }
+      }
+    }
     stage('Push Image to Dockerhub') {
       when{
          branch 'master'
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh 'mvn docker:push -Ddocker.password=${PASSWORD} -Ddocker.username=${USERNAME}'
+          sh "docker build -t iselisa/trainingservice:${currentBuild.number}"
+          sh "docker login  --username ${USERNAME} --password ${PASSWORD}"
+          sh "docker push iselisa/trainingservice:${currentBuild.number}"
          }
       }
     }

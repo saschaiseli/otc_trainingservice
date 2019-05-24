@@ -329,8 +329,8 @@
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
                         <image>
-                            <name>iselisa/trainingservice:latest</name>
-                            <alias>trainingservice</alias>
+                            <name>iselisa/trainingservice_testservice:latest</name>
+                            <!--                            <alias>trainingservice</alias>-->
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
