@@ -46,9 +46,9 @@ pipeline {
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh "docker build -t iselisa/trainingservice:env.BRANCH_NAME-${currentBuild.number}"
+          sh "docker build -t iselisa/trainingservice:${env.BRANCH_NAME}-${currentBuild.number} ."
           sh "docker login  --username ${USERNAME} --password ${PASSWORD}"
-          sh "docker push iselisa/trainingservice:env.BRANCH_NAME-${currentBuild.number}"
+          sh "docker push iselisa/trainingservice:${env.BRANCH_NAME}-${currentBuild.number}"
          }
       }
     }
@@ -58,7 +58,7 @@ pipeline {
       }
       steps {
         withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD']]) {
-          sh "docker build -t iselisa/trainingservice:${currentBuild.number}"
+          sh "docker build -t iselisa/trainingservice:${currentBuild.number} ."
           sh "docker login  --username ${USERNAME} --password ${PASSWORD}"
           sh "docker push iselisa/trainingservice:${currentBuild.number}"
          }
