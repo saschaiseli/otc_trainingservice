@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -47,102 +46,6 @@ class TimeHelperTest {
     public void testConvert0() {
         final String t = TimeHelper.convertSecondsToHumanReadableZeit(0);
         assertEquals("00:00:00", t);
-    }
-
-    @Test
-    public void getKalenderWoche1() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 0, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(52, kw);
-    }
-
-    @Test
-    public void getKalenderWoche2() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 1, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(5, kw);
-    }
-
-    @Test
-    public void getKalenderWoche3() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 2, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(9, kw);
-    }
-
-    @Test
-    public void getKalenderWoche4() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 3, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(13, kw);
-    }
-
-    @Test
-    public void getKalenderWoche5() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 4, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(18, kw);
-    }
-
-    @Test
-    public void getKalenderWoche6() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 5, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(22, kw);
-    }
-
-    @Test
-    public void getKalenderWoche7() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 6, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(26, kw);
-    }
-
-    @Test
-    public void getKalenderWoche8() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 7, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(31, kw);
-    }
-
-    @Test
-    public void getKalenderWoche9() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 8, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(35, kw);
-    }
-
-    @Test
-    public void getKalenderWoche10() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 9, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(40, kw);
-    }
-
-    @Test
-    public void getKalenderWoche11() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 10, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(44, kw);
-    }
-
-    @Test
-    public void getKalenderWoche12() {
-        final Calendar cal = Calendar.getInstance(locale);
-        cal.set(2012, 11, 1);
-        final int kw = TimeHelper.getKalenderWoche(cal.getTime(), Locale.GERMAN);
-        assertEquals(48, kw);
     }
 
     @Test

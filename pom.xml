@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.opentrainingcenter.otc</groupId>
     <artifactId>trainingservice</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <packaging>war</packaging>
     <name>Training Service</name>
     <description>Service for managing Training Datas</description>
@@ -19,22 +19,57 @@
         <version.garmin>20.78.00</version.garmin>
         <version.joda>2.9.2</version.joda>
         <version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
-        <version.jackson>2.9.8</version.jackson>
+        <version.jackson>2.9.9</version.jackson>
         <version.fabric8>0.28.0</version.fabric8>
+        <version.slf4j>1.8.0-beta4</version.slf4j>
+        <version.h2>1.4.199</version.h2>
+        <version.postgres>42.2.5.jre7</version.postgres>
     </properties>
 
     <profiles>
         <profile>
             <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <skipIntegrationTests>true</skipIntegrationTests>
+                <skipIntegrationTests>false</skipIntegrationTests>
+                <dbName>trainingservice_test</dbName>
+                <name>test</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5500</db-port>
+                <app-port>8800</app-port>
+                <app-debug-port>8780</app-debug-port>
+                <app-admin-port>9991</app-admin-port>
             </properties>
         </profile>
 
         <profile>
             <id>integration</id>
             <properties>
-                <skipIntegrationTests>false</skipIntegrationTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
+                <dbName>trainingservice_int</dbName>
+                <name>int</name>
+                <name>test</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5501</db-port>
+                <app-port>8801</app-port>
+                <app-debug-port>8781</app-debug-port>
+                <app-admin-port>9992</app-admin-port>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>production</id>
+            <properties>
+                <skipIntegrationTests>true</skipIntegrationTests>
+                <dbName>trainingservice_prod</dbName>
+                <name>prod</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5502</db-port>
+                <app-port>8802</app-port>
+                <app-debug-port>8782</app-debug-port>
+                <app-admin-port>9992</app-admin-port>
             </properties>
         </profile>
     </profiles>
@@ -59,12 +94,6 @@
             <artifactId>microprofile-jwt-auth-api</artifactId>
             <version>1.1.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
-        <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.9.8</version>
-        </dependency>
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-multipart-provider</artifactId>
@@ -88,14 +117,14 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.25</version>
+            <version>${version.slf4j}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.mariadb.jdbc/mariadb-java-client -->
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>42.2.2</version>
+            <version>${version.postgres}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
@@ -108,6 +137,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
+            <version>${version.jackson}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
             <version>${version.jackson}</version>
         </dependency>
         <dependency>
@@ -197,7 +232,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>1.4.197</version>
+            <version>${version.h2}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
@@ -217,7 +252,7 @@
     </dependencies>
 
     <build>
-        <finalName>trainingservice</finalName>
+        <finalName>otc_trainingservice</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -233,16 +268,8 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
                         <goals>
                             <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify</id>
-                        <phase>verify</phase>
-                        <goals>
                             <goal>verify</goal>
                         </goals>
                     </execution>
@@ -316,8 +343,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -326,8 +351,8 @@
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
                         <image>
-                            <name>iselisa/trainingservice:${project.version}</name>
-                            <alias>trainingservice</alias>
+                            <name>iselisa/trainingservice_${name}:latest</name>
+                            <alias>trainingservice-${name}</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
@@ -337,36 +362,36 @@
                                     <DB_PASSWORD>otc</DB_PASSWORD>
                                     <DB_HOST>postgres</DB_HOST>
                                     <DB_PORT>5432</DB_PORT>
-                                    <DB_DATABASE>trainingservice_dev</DB_DATABASE>
+                                    <DB_DATABASE>${dbName}</DB_DATABASE>
                                     <isDev>false</isDev>
                                 </env>
                                 <ports>
-                                    <port>8080:8080</port>
-                                    <port>9999:9990</port>
+                                    <port>${app-port}:8080</port>
+                                    <port>${app-debug-port}:8787</port>
+                                    <port>${app-admin-port}:9990</port>
                                 </ports>
-
                                 <network>
                                     <mode>custom</mode>
-                                    <name>backend</name>
-                                    <alias>trainingservice</alias>
+                                    <name>${network-name}</name>
+                                    <alias>wildfly</alias>
                                 </network>
                                 <dependsOn>
-                                    <container>postgres</container>
+                                    <container>postgres-${name}</container>
                                 </dependsOn>
                             </run>
                         </image>
                         <image>
                             <name>postgres:11.2-alpine</name>
-                            <alias>postgres</alias>
+                            <alias>postgres-${name}</alias>
                             <run>
                                 <ports>
-                                    <port>5430:5432</port>
+                                    <port>${db-port}:5432</port>
                                 </ports>
                                 <env>
                                     <ALLOW_EMPTY_PASSWORD>yes</ALLOW_EMPTY_PASSWORD>
                                     <POSTGRES_PASSWORD>otc</POSTGRES_PASSWORD>
                                     <POSTGRES_USER>otc</POSTGRES_USER>
-                                    <POSTGRES_DB>trainingservice</POSTGRES_DB>
+                                    <POSTGRES_DB>${dbName}</POSTGRES_DB>
                                 </env>
                                 <wait>
                                     <log>.*database system is ready to accept connections.*</log>
@@ -374,9 +399,14 @@
                                 </wait>
                                 <network>
                                     <mode>custom</mode>
-                                    <name>backend</name>
+                                    <name>${network-name}</name>
                                     <alias>postgres</alias>
                                 </network>
+                                <volumes>
+                                    <bind>
+                                        <volume>/var/lib/postgresql_docker_${name}:/var/lib/postgresql/data</volume>
+                                    </bind>
+                                </volumes>
                             </run>
                         </image>
                     </images>

@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 public final class TimeHelper {
 
     private static final String DATE_FILE_FORMAT_PATTERN = "yyyyMMddHHmmssSSS"; //$NON-NLS-1$
-    private static final String DATE_TIME_FORMAT_PATTERN = "dd.MM.yyyy HH:mm:ss"; //$NON-NLS-1$
     private static final String TIME_FORMAT_PATTERN = "HH:mm:ss"; //$NON-NLS-1$
     private static final String DATE_FORMAT_PATTERN = "dd.MM.yyyy"; //$NON-NLS-1$
     private static final String UNKNOWN_DATE = "--:--:--"; //$NON-NLS-1$
@@ -114,13 +113,6 @@ public final class TimeHelper {
             return String.valueOf(value);
         }
     }
-
-    public static int getKalenderWoche(final Date date, final Locale locale) {
-        final Calendar calendar = Calendar.getInstance(locale);
-        calendar.setTime(date);
-        return calendar.get(Calendar.WEEK_OF_YEAR);
-    }
-
 
     /**
      * Berechnet den Montag, sowie den Sonntag der angegebenen Kalenderwoche in dem
