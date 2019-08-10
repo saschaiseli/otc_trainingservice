@@ -39,6 +39,8 @@
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5500</db-port>
                 <app-port>8800</app-port>
+                <app-debug-port>8780</app-debug-port>
+                <app-admin-port>9991</app-admin-port>
             </properties>
         </profile>
 
@@ -52,6 +54,8 @@
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5501</db-port>
                 <app-port>8801</app-port>
+                <app-debug-port>8781</app-debug-port>
+                <app-admin-port>9992</app-admin-port>
             </properties>
         </profile>
 
@@ -64,6 +68,8 @@
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5502</db-port>
                 <app-port>8802</app-port>
+                <app-debug-port>8782</app-debug-port>
+                <app-admin-port>9992</app-admin-port>
             </properties>
         </profile>
     </profiles>
@@ -361,8 +367,8 @@
                                 </env>
                                 <ports>
                                     <port>${app-port}:8080</port>
-                                    <port>8780:8787</port>
-                                    <port>9999:9990</port>
+                                    <port>${app-debug-port}:8787</port>
+                                    <port>${app-admin-port}:9990</port>
                                 </ports>
                                 <network>
                                     <mode>custom</mode>
