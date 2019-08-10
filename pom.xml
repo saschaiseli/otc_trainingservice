@@ -29,15 +29,41 @@
     <profiles>
         <profile>
             <id>test</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <properties>
-                <skipIntegrationTests>true</skipIntegrationTests>
+                <skipIntegrationTests>false</skipIntegrationTests>
+                <dbName>trainingservice_test</dbName>
+                <name>test</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5500</db-port>
+                <app-port>8800</app-port>
             </properties>
         </profile>
 
         <profile>
             <id>integration</id>
             <properties>
-                <skipIntegrationTests>false</skipIntegrationTests>
+                <skipIntegrationTests>true</skipIntegrationTests>
+                <dbName>trainingservice_int</dbName>
+                <name>int</name>
+                <name>test</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5501</db-port>
+                <app-port>8801</app-port>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>production</id>
+            <properties>
+                <skipIntegrationTests>true</skipIntegrationTests>
+                <dbName>trainingservice_prod</dbName>
+                <name>prod</name>
+                <network-name>otc-backend-${name}</network-name>
+                <db-port>5502</db-port>
+                <app-port>8802</app-port>
             </properties>
         </profile>
     </profiles>
@@ -220,7 +246,7 @@
     </dependencies>
 
     <build>
-        <finalName>trainingservice</finalName>
+        <finalName>otc_trainingservice</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -236,16 +262,8 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>integration-test</id>
-                        <phase>integration-test</phase>
                         <goals>
                             <goal>integration-test</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>verify</id>
-                        <phase>verify</phase>
-                        <goals>
                             <goal>verify</goal>
                         </goals>
                     </execution>
@@ -319,8 +337,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
@@ -329,7 +345,8 @@
                     <autoCreateCustomNetworks>true</autoCreateCustomNetworks>
                     <images>
                         <image>
-                            <name>iselisa/trainingservice_servicetest:latest</name>
+                            <name>iselisa/trainingservice_${name}:latest</name>
+                            <alias>trainingservice-${name}</alias>
                             <build>
                                 <dockerFileDir>${project.basedir}</dockerFileDir>
                             </build>
@@ -339,36 +356,36 @@
                                     <DB_PASSWORD>otc</DB_PASSWORD>
                                     <DB_HOST>postgres</DB_HOST>
                                     <DB_PORT>5432</DB_PORT>
-                                    <DB_DATABASE>trainingservice_dev</DB_DATABASE>
+                                    <DB_DATABASE>${dbName}</DB_DATABASE>
                                     <isDev>false</isDev>
                                 </env>
                                 <ports>
-                                    <port>8080:8080</port>
+                                    <port>${app-port}:8080</port>
+                                    <port>8780:8787</port>
                                     <port>9999:9990</port>
                                 </ports>
-
                                 <network>
                                     <mode>custom</mode>
-                                    <name>backend</name>
-                                    <alias>trainingservice</alias>
+                                    <name>${network-name}</name>
+                                    <alias>wildfly</alias>
                                 </network>
                                 <dependsOn>
-                                    <container>postgres</container>
+                                    <container>postgres-${name}</container>
                                 </dependsOn>
                             </run>
                         </image>
                         <image>
                             <name>postgres:11.2-alpine</name>
-                            <alias>postgres</alias>
+                            <alias>postgres-${name}</alias>
                             <run>
                                 <ports>
-                                    <port>5430:5432</port>
+                                    <port>${db-port}:5432</port>
                                 </ports>
                                 <env>
                                     <ALLOW_EMPTY_PASSWORD>yes</ALLOW_EMPTY_PASSWORD>
                                     <POSTGRES_PASSWORD>otc</POSTGRES_PASSWORD>
                                     <POSTGRES_USER>otc</POSTGRES_USER>
-                                    <POSTGRES_DB>trainingservice</POSTGRES_DB>
+                                    <POSTGRES_DB>${dbName}</POSTGRES_DB>
                                 </env>
                                 <wait>
                                     <log>.*database system is ready to accept connections.*</log>
@@ -376,9 +393,14 @@
                                 </wait>
                                 <network>
                                     <mode>custom</mode>
-                                    <name>backend</name>
+                                    <name>${network-name}</name>
                                     <alias>postgres</alias>
                                 </network>
+                                <volumes>
+                                    <bind>
+                                        <volume>/var/lib/postgresql_docker_${name}:/var/lib/postgresql/data</volume>
+                                    </bind>
+                                </volumes>
                             </run>
                         </image>
                     </images>

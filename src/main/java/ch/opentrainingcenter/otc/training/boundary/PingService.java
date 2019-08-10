@@ -22,7 +22,7 @@ public class PingService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        log.info("ping....");
+        log.info("ping 42");
         return "pong";
     }
 
