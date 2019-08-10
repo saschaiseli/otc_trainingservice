@@ -114,13 +114,6 @@ public final class TimeHelper {
         }
     }
 
-    public static int getKalenderWoche(final Date date, final Locale locale) {
-        final Calendar calendar = Calendar.getInstance(locale);
-        calendar.setTime(date);
-        return calendar.get(Calendar.WEEK_OF_YEAR);
-    }
-
-
     /**
      * Berechnet den Montag, sowie den Sonntag der angegebenen Kalenderwoche in dem
      * entsprechenden Jahr. </br>
