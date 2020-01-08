@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 @Path("/migration")
 @RequestScoped
@@ -24,7 +25,7 @@ public class MigrationRestResource {
     @GET
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAthlete() throws IOException {
+    public Response getAthlete() throws IOException, URISyntaxException {
         migration.migrate();
         return Response.status(200).build();
     }

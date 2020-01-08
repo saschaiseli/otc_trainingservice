@@ -1,6 +1,7 @@
 package ch.opentrainingcenter.otc.training.boundary;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.Response;
@@ -8,7 +9,7 @@ import javax.ws.rs.core.Response;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.core.StringStartsWith.startsWith;
 
-//@Ignore
+@Disabled
 public class RegisterServiceIT extends BaseITConfiguration {
 
 

@@ -15,7 +15,7 @@ docker run -d --rm \
 
 docker run -d --rm \
   --name trainingservice \
-  -p 8080:8080 \
+  -p 8080:8800 \
   -p 8787:8787 \
   -p 9999:9990 \
   -e DB_USERNAME=$DB_USER_DEV \

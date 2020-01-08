@@ -14,6 +14,7 @@ import javax.ejb.TransactionManagementType;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,11 +39,21 @@ public class BulkDataMigration implements DataMigration {
     Logger logger;
 
     @Override
-    public void migrate() throws IOException {
+    public void migrate() throws IOException, URISyntaxException {
         final Athlete athlete = athleteRepository.findByEmail("sascha.iseli@gmx.ch");
         logger.info("Import for {}", athlete.getEmail());
         logger.info("------------------------------------------------------------");
-        final Path path = Paths.get("/home/celita/git/otc_trainingservice/src/main/resources/data_files");
+        final Path path = Paths.get("/opt/jboss/wildfly/data_files");
+//        logger.info("Pfad :{}", path.toString());
+//        final File f = new File("test.tmp");
+//        final String current = new java.io.File(".").getCanonicalPath();
+//        final String filename = "data_files/README.md";
+//        final ClassLoader classLoader = new BulkDataMigration().getClass().getClassLoader();
+//        final File f = new File(classLoader.getResource(filename).getFile());
+//        logger.info("file {}", f);
+//        logger.info("file {}", f.exists());
+//        final Path data_files = Paths.get(f.toURI());
+        logger.info("data_files {}", path);
         final List<Path> files = Files.walk(path).filter(x -> x.getFileName().toString().contains("FIT")).collect(toList());
         logger.info("------------------------------------------------------------");
 

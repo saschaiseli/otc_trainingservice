@@ -26,6 +26,8 @@ import java.util.List;
 @NamedQuery(name = "Training.existsFileByAthlete", query = "select t from TRAINING t where t.athlete.id=:athleteId AND t.fileName=:fileName")
 @NamedQuery(name = "Training.findByAthleteAndDate", query = "select new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dateOfStart,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) from TRAINING t where t.athlete.id=:athleteId AND "
         + "t.dateOfStart>=:beginDate and t.dateOfStart<:endDate order by t.dateOfStart desc") //
+@NamedQuery(name = "Training.getTrainingByAthleteBetween", query = "SELECT new ch.opentrainingcenter.otc.training.dto.SimpleTraining(t.id,t.dateOfStart,t.dauer,t.laengeInMeter,t.averageHeartBeat,t.maxHeartBeat,t.trainingEffect,t.anaerobTrainingEffect) FROM TRAINING t where t.athlete=:athleteId and t.dateOfStart>=:startInterval and t.dateOfStart<:endInterval order by t.id desc")
+
 @Cacheable
 @Entity(name = "TRAINING")
 public class Training {
@@ -268,3 +270,19 @@ public class Training {
         return geoJson;
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

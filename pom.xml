@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.opentrainingcenter.otc</groupId>
     <artifactId>trainingservice</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>war</packaging>
     <name>Training Service</name>
     <description>Service for managing Training Datas</description>
@@ -50,7 +50,6 @@
                 <skipIntegrationTests>true</skipIntegrationTests>
                 <dbName>trainingservice_int</dbName>
                 <name>int</name>
-                <name>test</name>
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5501</db-port>
                 <app-port>8801</app-port>
@@ -249,6 +248,20 @@
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-api</artifactId>
+            <version>0.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-engine</artifactId>
+            <version>0.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
