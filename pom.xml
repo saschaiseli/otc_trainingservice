@@ -66,7 +66,7 @@
                 <name>prod</name>
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5502</db-port>
-                <app-port>8802</app-port>
+                <app-port>8181</app-port>
                 <app-debug-port>8782</app-debug-port>
                 <app-admin-port>9992</app-admin-port>
             </properties>
