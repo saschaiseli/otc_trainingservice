@@ -21,6 +21,7 @@ public class SimpleTraining {
     private final String trainingEffect;
     private final String anaerobTrainingEffect;
     private final String pace;
+    private final String geschwindigkeit;
 
     public SimpleTraining(final Training t) {
         this(t.getId(), t.getDateOfStart(), t.getDauer(), t.getLaengeInMeter(), t.getAverageHeartBeat(), t.getMaxHeartBeat(),
@@ -38,6 +39,7 @@ public class SimpleTraining {
         this.maxHeartBeat = maxHeartBeat;
         this.trainingEffect = trainingEffect != null ? trainingEffect.toString() : UNDEF;
         this.anaerobTrainingEffect = anaerobTrainingEffect != null ? anaerobTrainingEffect.toString() : UNDEF;
-        pace = DistanceHelper.calculateGeschwindigkeit(laengeInMeter, dauer);
+        pace = DistanceHelper.calculatePace(laengeInMeter, dauer);
+        geschwindigkeit = DistanceHelper.calculateGeschwindigkeit(laengeInMeter, dauer);
     }
 }

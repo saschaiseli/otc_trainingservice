@@ -46,7 +46,7 @@ class FileUploadServiceTest {
     final File file = new File(TestConfig.FOLDER, TestConfig.FIT_FILE);
     @Mock
     private JWTService jwtService;
-    private final String expectedJson = "{\"id\":null,\"start\":1476265357000,\"timeInSeconds\":5641,\"distanceInKm\":15.71,\"avgHeartBeat\":154,\"maxHeartBeat\":196,\"trainingEffect\":\"41\",\"anaerobTrainingEffect\":\"-\",\"pace\":\"10.0\"}";
+    private final String expectedJson = "{\"id\":null,\"start\":1476265357000,\"timeInSeconds\":5641,\"formatedDuration\":\"01:34:01\",\"distanceInKm\":15.71,\"avgHeartBeat\":154,\"maxHeartBeat\":196,\"trainingEffect\":\"41\",\"anaerobTrainingEffect\":\"-\",\"pace\":\"5:59\",\"geschwindigkeit\":\"10.0\"}";
 
     @BeforeEach
     public void setUp() {
