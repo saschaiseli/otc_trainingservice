@@ -2,6 +2,7 @@ package ch.opentrainingcenter.otc.training.dto;
 
 import ch.opentrainingcenter.otc.training.entity.raw.Training;
 import ch.opentrainingcenter.otc.training.service.converter.util.DistanceHelper;
+import ch.opentrainingcenter.otc.training.service.converter.util.TimeHelper;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ public class SimpleTraining {
     private final Long id;
     private final Long start;
     private final long timeInSeconds;
+    private final String formatedDuration;
     private final double distanceInKm;
     private final int avgHeartBeat;
     private final int maxHeartBeat;
@@ -30,6 +32,7 @@ public class SimpleTraining {
         this.id = id;
         this.start = start.toEpochSecond(ZoneOffset.UTC) * 1000;
         timeInSeconds = dauer;
+        formatedDuration = TimeHelper.convertSecondsToHumanReadableZeit(dauer);
         distanceInKm = laengeInMeter / 1000d;
         avgHeartBeat = averageHeartBeat;
         this.maxHeartBeat = maxHeartBeat;
