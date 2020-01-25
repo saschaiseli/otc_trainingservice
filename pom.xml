@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ch.opentrainingcenter.otc</groupId>
     <artifactId>trainingservice</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>war</packaging>
     <name>Training Service</name>
     <description>Service for managing Training Datas</description>
@@ -19,7 +19,7 @@
         <version.garmin>20.78.00</version.garmin>
         <version.joda>2.9.2</version.joda>
         <version.wildfly.arquillian>8.1.0.Final</version.wildfly.arquillian>
-        <version.jackson>2.9.9</version.jackson>
+        <version.jackson>2.10.1</version.jackson>
         <version.fabric8>0.28.0</version.fabric8>
         <version.slf4j>1.8.0-beta4</version.slf4j>
         <version.h2>1.4.199</version.h2>
@@ -50,7 +50,6 @@
                 <skipIntegrationTests>true</skipIntegrationTests>
                 <dbName>trainingservice_int</dbName>
                 <name>int</name>
-                <name>test</name>
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5501</db-port>
                 <app-port>8801</app-port>
@@ -67,7 +66,7 @@
                 <name>prod</name>
                 <network-name>otc-backend-${name}</network-name>
                 <db-port>5502</db-port>
-                <app-port>8802</app-port>
+                <app-port>8181</app-port>
                 <app-debug-port>8782</app-debug-port>
                 <app-admin-port>9992</app-admin-port>
             </properties>
@@ -249,6 +248,20 @@
             <version>3.3.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.tngtech.archunit/archunit -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-api</artifactId>
+            <version>0.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5-engine</artifactId>
+            <version>0.11.0</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
