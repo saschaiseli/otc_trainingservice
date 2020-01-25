@@ -12,4 +12,4 @@ before_install:
 install:
   - mvn install
 script:
-  - mvn clean verify org.jacoco:jacoco-maven-plugin:prepare-agent coveralls:report -Pintegration
+  - mvn clean verify -Pintegration
